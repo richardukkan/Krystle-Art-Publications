@@ -237,6 +237,79 @@ h1 em { font-style: italic; color: var(--sage); }
 .ms-sub { font-size: 13px; color: var(--muted); line-height: 1.55; }
 .ms-date { font-size: 11px; font-weight: 700; color: var(--sage); margin-top: 5px; }
 
+/* EDITABLE DATE */
+.ms-date-wrap { display: flex; align-items: center; gap: 6px; margin-top: 6px; flex-wrap: wrap; }
+.ms-date-input {
+  font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--sage); border: 1.5px solid rgba(107,148,112,0.3);
+  border-radius: 7px; padding: 4px 9px; background: var(--surface);
+  outline: none; cursor: pointer; transition: border-color 0.2s;
+  max-width: 148px;
+}
+.ms-date-input:focus { border-color: var(--sage); }
+.ms-date-save {
+  font-size: 11px; font-weight: 800; color: white; background: var(--sage);
+  border: none; border-radius: 6px; padding: 4px 10px;
+  cursor: pointer; transition: background 0.15s; white-space: nowrap;
+}
+.ms-date-save:hover { background: #5a8060; }
+.ms-date-label { font-size: 11px; font-weight: 700; color: var(--sage); }
+.ms-date-edit-btn {
+  font-size: 11px; font-weight: 700; color: var(--muted);
+  text-decoration: underline; cursor: pointer; background: none;
+  border: none; font-family: 'Nunito', sans-serif; padding: 0;
+}
+.ms-date-edit-btn:hover { color: var(--sage); }
+
+/* CUSTOM MILESTONE */
+.custom-ms-box {
+  background: var(--bg); border: 1.5px dashed rgba(107,148,112,0.35);
+  border-radius: 13px; padding: 14px 15px; margin-top: 4px;
+}
+.custom-ms-title {
+  font-size: 12px; font-weight: 800; color: var(--muted);
+  text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 10px;
+  display: flex; align-items: center; gap: 6px;
+}
+.custom-ms-fields { display: flex; flex-direction: column; gap: 8px; }
+.custom-ms-row { display: flex; gap: 8px; flex-wrap: wrap; align-items: flex-end; }
+.cm-input {
+  flex: 1; min-width: 120px; padding: 9px 12px;
+  border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 14px; font-weight: 600;
+  color: var(--ink); background: var(--surface); outline: none;
+  transition: border-color 0.2s;
+}
+.cm-input:focus { border-color: var(--sage); }
+.cm-date {
+  padding: 9px 12px; border: 1.5px solid var(--border); border-radius: 10px;
+  font-family: 'Nunito', sans-serif; font-size: 13px; font-weight: 600;
+  color: var(--ink); background: var(--surface); outline: none;
+  transition: border-color 0.2s; cursor: pointer; min-width: 140px;
+}
+.cm-date:focus { border-color: var(--sage); }
+.cm-add-btn {
+  padding: 9px 18px; background: var(--sage); color: white;
+  border: none; border-radius: 10px; font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 800; cursor: pointer; white-space: nowrap;
+  transition: background 0.15s; flex-shrink: 0;
+}
+.cm-add-btn:hover { background: #5a8060; }
+
+/* SAVED CUSTOM MILESTONES */
+.custom-saved { display: flex; flex-direction: column; gap: 7px; margin-top: 10px; }
+.cs-item {
+  background: var(--sage-lt); border: 1.5px solid rgba(107,148,112,0.28);
+  border-radius: 11px; padding: 11px 13px;
+  display: flex; align-items: flex-start; gap: 10px;
+}
+.cs-check { font-size: 16px; flex-shrink: 0; color: var(--sage); }
+.cs-body { flex: 1; }
+.cs-text { font-size: 14px; font-weight: 700; color: var(--ink); margin-bottom: 2px; }
+.cs-date { font-size: 11px; font-weight: 700; color: var(--sage); }
+.cs-del { font-size: 16px; cursor: pointer; color: var(--muted); padding: 0 2px; flex-shrink: 0; }
+.cs-del:hover { color: #c04040; }
+
 /* ALL WEEKS VIEW */
 .all-weeks { display: flex; flex-direction: column; gap: 8px; }
 .aw-item {
@@ -786,9 +859,11 @@ function renderWeek(idx){
 
   var m    = MILESTONES[idx];
   var done = getDone();
+  var dates = getDates();
   var dob  = JSON.parse(lsGet(KEY_BABY)||'{}').dob || '';
   var weeks = weeksSince(dob);
   var isFuture = m.week > weeks + 2;
+  var today = new Date().toISOString().split('T')[0];
 
   var html = '<div class="week-header phase-' + m.phase + '">';
   html += '<div class="wh-week">Week ' + m.week + '</div>';
@@ -803,18 +878,63 @@ function renderWeek(idx){
   html += '<div class="milestone-list">';
   m.milestones.forEach(function(ms){
     var isDone = done.indexOf(ms.id) > -1;
-    var dateNote = '';
+    var savedDate = dates[ms.id] || '';
+
+    /* Date section — editable */
+    var dateHtml = '';
     if(isDone){
-      var dates = getDates();
-      if(dates[ms.id]) dateNote = '<div class="ms-date">✓ Achieved ' + dates[ms.id] + '</div>';
+      /* show date label + edit button */
+      dateHtml = '<div class="ms-date-wrap" id="datewrap_' + ms.id + '">' +
+        '<span class="ms-date-label">✓ Achieved ' + savedDate + '</span>' +
+        '<button class="ms-date-edit-btn" onclick="showDateEdit(event,\'' + ms.id + '\')">✏️ Edit date</button>' +
+      '</div>' +
+      /* hidden edit row */
+      '<div class="ms-date-wrap" id="dateedit_' + ms.id + '" style="display:none;">' +
+        '<input type="date" class="ms-date-input" id="dateinput_' + ms.id + '" value="' + isoFromDisplay(savedDate) + '" max="' + today + '">' +
+        '<button class="ms-date-save" onclick="saveEditedDate(event,\'' + ms.id + '\')">Save</button>' +
+      '</div>';
     }
-    html += '<div class="ms-item' + (isDone?' done':'') + '" onclick="toggleMs(\'' + ms.id + '\',\'' + ms.text.replace(/'/g,"\\'") + '\',\'' + ms.icon + '\')" >';
-    html += '<div class="ms-check">' + (isDone ? '✓' : '') + '</div>';
-    html += '<div class="ms-icon">' + ms.icon + '</div>';
-    html += '<div class="ms-body"><div class="ms-text">' + ms.text + '</div><div class="ms-sub">' + ms.sub + '</div>' + dateNote + '</div>';
+
+    html += '<div class="ms-item' + (isDone?' done':'') + '" id="msitem_' + ms.id + '">';
+    html += '<div class="ms-check" onclick="toggleMs(\'' + ms.id + '\',\'' + ms.text.replace(/'/g,"\\'") + '\',\'' + ms.icon + '\')">' + (isDone ? '✓' : '') + '</div>';
+    html += '<div class="ms-icon" onclick="toggleMs(\'' + ms.id + '\',\'' + ms.text.replace(/'/g,"\\'") + '\',\'' + ms.icon + '\')">' + ms.icon + '</div>';
+    html += '<div class="ms-body" onclick="toggleMs(\'' + ms.id + '\',\'' + ms.text.replace(/'/g,"\\'") + '\',\'' + ms.icon + '\')">';
+    html += '<div class="ms-text">' + ms.text + '</div>';
+    html += '<div class="ms-sub">' + ms.sub + '</div></div>';
+    if(isDone) html += '<div style="width:100%;padding-left:52px;">' + dateHtml + '</div>';
     html += '</div>';
   });
+
+  /* ── CUSTOM MILESTONE BOX ── */
+  var customs = getCustoms()[m.week] || [];
+  html += '<div class="custom-ms-box">';
+  html += '<div class="custom-ms-title">✨ Your own milestone for Week ' + m.week + '</div>';
+
+  /* saved custom milestones */
+  if(customs.length){
+    html += '<div class="custom-saved">';
+    customs.forEach(function(c, ci){
+      html += '<div class="cs-item">';
+      html += '<div class="cs-check">✅</div>';
+      html += '<div class="cs-body">';
+      html += '<div class="cs-text">' + esc(c.text) + '</div>';
+      if(c.date) html += '<div class="cs-date">📅 ' + c.date + '</div>';
+      html += '</div>';
+      html += '<div class="cs-del" onclick="deleteCustom(' + m.week + ',' + ci + ')" title="Remove">×</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+  }
+
+  /* add new custom */
+  html += '<div class="custom-ms-fields" style="margin-top:' + (customs.length?'10px':'0') + ';">';
+  html += '<div class="custom-ms-row">';
+  html += '<input type="text" class="cm-input" id="cm_text_' + m.week + '" placeholder="e.g. Held head up for 10 seconds!" maxlength="80">';
+  html += '<input type="date" class="cm-date" id="cm_date_' + m.week + '" value="' + today + '" max="' + today + '">';
+  html += '<button class="cm-add-btn" onclick="addCustom(' + m.week + ')">+ Add</button>';
+  html += '</div></div>';
   html += '</div>';
+  html += '</div>'; /* close milestone-list */
 
   document.getElementById('weekDisplay').innerHTML = html;
   document.getElementById('weekDisplay').className = 'fade-in';
@@ -828,15 +948,19 @@ function changeWeek(dir){
 
 /* ── ALL WEEKS ── */
 function renderAllWeeks(){
-  var done = getDone();
-  var html = '';
+  var done    = getDone();
+  var customs = getCustoms();
+  var html    = '';
   MILESTONES.forEach(function(m,i){
-    var total = m.milestones.length;
-    var comp  = m.milestones.filter(function(ms){ return done.indexOf(ms.id) > -1; }).length;
+    var total     = m.milestones.length;
+    var comp      = m.milestones.filter(function(ms){ return done.indexOf(ms.id) > -1; }).length;
+    var custCount = (customs[m.week] || []).length;
+    var totalAll  = total + custCount;
+    var compAll   = comp  + custCount;
     html += '<div class="aw-item" onclick="goWeek(' + i + ')">';
     html += '<div class="aw-week">Week ' + m.week + '</div>';
     html += '<div class="aw-title">' + m.title + '</div>';
-    html += '<div class="aw-prog">' + comp + '/' + total + '</div>';
+    html += '<div class="aw-prog">' + compAll + '/' + totalAll + '</div>';
     html += '<div class="aw-arrow">›</div></div>';
   });
   document.getElementById('allWeeksList').innerHTML = html;
@@ -871,9 +995,9 @@ function toggleMs(id, text, icon){
     renderWeek(curWeekIdx);
     renderAllWeeks();
     updateProgress();
-    toast('Unchecked ✓');
+    toast('Unchecked');
   } else {
-    /* tick — celebrate! */
+    /* tick — auto-fill today, celebrate! */
     done.push(id);
     dates[id] = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
     saveDone(done); saveDates(dates);
@@ -884,14 +1008,108 @@ function toggleMs(id, text, icon){
   }
 }
 
+/* ── DATE EDITING ── */
+function showDateEdit(e, id){
+  e.stopPropagation();
+  var wrap = document.getElementById('datewrap_' + id);
+  var edit = document.getElementById('dateedit_' + id);
+  if(wrap) wrap.style.display = 'none';
+  if(edit) edit.style.display = 'flex';
+}
+
+function saveEditedDate(e, id){
+  e.stopPropagation();
+  var inp = document.getElementById('dateinput_' + id);
+  if(!inp || !inp.value){ toast('Please pick a date'); return; }
+  var dates = getDates();
+  /* convert ISO date to display format */
+  var d = new Date(inp.value + 'T00:00:00');
+  dates[id] = d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+  saveDates(dates);
+  /* update the label in place without full re-render */
+  var wrap = document.getElementById('datewrap_' + id);
+  var edit = document.getElementById('dateedit_' + id);
+  if(wrap){
+    wrap.innerHTML = '<span class="ms-date-label">✓ Achieved ' + dates[id] + '</span>' +
+      '<button class="ms-date-edit-btn" onclick="showDateEdit(event,\'' + id + '\')">✏️ Edit date</button>';
+    wrap.style.display = 'flex';
+  }
+  if(edit) edit.style.display = 'none';
+  toast('Date updated ✓');
+}
+
+/* ── HELPER: display date string → ISO yyyy-mm-dd ── */
+function isoFromDisplay(str){
+  if(!str) return new Date().toISOString().split('T')[0];
+  /* try parsing "15 Apr 2025" format */
+  try{
+    var d = new Date(str);
+    if(!isNaN(d)) return d.toISOString().split('T')[0];
+  }catch(e){}
+  return new Date().toISOString().split('T')[0];
+}
+
+/* ── HELPER: display date from ISO ── */
+function displayFromIso(iso){
+  if(!iso) return '';
+  var d = new Date(iso + 'T00:00:00');
+  return d.toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+}
+
+/* ── HTML ESCAPE ── */
+function esc(str){ return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+/* ── CUSTOM MILESTONES ── */
+var KEY_CUSTOMS = 'kap_ms_customs';
+
+function getCustoms(){
+  try{ return JSON.parse(localStorage.getItem(KEY_CUSTOMS)||'{}'); }catch(e){ return {}; }
+}
+function saveCustoms(c){ localStorage.setItem(KEY_CUSTOMS, JSON.stringify(c)); }
+
+function addCustom(week){
+  var textEl = document.getElementById('cm_text_' + week);
+  var dateEl = document.getElementById('cm_date_' + week);
+  var text   = textEl ? textEl.value.trim() : '';
+  if(!text){ toast('Please describe the milestone'); return; }
+  var dateVal = dateEl ? dateEl.value : '';
+  var displayDate = dateVal ? displayFromIso(dateVal) : '';
+
+  var customs = getCustoms();
+  if(!customs[week]) customs[week] = [];
+  customs[week].push({ text: text, date: displayDate });
+  saveCustoms(customs);
+
+  /* clear input */
+  if(textEl) textEl.value = '';
+
+  renderWeek(curWeekIdx);
+  renderAllWeeks();
+  toast('Milestone added! 🌟');
+}
+
+function deleteCustom(week, ci){
+  if(!confirm('Remove this milestone?')) return;
+  var customs = getCustoms();
+  if(!customs[week]) return;
+  customs[week].splice(ci, 1);
+  saveCustoms(customs);
+  renderWeek(curWeekIdx);
+  renderAllWeeks();
+  toast('Removed');
+}
+
 /* ── PROGRESS ── */
 function updateProgress(){
-  var done  = getDone();
-  var total = MILESTONES.reduce(function(a,m){ return a + m.milestones.length; }, 0);
-  var comp  = done.length;
-  var pct   = total > 0 ? Math.round(comp/total*100) : 0;
+  var done    = getDone();
+  var customs = getCustoms();
+  var total   = MILESTONES.reduce(function(a,m){ return a + m.milestones.length; }, 0);
+  var customTotal = Object.keys(customs).reduce(function(a,k){ return a + customs[k].length; }, 0);
+  var comp    = done.length + customTotal;
+  var grandTotal = total + customTotal;
+  var pct     = grandTotal > 0 ? Math.round(comp/grandTotal*100) : 0;
   document.getElementById('progBar').style.width = pct + '%';
-  document.getElementById('progText').innerHTML  = '<span>' + comp + '</span> of ' + total + ' milestones completed';
+  document.getElementById('progText').innerHTML  = '<span>' + comp + '</span> of ' + grandTotal + ' milestones completed';
 }
 
 /* ── CELEBRATION ── */
@@ -975,35 +1193,37 @@ var PHASE_COLORS = {
 };
 
 function buildPDFReport(weeksToInclude){
-  var done   = getDone();
-  var dates  = getDates();
-  var baby   = JSON.parse(lsGet(KEY_BABY) || '{}');
-  var name   = baby.name || 'Baby';
-  var dob    = baby.dob  || '';
-  var weeks  = weeksSince(dob);
-  var total  = MILESTONES.reduce(function(a,m){ return a + m.milestones.length; }, 0);
-  var comp   = done.length;
-  var pct    = total > 0 ? Math.round(comp / total * 100) : 0;
-  var today  = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+  var done    = getDone();
+  var dates   = getDates();
+  var customs = getCustoms();
+  var baby    = JSON.parse(lsGet(KEY_BABY) || '{}');
+  var name    = baby.name || 'Baby';
+  var dob     = baby.dob  || '';
+  var total   = MILESTONES.reduce(function(a,m){ return a + m.milestones.length; }, 0);
+  var customTotal = Object.keys(customs).reduce(function(a,k){ return a + customs[k].length; }, 0);
+  var comp    = done.length + customTotal;
+  var grandTotal = total + customTotal;
+  var pct     = grandTotal > 0 ? Math.round(comp / grandTotal * 100) : 0;
+  var today   = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
 
   var html = '';
+  html += '<div style="text-align:center;margin-bottom:6px;font-size:12px;color:#8a7060;">Report generated: ' + today + ' &nbsp;·&nbsp; ' + comp + ' of ' + grandTotal + ' milestones achieved (' + pct + '%)</div>';
 
-  /* header info already shown by .baby-banner — add a PDF-only title line */
-  html += '<div style="text-align:center;margin-bottom:6px;font-size:12px;color:#8a7060;">Report generated: ' + today + ' &nbsp;·&nbsp; ' + comp + ' of ' + total + ' milestones achieved (' + pct + '%)</div>';
-
-  /* weeks */
   weeksToInclude.forEach(function(m){
     var c = PHASE_COLORS[m.phase] || PHASE_COLORS.newborn;
     var weekDone = m.milestones.filter(function(ms){ return done.indexOf(ms.id) > -1; }).length;
+    var weekCustoms = customs[m.week] || [];
+    var weekTotal = m.milestones.length + weekCustoms.length;
+    var weekComp  = weekDone + weekCustoms.length;
 
     html += '<div class="pdf-week-block">';
     html += '<div class="pdf-week-head" style="background:' + c.bg + ';border:1px solid ' + c.border + ';">';
     html += '<h3 style="color:' + c.title + '">Week ' + m.week + ' — ' + m.title + ' ' + m.emoji + '</h3>';
-    html += '<p style="color:#8a7060">' + m.desc + ' &nbsp;|&nbsp; ' + weekDone + '/' + m.milestones.length + ' completed</p>';
+    html += '<p style="color:#8a7060">' + m.desc + ' &nbsp;|&nbsp; ' + weekComp + '/' + weekTotal + ' completed</p>';
     html += '</div>';
 
     m.milestones.forEach(function(ms){
-      var isDone = done.indexOf(ms.id) > -1;
+      var isDone  = done.indexOf(ms.id) > -1;
       var dateStr = isDone && dates[ms.id] ? dates[ms.id] : '';
       html += '<div class="pdf-ms-row' + (isDone ? ' done' : '') + '">';
       html += '<div class="pdf-ms-check">' + (isDone ? '✅' : '⬜') + '</div>';
@@ -1012,6 +1232,18 @@ function buildPDFReport(weeksToInclude){
       html += '<div class="pdf-ms-text">' + ms.text + '</div>';
       html += '<div class="pdf-ms-sub">' + ms.sub + '</div>';
       if(dateStr) html += '<div class="pdf-ms-date">✓ Achieved ' + dateStr + '</div>';
+      html += '</div></div>';
+    });
+
+    /* custom milestones in PDF */
+    weekCustoms.forEach(function(c2){
+      html += '<div class="pdf-ms-row done">';
+      html += '<div class="pdf-ms-check">✅</div>';
+      html += '<div class="pdf-ms-icon">✨</div>';
+      html += '<div>';
+      html += '<div class="pdf-ms-text">' + esc(c2.text) + '</div>';
+      html += '<div class="pdf-ms-sub">Your own milestone</div>';
+      if(c2.date) html += '<div class="pdf-ms-date">📅 ' + c2.date + '</div>';
       html += '</div></div>';
     });
 
