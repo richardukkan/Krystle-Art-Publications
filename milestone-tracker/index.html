@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newborn Milestone Tracker – Krystle Art Publications</title>
+<meta name="description" content="Track your baby's milestones week by week. Enter your baby's birthday and celebrate every smile, first look and tiny achievement.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #f8f3ee;
+  --surface:  #ffffff;
+  --surface2: #f2ebe3;
+  --peach:    #d4795a;
+  --peach-lt: #fdf0eb;
+  --peach-mid:#e8907a;
+  --sage:     #6b9470;
+  --sage-lt:  #eef4ef;
+  --lavender: #9b8fc0;
+  --lav-lt:   #f2f0f9;
+  --sky:      #6a9bb8;
+  --sky-lt:   #edf3f8;
+  --amber:    #c8923a;
+  --amber-lt: #fdf5e6;
+  --ink:      #2a1f16;
+  --muted:    #8a7060;
+  --border:   rgba(120,90,60,0.13);
+  --shadow:   0 2px 14px rgba(42,31,22,0.07);
+  --r:        16px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 35% at 10% 15%, rgba(212,121,90,0.07), transparent 65%),
+    radial-gradient(ellipse 45% 35% at 88% 80%, rgba(107,148,112,0.07), transparent 65%);
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 620px; margin: 0 auto;
+  padding: 10px 16px 40px;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 26px 0 22px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 22px;
+}
+.hdr-icon { font-size: 40px; display: block; margin-bottom: 10px; }
+.site-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.15em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 8px;
+}
+h1 {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(24px, 6vw, 34px);
+  font-weight: 600; line-height: 1.15; color: var(--ink); margin-bottom: 8px;
+}
+h1 em { font-style: italic; color: var(--sage); }
+.hdr-sub { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+/* CARDS */
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r);
+  box-shadow: var(--shadow);
+  padding: 22px 20px;
+  margin-bottom: 18px;
+}
+.card-title {
+  font-size: 14px; font-weight: 800; color: var(--ink);
+  margin-bottom: 16px; display: flex; align-items: center; gap: 8px;
+}
+
+/* SETUP */
+.setup-row { display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap; }
+.setup-field { flex: 1; min-width: 140px; }
+.setup-field label {
+  display: block; font-size: 12px; font-weight: 700;
+  color: var(--muted); text-transform: uppercase;
+  letter-spacing: 0.1em; margin-bottom: 7px;
+}
+.setup-field input {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid var(--border); border-radius: 11px;
+  font-family: 'Nunito', sans-serif; font-size: 15px;
+  font-weight: 600; color: var(--ink); background: var(--bg);
+  outline: none; transition: border-color 0.2s;
+}
+.setup-field input:focus { border-color: var(--sage); }
+.btn-primary {
+  padding: 12px 22px; background: var(--sage); color: white;
+  border: none; border-radius: 11px; font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 800; cursor: pointer;
+  box-shadow: 0 4px 14px rgba(107,148,112,0.28);
+  transition: transform 0.15s, box-shadow 0.15s; white-space: nowrap;
+}
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(107,148,112,0.35); }
+
+/* BABY BANNER */
+.baby-banner {
+  background: var(--sage-lt);
+  border: 1px solid rgba(107,148,112,0.25);
+  border-radius: var(--r); padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 18px; flex-wrap: wrap; gap: 8px;
+}
+.bb-left { display: flex; align-items: center; gap: 10px; }
+.bb-name { font-size: 17px; font-weight: 800; color: var(--sage); }
+.bb-age { font-size: 13px; color: var(--muted); }
+.bb-edit { font-size: 12px; font-weight: 700; color: var(--muted); cursor: pointer; text-decoration: underline; }
+
+/* PROGRESS BAR */
+.progress-card { text-align: center; }
+.prog-label {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: var(--muted); margin-bottom: 10px;
+}
+.prog-bar-wrap {
+  background: var(--surface2); border-radius: 999px;
+  height: 12px; margin-bottom: 10px; overflow: hidden;
+}
+.prog-bar {
+  height: 100%; border-radius: 999px;
+  background: linear-gradient(90deg, var(--sage), var(--peach-mid));
+  transition: width 0.6s ease;
+}
+.prog-text { font-size: 15px; font-weight: 700; color: var(--ink); }
+.prog-text span { color: var(--sage); }
+
+/* WEEK NAVIGATION */
+.week-nav {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 16px; flex-wrap: wrap;
+}
+.week-select-label { font-size: 13px; font-weight: 700; color: var(--muted); white-space: nowrap; }
+.week-select {
+  flex: 1; padding: 10px 14px;
+  border: 1.5px solid var(--border); border-radius: 11px;
+  font-family: 'Nunito', sans-serif; font-size: 14px;
+  font-weight: 700; color: var(--ink); background: var(--bg);
+  outline: none; cursor: pointer; transition: border-color 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238a7060' stroke-width='2' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 14px center;
+}
+.week-select:focus { border-color: var(--sage); }
+.nav-btns { display: flex; gap: 6px; }
+.nav-btn {
+  padding: 10px 16px; border: 1.5px solid var(--border);
+  border-radius: 10px; background: var(--bg);
+  font-family: 'Nunito', sans-serif; font-size: 14px;
+  font-weight: 800; color: var(--muted); cursor: pointer;
+  transition: all 0.18s;
+}
+.nav-btn:hover { border-color: var(--sage); color: var(--sage); background: var(--sage-lt); }
+.nav-btn:disabled { opacity: 0.35; cursor: default; }
+
+/* WEEK HEADER */
+.week-header {
+  border-radius: 14px; padding: 18px 18px 14px;
+  margin-bottom: 14px; position: relative; overflow: hidden;
+}
+.wh-week { font-size: 11px; font-weight: 800; letter-spacing: 0.18em; text-transform: uppercase; margin-bottom: 6px; }
+.wh-title { font-family: 'Playfair Display', serif; font-size: 22px; font-weight: 600; line-height: 1.2; margin-bottom: 6px; }
+.wh-desc { font-size: 13px; line-height: 1.65; opacity: 0.85; }
+.wh-emoji { position: absolute; right: 14px; top: 10px; font-size: 42px; opacity: 0.18; }
+
+/* colour themes per phase */
+.phase-newborn .week-header { background: var(--peach-lt); border: 1px solid rgba(212,121,90,0.2); }
+.phase-newborn .wh-week { color: var(--peach); }
+.phase-newborn .wh-title, .phase-newborn .wh-desc { color: var(--ink); }
+
+.phase-social .week-header { background: var(--sage-lt); border: 1px solid rgba(107,148,112,0.2); }
+.phase-social .wh-week { color: var(--sage); }
+.phase-social .wh-title, .phase-social .wh-desc { color: var(--ink); }
+
+.phase-discovery .week-header { background: var(--lav-lt); border: 1px solid rgba(155,143,192,0.2); }
+.phase-discovery .wh-week { color: var(--lavender); }
+.phase-discovery .wh-title, .phase-discovery .wh-desc { color: var(--ink); }
+
+.phase-active .week-header { background: var(--sky-lt); border: 1px solid rgba(106,155,184,0.2); }
+.phase-active .wh-week { color: var(--sky); }
+.phase-active .wh-title, .phase-active .wh-desc { color: var(--ink); }
+
+.phase-growing .week-header { background: var(--amber-lt); border: 1px solid rgba(200,146,58,0.2); }
+.phase-growing .wh-week { color: var(--amber); }
+.phase-growing .wh-title, .phase-growing .wh-desc { color: var(--ink); }
+
+/* MILESTONE ITEMS */
+.milestone-list { display: flex; flex-direction: column; gap: 10px; }
+
+.ms-item {
+  display: flex; align-items: flex-start; gap: 13px;
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 13px; padding: 14px 15px;
+  cursor: pointer; transition: all 0.2s; user-select: none;
+}
+.ms-item:hover { border-color: rgba(107,148,112,0.4); background: var(--sage-lt); }
+.ms-item.done {
+  background: var(--sage-lt);
+  border-color: rgba(107,148,112,0.35);
+}
+.ms-item.done .ms-text { color: var(--ink); }
+.ms-item.done .ms-sub { color: var(--muted); }
+
+.ms-check {
+  width: 28px; height: 28px; border-radius: 50%;
+  border: 2px solid var(--border); background: var(--surface);
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; font-size: 14px; transition: all 0.2s;
+  margin-top: 1px;
+}
+.ms-item.done .ms-check {
+  background: var(--sage); border-color: var(--sage);
+  color: white;
+}
+.ms-icon { font-size: 22px; flex-shrink: 0; margin-top: 2px; }
+.ms-body { flex: 1; }
+.ms-text { font-size: 15px; font-weight: 700; color: var(--ink); margin-bottom: 3px; line-height: 1.3; }
+.ms-sub { font-size: 13px; color: var(--muted); line-height: 1.55; }
+.ms-date { font-size: 11px; font-weight: 700; color: var(--sage); margin-top: 5px; }
+
+/* ALL WEEKS VIEW */
+.all-weeks { display: flex; flex-direction: column; gap: 8px; }
+.aw-item {
+  background: var(--bg); border: 1.5px solid var(--border);
+  border-radius: 12px; padding: 12px 16px;
+  display: flex; align-items: center; gap: 12px;
+  cursor: pointer; transition: all 0.2s;
+}
+.aw-item:hover { border-color: rgba(107,148,112,0.35); }
+.aw-week { font-size: 13px; font-weight: 800; color: var(--ink); min-width: 68px; }
+.aw-title { font-size: 13px; color: var(--muted); flex: 1; }
+.aw-prog {
+  font-size: 12px; font-weight: 700;
+  padding: 4px 10px; border-radius: 999px;
+  background: var(--sage-lt); color: var(--sage);
+  white-space: nowrap;
+}
+.aw-arrow { color: var(--muted); font-size: 14px; }
+
+/* DIVIDER */
+.divider {
+  font-size: 11px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--muted);
+  display: flex; align-items: center; gap: 10px; margin: 4px 0 18px;
+}
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* CONFETTI CANVAS */
+#confettiCanvas {
+  position: fixed; inset: 0; pointer-events: none; z-index: 999;
+}
+
+/* CELEBRATION POPUP */
+.celebrate-popup {
+  position: fixed; top: 50%; left: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  background: var(--surface); border: 2px solid var(--sage);
+  border-radius: 24px; padding: 32px 28px;
+  text-align: center; z-index: 1000;
+  box-shadow: 0 16px 60px rgba(42,31,22,0.2);
+  max-width: 320px; width: 90%;
+  transition: transform 0.4s cubic-bezier(0.34,1.56,0.64,1);
+}
+.celebrate-popup.show { transform: translate(-50%, -50%) scale(1); }
+.cel-emoji { font-size: 60px; display: block; margin-bottom: 12px; }
+.cel-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 24px; font-weight: 600; color: var(--ink); margin-bottom: 8px;
+}
+.cel-text { font-size: 14px; color: var(--muted); line-height: 1.65; margin-bottom: 18px; }
+.cel-close {
+  padding: 12px 28px; background: var(--sage); color: white;
+  border: none; border-radius: 10px; font-family: 'Nunito', sans-serif;
+  font-size: 15px; font-weight: 800; cursor: pointer;
+}
+
+/* TOAST */
+.toast {
+  position: fixed; bottom: 22px; left: 50%;
+  transform: translateX(-50%) translateY(70px);
+  background: var(--ink); color: white; padding: 11px 20px;
+  border-radius: 999px; font-size: 14px; font-weight: 700;
+  box-shadow: 0 4px 18px rgba(42,31,22,0.22);
+  transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1);
+  z-index: 200; white-space: nowrap;
+}
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* FOOTER */
+footer {
+  text-align: center; font-size: 13px; color: var(--muted);
+  padding-top: 22px; border-top: 1px solid var(--border); margin-top: 6px;
+}
+footer a { color: var(--sage); font-weight: 700; text-decoration: none; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+.fade-in { animation: fadeUp 0.35s ease both; }
+
+/* VIEW TOGGLE */
+.view-tabs { display: flex; gap: 6px; margin-bottom: 16px; }
+.vtab {
+  flex: 1; padding: 9px; border: 1.5px solid var(--border);
+  border-radius: 9px; background: var(--bg);
+  font-family: 'Nunito', sans-serif; font-size: 12px; font-weight: 700;
+  color: var(--muted); cursor: pointer; text-align: center;
+  transition: all 0.18s;
+}
+.vtab.active { background: var(--sage); border-color: var(--sage); color: white; }
+
+/* UPCOMING */
+.upcoming-note {
+  background: var(--lav-lt); border: 1px solid rgba(155,143,192,0.2);
+  border-radius: 12px; padding: 14px 16px;
+  font-size: 13px; color: var(--muted); line-height: 1.65;
+  margin-bottom: 14px;
+}
+.upcoming-note strong { color: var(--lavender); }
+
+/* PDF BUTTON */
+.pdf-btn-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; }
+.pdf-btn {
+  flex: 1; min-width: 140px; padding: 12px 16px;
+  border: 1.5px solid var(--border); border-radius: 11px;
+  background: var(--surface); font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  cursor: pointer; text-align: center; transition: all 0.18s;
+  display: flex; align-items: center; justify-content: center; gap: 7px;
+}
+.pdf-btn:hover { border-color: var(--peach); color: var(--peach); background: var(--peach-lt); }
+.pdf-btn.primary-pdf {
+  background: var(--peach); color: white; border-color: var(--peach);
+  box-shadow: 0 4px 14px rgba(212,121,90,0.28);
+}
+.pdf-btn.primary-pdf:hover { background: var(--peach-mid); color: white; border-color: var(--peach-mid); }
+
+/* ── PRINT / PDF STYLES ── */
+@media print {
+  @page { margin: 18mm 14mm; size: A4; }
+
+  * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+
+  /* hide interactive chrome */
+  canvas, .setup-row button, .nav-btns, .week-nav,
+  .view-tabs, .pdf-btn-row, .celebrate-popup,
+  .toast, footer, .bb-edit, header .hdr-sub,
+  #confettiCanvas { display: none !important; }
+
+  body { background: #ffffff !important; padding: 0; }
+  body::before { display: none !important; }
+  .wrap { max-width: 100%; padding: 0; }
+
+  header { border-bottom: 2px solid #d4795a; padding: 10px 0 14px; margin-bottom: 16px; }
+  .hdr-icon { font-size: 28px; }
+  h1 { font-size: 26px; }
+
+  /* baby banner */
+  .baby-banner {
+    background: #eef4ef !important; border: 1px solid #c0d8c2 !important;
+    border-radius: 10px; padding: 10px 14px; margin-bottom: 14px;
+    page-break-inside: avoid;
+  }
+
+  /* progress card */
+  .progress-card { page-break-inside: avoid; margin-bottom: 14px; }
+  .prog-bar { background: #6b9470 !important; }
+  .prog-bar-wrap { background: #e8e0d8 !important; }
+
+  /* PDF report section — shown only on print */
+  #pdfReport { display: block !important; }
+
+  /* milestones */
+  .pdf-week-block { page-break-inside: avoid; margin-bottom: 20px; }
+  .pdf-week-head {
+    padding: 10px 14px; border-radius: 10px;
+    margin-bottom: 10px; page-break-inside: avoid;
+  }
+  .pdf-week-head h3 { font-size: 16px; font-weight: 700; margin-bottom: 3px; }
+  .pdf-week-head p  { font-size: 12px; }
+
+  .pdf-ms-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 8px 10px; margin-bottom: 6px;
+    border-radius: 8px; border: 1px solid #e8e0d8;
+    page-break-inside: avoid;
+  }
+  .pdf-ms-row.done { background: #eef4ef !important; border-color: #c0d8c2 !important; }
+  .pdf-ms-check { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .pdf-ms-icon  { font-size: 18px; flex-shrink: 0; }
+  .pdf-ms-text  { font-size: 13px; font-weight: 700; color: #2a1f16; }
+  .pdf-ms-sub   { font-size: 11px; color: #8a7060; margin-top: 2px; }
+  .pdf-ms-date  { font-size: 10px; color: #6b9470; font-weight: 700; margin-top: 3px; }
+
+  /* hide normal milestone view on print */
+  #mainSection { display: none !important; }
+  .divider { display: none !important; }
+
+  /* PDF footer */
+  .pdf-footer-print {
+    text-align: center; font-size: 11px; color: #8a7060;
+    margin-top: 20px; padding-top: 12px; border-top: 1px solid #e8e0d8;
+  }
+}
+
+/* PDF report — hidden on screen, built before print */
+#pdfReport { display: none; }
+</style>
+</head>
+<body>
+<canvas id="confettiCanvas"></canvas>
+
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <span class="hdr-icon">🌱</span>
+  <div class="site-tag">Krystle Art Publications</div>
+  <h1>Newborn <em>Milestone</em> Tracker</h1>
+  <p class="hdr-sub">Enter your baby's birthday and we'll show you exactly what to look for each week — celebrate every tiny achievement along the way.</p>
+</header>
+
+<!-- SETUP -->
+<div class="card" id="setupCard">
+  <div class="card-title">👶 Tell us about your baby</div>
+  <div class="setup-row">
+    <div class="setup-field">
+      <label for="babyName">Baby's name</label>
+      <input type="text" id="babyName" placeholder="e.g. Lily" maxlength="20">
+    </div>
+    <div class="setup-field">
+      <label for="babyDob">Date of birth</label>
+      <input type="date" id="babyDob" max="">
+    </div>
+    <button class="btn-primary" onclick="startTracker()">Let's go 🌱</button>
+  </div>
+</div>
+
+<!-- BABY BANNER (shown after setup) -->
+<div class="baby-banner" id="babyBanner" style="display:none">
+  <div class="bb-left">
+    <span style="font-size:26px;">🌸</span>
+    <div>
+      <div class="bb-name" id="bbName">—</div>
+      <div class="bb-age" id="bbAge">—</div>
+    </div>
+  </div>
+  <span class="bb-edit" onclick="editSetup()">Change details</span>
+</div>
+
+<!-- PROGRESS -->
+<div class="card progress-card" id="progressCard" style="display:none">
+  <div class="prog-label">Overall progress</div>
+  <div class="prog-bar-wrap"><div class="prog-bar" id="progBar" style="width:0%"></div></div>
+  <div class="prog-text" id="progText">0 of 0 milestones completed</div>
+</div>
+
+<!-- MILESTONES SECTION -->
+<div id="mainSection" style="display:none">
+  <div class="divider">Week by Week</div>
+
+  <!-- VIEW TABS -->
+  <div class="view-tabs">
+    <button class="vtab active" id="vt-current" onclick="switchView('current',this)">📍 Current Week</button>
+    <button class="vtab" id="vt-all" onclick="switchView('all',this)">📋 All Weeks</button>
+  </div>
+
+  <!-- CURRENT WEEK VIEW -->
+  <div id="viewCurrent">
+    <div class="week-nav">
+      <span class="week-select-label">Week:</span>
+      <select class="week-select" id="weekSelect" onchange="renderWeek(parseInt(this.value))"></select>
+      <div class="nav-btns">
+        <button class="nav-btn" id="btnPrev" onclick="changeWeek(-1)">← Prev</button>
+        <button class="nav-btn" id="btnNext" onclick="changeWeek(1)">Next →</button>
+      </div>
+    </div>
+
+    <div id="weekDisplay" class="fade-in"></div>
+  </div>
+
+  <!-- ALL WEEKS VIEW -->
+  <div id="viewAll" style="display:none">
+    <div class="card">
+      <div class="all-weeks" id="allWeeksList"></div>
+    </div>
+  </div>
+</div>
+
+<!-- PDF EXPORT BUTTONS -->
+<div class="pdf-btn-row" id="pdfBtnRow" style="display:none">
+  <button class="pdf-btn primary-pdf" onclick="savePDF()">
+    📄 Save Full Report as PDF
+  </button>
+  <button class="pdf-btn" onclick="saveCurrentWeekPDF()">
+    🗓️ Save This Week as PDF
+  </button>
+</div>
+
+<!-- PDF REPORT (built dynamically, printed only) -->
+<div id="pdfReport"></div>
+  <p>💾 Your data saves automatically in this browser.<br>
+  Made with love by <a href="https://krystleartpublications.com" target="_blank">Krystle Art Publications</a></p>
+</footer>
+
+</div>
+
+<!-- CELEBRATION POPUP -->
+<div class="celebrate-popup" id="celebPopup">
+  <span class="cel-emoji" id="celEmoji">🎉</span>
+  <div class="cel-title" id="celTitle">Well done!</div>
+  <div class="cel-text" id="celText">You've ticked off a milestone!</div>
+  <button class="cel-close" onclick="closeCelebration()">Wonderful! 🌸</button>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── MILESTONE DATA ── */
+var MILESTONES = [
+  {
+    week: 1,
+    title: 'The very first days',
+    desc: 'Your brand new baby is adjusting to the world outside the womb. Every tiny movement and sound is a big deal.',
+    phase: 'newborn',
+    emoji: '🌸',
+    milestones: [
+      { id:'w1_1', icon:'👁️', text:'Responds to your voice', sub:'Turns toward familiar sounds — especially mum or dad' },
+      { id:'w1_2', icon:'✋', text:'Reflex grasp', sub:'Curls tiny fingers around yours when you touch their palm' },
+      { id:'w1_3', icon:'😴', text:'Sleeps 16–18 hours a day', sub:'Normal and healthy — newborns need lots of rest' },
+      { id:'w1_4', icon:'🤱', text:'Roots and sucks', sub:'Turns toward anything near their mouth — the feeding reflex' }
+    ]
+  },
+  {
+    week: 2,
+    title: 'Waking up to the world',
+    desc: 'Baby is starting to have slightly more awake time and is beginning to take in the faces around them.',
+    phase: 'newborn',
+    emoji: '🌼',
+    milestones: [
+      { id:'w2_1', icon:'👀', text:'Focuses on your face', sub:'Can see things about 20–30cm away — perfect for holding and feeding' },
+      { id:'w2_2', icon:'🔊', text:'Reacts to loud sounds', sub:'Startles, blinks or pauses in response to a loud noise' },
+      { id:'w2_3', icon:'💪', text:'Brief head lifts on tummy', sub:'Very short — maybe a second or two — but it is starting!' },
+      { id:'w2_4', icon:'😌', text:'Calms to your voice', sub:'Recognises mum and dad and settles more easily with you' }
+    ]
+  },
+  {
+    week: 3,
+    title: 'Growing stronger',
+    desc: 'Baby is gaining weight and growing fast. You might start noticing tiny hints of communication.',
+    phase: 'newborn',
+    emoji: '🌿',
+    milestones: [
+      { id:'w3_1', icon:'🎯', text:'Eyes track slow movement', sub:'Watch a toy or your face move slowly — baby may follow it briefly' },
+      { id:'w3_2', icon:'😮', text:'Makes small sounds', sub:'Beyond crying — tiny grunts, sighs and coos are beginning' },
+      { id:'w3_3', icon:'🤲', text:'Holds head briefly upright', sub:'When held against your shoulder, baby may hold head up for a moment' },
+      { id:'w3_4', icon:'💛', text:'Prefers your face', sub:'Stares longer at faces than at objects' }
+    ]
+  },
+  {
+    week: 4,
+    title: 'One month old!',
+    desc: 'You have made it through the first month — and so has baby! This is a big week of development.',
+    phase: 'newborn',
+    emoji: '🎀',
+    milestones: [
+      { id:'w4_1', icon:'😊', text:'First social smile (almost!)', sub:'You might see a flicker of a smile — the real ones are coming soon' },
+      { id:'w4_2', icon:'🎵', text:'Responds to rhythm and music', sub:'Baby may become more calm and alert when music plays' },
+      { id:'w4_3', icon:'👀', text:'Tracks your face side to side', sub:'Follow your face as you move slowly — eyes stay locked on you' },
+      { id:'w4_4', icon:'🦾', text:'Stronger neck muscles', sub:'Tummy time is getting slightly easier and head stays up a bit longer' }
+    ]
+  },
+  {
+    week: 5,
+    title: 'The smile is coming!',
+    desc: 'This is one of the most exciting weeks — many babies give their first real social smile around now.',
+    phase: 'social',
+    emoji: '😊',
+    milestones: [
+      { id:'w5_1', icon:'😄', text:'First real smile!', sub:'Responds to your smile with one of their own — a true milestone moment' },
+      { id:'w5_2', icon:'🗣️', text:'Coos and vowel sounds', sub:'You might hear "ooh" and "aah" — the beginning of conversation!' },
+      { id:'w5_3', icon:'🎯', text:'Holds gaze for longer', sub:'Can keep eye contact with you for several seconds at a time' },
+      { id:'w5_4', icon:'😲', text:'Shows excitement', sub:'Wriggles and waves arms when happy or interested in something' }
+    ]
+  },
+  {
+    week: 6,
+    title: 'More awake and aware',
+    desc: 'Baby is much more alert now. Feeds may settle into a rhythm and you might have longer wakeful windows.',
+    phase: 'social',
+    emoji: '☀️',
+    milestones: [
+      { id:'w6_1', icon:'😂', text:'Smiles in response to smiling', sub:'Baby now reliably smiles back at you when you smile at them' },
+      { id:'w6_2', icon:'🧠', text:'Recognises your face clearly', sub:'Lights up more for mum and dad than for strangers' },
+      { id:'w6_3', icon:'💪', text:'Stronger tummy time', sub:'Can hold head up at 45 degrees for short periods during tummy time' },
+      { id:'w6_4', icon:'🔍', text:'Tracks moving objects', sub:'Follows a slow-moving toy or finger with their eyes quite reliably' }
+    ]
+  },
+  {
+    week: 7,
+    title: 'Finding their voice',
+    desc: 'Baby is becoming more communicative. Those little sounds are growing into something that feels like actual conversation.',
+    phase: 'social',
+    emoji: '🎶',
+    milestones: [
+      { id:'w7_1', icon:'💬', text:'Back-and-forth cooing', sub:'You talk, baby responds with sounds — the first "conversations"' },
+      { id:'w7_2', icon:'👋', text:'Bats at hanging objects', sub:'Swipes at toys above them, though contact is still quite random' },
+      { id:'w7_3', icon:'😠', text:'Shows clear emotions', sub:'Different cries for different needs — hunger, tiredness, discomfort' },
+      { id:'w7_4', icon:'📏', text:'Holds head at 45–90 degrees', sub:'Tummy time is getting noticeably stronger' }
+    ]
+  },
+  {
+    week: 8,
+    title: 'Two months old!',
+    desc: 'Two months in and baby is a very different person from the newborn you first met. So much has happened!',
+    phase: 'social',
+    emoji: '🌟',
+    milestones: [
+      { id:'w8_1', icon:'😁', text:'Big social smiles', sub:'Smiles readily at familiar faces — and sometimes at strangers too' },
+      { id:'w8_2', icon:'🦾', text:'Head control improving', sub:'Can hold head steady when you support their body in a sitting position' },
+      { id:'w8_3', icon:'🔊', text:'Laughs or chuckles', sub:'Early laughing — more like a chuckle or giggle — might begin around now' },
+      { id:'w8_4', icon:'🎨', text:'Interested in colours', sub:'Drawn to high-contrast patterns and bright colours' }
+    ]
+  },
+  {
+    week: 10,
+    title: 'Hands are fascinating',
+    desc: 'Baby is discovering their hands and starting to realise they can control them. It is a wonderful (and messy) stage.',
+    phase: 'discovery',
+    emoji: '✋',
+    milestones: [
+      { id:'w10_1', icon:'👀', text:'Stares at their own hands', sub:'Holds hands in front of face and studies them intently' },
+      { id:'w10_2', icon:'🤜', text:'Swipes at toys more accurately', sub:'Reaching and batting is becoming more purposeful' },
+      { id:'w10_3', icon:'😴', text:'Longer awake stretches', sub:'May now be awake for 1.5–2 hours at a time between naps' },
+      { id:'w10_4', icon:'😃', text:'Laughs out loud', sub:'Proper belly laughs may appear — treasure these moments' }
+    ]
+  },
+  {
+    week: 12,
+    title: 'Three months old!',
+    desc: 'Three months is often described as the end of the "fourth trimester." Baby is becoming a little person.',
+    phase: 'discovery',
+    emoji: '🎊',
+    milestones: [
+      { id:'w12_1', icon:'🙌', text:'Brings hands to mouth', sub:'Intentionally — not just reflex — exploring with hands and mouth' },
+      { id:'w12_2', icon:'💪', text:'Mini push-ups in tummy time', sub:'Pushes up on forearms and holds head steady at 90 degrees' },
+      { id:'w12_3', icon:'🗣️', text:'Longer vocal play', sub:'Lots of cooing, babbling and experimenting with different sounds' },
+      { id:'w12_4', icon:'🌀', text:'Rolls from front to side', sub:'Some babies begin to roll — encourage tummy time to support this' }
+    ]
+  },
+  {
+    week: 16,
+    title: 'Four months — moving!',
+    desc: 'Motor skills are really developing now. Baby wants to move, reach and explore everything around them.',
+    phase: 'active',
+    emoji: '🏃',
+    milestones: [
+      { id:'w16_1', icon:'🎯', text:'Reaches and grasps toys', sub:'Can reach out and hold a toy quite accurately now' },
+      { id:'w16_2', icon:'🔄', text:'Rolls from back to side', sub:'Full rolling both ways is coming — keep surfaces safe' },
+      { id:'w16_3', icon:'😋', text:'Puts everything in mouth', sub:'Exploring the world through taste — completely normal' },
+      { id:'w16_4', icon:'💺', text:'Sits with support', sub:'Loves to be held upright and can hold head fully steady now' }
+    ]
+  },
+  {
+    week: 20,
+    title: 'Five months — so curious!',
+    desc: 'Baby is taking in everything. They love to watch, reach and pull things toward them.',
+    phase: 'active',
+    emoji: '🔍',
+    milestones: [
+      { id:'w20_1', icon:'🔄', text:'Rolls both ways', sub:'Rolling from back to front and front to back — a big moment!' },
+      { id:'w20_2', icon:'✋', text:'Passes toy hand to hand', sub:'Transfers objects between hands deliberately' },
+      { id:'w20_3', icon:'🪞', text:'Recognises self in mirror', sub:'Smiles and reaches toward their own reflection' },
+      { id:'w20_4', icon:'🤲', text:'Rakes at small objects', sub:'Uses fingers to drag small items toward them' }
+    ]
+  },
+  {
+    week: 24,
+    title: 'Six months — halfway through the first year!',
+    desc: 'Six months is a huge milestone for the whole family. Baby may start weaning and is sitting more independently.',
+    phase: 'growing',
+    emoji: '🎂',
+    milestones: [
+      { id:'w24_1', icon:'💺', text:'Sits without support', sub:'Beginning to sit independently for a few seconds to a minute' },
+      { id:'w24_2', icon:'🍎', text:'Ready for first foods', sub:'Shows interest in food and can sit supported — signs of weaning readiness' },
+      { id:'w24_3', icon:'😬', text:'First teeth may appear', sub:'Drooling and chewing — the first teeth are often close' },
+      { id:'w24_4', icon:'🗣️', text:'Babbles with consonants', sub:'Ma, ba, da sounds — real babbling has arrived' }
+    ]
+  }
+];
+
+var KEY_BABY   = 'kap_ms_baby';
+var KEY_DONE   = 'kap_ms_done';
+var KEY_DATES  = 'kap_ms_dates';
+
+var curWeekIdx = 0;
+var curView    = 'current';
+var babyWeeks  = 0;
+
+/* ── INIT ── */
+(function(){
+  document.getElementById('babyDob').max = new Date().toISOString().split('T')[0];
+  var saved = lsGet(KEY_BABY);
+  if(saved){
+    var d = JSON.parse(saved);
+    document.getElementById('babyName').value = d.name || '';
+    document.getElementById('babyDob').value  = d.dob  || '';
+    startTracker(true);
+  }
+})();
+
+/* ── START ── */
+function startTracker(silent){
+  var name = document.getElementById('babyName').value.trim();
+  var dob  = document.getElementById('babyDob').value;
+  if(!name || !dob){ toast('Please enter your baby\'s name and birthday'); return; }
+
+  localStorage.setItem(KEY_BABY, JSON.stringify({name:name, dob:dob}));
+
+  var weeks = weeksSince(dob);
+  babyWeeks = weeks;
+
+  document.getElementById('setupCard').style.display = 'none';
+  document.getElementById('babyBanner').style.display = 'flex';
+  document.getElementById('progressCard').style.display = 'block';
+  document.getElementById('mainSection').style.display = 'block';
+
+  document.getElementById('bbName').textContent = name + '\'s Milestones';
+  document.getElementById('bbAge').textContent  = weeks <= 0 ? 'Not born yet' : weeks === 1 ? '1 week old' : weeks + ' weeks old';
+
+  /* build week selector */
+  var sel = document.getElementById('weekSelect');
+  sel.innerHTML = '';
+  MILESTONES.forEach(function(m,i){
+    var opt = document.createElement('option');
+    opt.value = i;
+    opt.textContent = 'Week ' + m.week + ' — ' + m.title;
+    sel.appendChild(opt);
+  });
+
+  /* go to baby's current age */
+  var idx = 0;
+  for(var i=0; i<MILESTONES.length; i++){
+    if(MILESTONES[i].week <= weeks) idx = i;
+  }
+  curWeekIdx = idx;
+  sel.value = idx;
+
+  renderWeek(idx);
+  renderAllWeeks();
+  updateProgress();
+  showPDFButtons();
+  if(!silent) toast('Welcome, ' + name + '! 🌸');
+}
+
+function editSetup(){
+  document.getElementById('setupCard').style.display = 'block';
+  document.getElementById('babyBanner').style.display = 'none';
+  document.getElementById('progressCard').style.display = 'none';
+  document.getElementById('mainSection').style.display = 'none';
+}
+
+/* ── RENDER WEEK ── */
+function renderWeek(idx){
+  curWeekIdx = idx;
+  document.getElementById('weekSelect').value = idx;
+  document.getElementById('btnPrev').disabled = idx === 0;
+  document.getElementById('btnNext').disabled = idx === MILESTONES.length - 1;
+
+  var m    = MILESTONES[idx];
+  var done = getDone();
+  var dob  = JSON.parse(lsGet(KEY_BABY)||'{}').dob || '';
+  var weeks = weeksSince(dob);
+  var isFuture = m.week > weeks + 2;
+
+  var html = '<div class="week-header phase-' + m.phase + '">';
+  html += '<div class="wh-week">Week ' + m.week + '</div>';
+  html += '<div class="wh-title">' + m.title + '</div>';
+  html += '<div class="wh-desc">' + m.desc + '</div>';
+  html += '<div class="wh-emoji">' + m.emoji + '</div></div>';
+
+  if(isFuture){
+    html += '<div class="upcoming-note">⏳ <strong>Coming soon!</strong> These milestones are ahead for ' + (JSON.parse(lsGet(KEY_BABY)||'{}').name || 'your baby') + '. Check back as they get older.</div>';
+  }
+
+  html += '<div class="milestone-list">';
+  m.milestones.forEach(function(ms){
+    var isDone = done.indexOf(ms.id) > -1;
+    var dateNote = '';
+    if(isDone){
+      var dates = getDates();
+      if(dates[ms.id]) dateNote = '<div class="ms-date">✓ Achieved ' + dates[ms.id] + '</div>';
+    }
+    html += '<div class="ms-item' + (isDone?' done':'') + '" onclick="toggleMs(\'' + ms.id + '\',\'' + ms.text.replace(/'/g,"\\'") + '\',\'' + ms.icon + '\')" >';
+    html += '<div class="ms-check">' + (isDone ? '✓' : '') + '</div>';
+    html += '<div class="ms-icon">' + ms.icon + '</div>';
+    html += '<div class="ms-body"><div class="ms-text">' + ms.text + '</div><div class="ms-sub">' + ms.sub + '</div>' + dateNote + '</div>';
+    html += '</div>';
+  });
+  html += '</div>';
+
+  document.getElementById('weekDisplay').innerHTML = html;
+  document.getElementById('weekDisplay').className = 'fade-in';
+}
+
+function changeWeek(dir){
+  var next = curWeekIdx + dir;
+  if(next < 0 || next >= MILESTONES.length) return;
+  renderWeek(next);
+}
+
+/* ── ALL WEEKS ── */
+function renderAllWeeks(){
+  var done = getDone();
+  var html = '';
+  MILESTONES.forEach(function(m,i){
+    var total = m.milestones.length;
+    var comp  = m.milestones.filter(function(ms){ return done.indexOf(ms.id) > -1; }).length;
+    html += '<div class="aw-item" onclick="goWeek(' + i + ')">';
+    html += '<div class="aw-week">Week ' + m.week + '</div>';
+    html += '<div class="aw-title">' + m.title + '</div>';
+    html += '<div class="aw-prog">' + comp + '/' + total + '</div>';
+    html += '<div class="aw-arrow">›</div></div>';
+  });
+  document.getElementById('allWeeksList').innerHTML = html;
+}
+
+function goWeek(i){
+  switchView('current', document.getElementById('vt-current'));
+  renderWeek(i);
+}
+
+/* ── VIEW SWITCH ── */
+function switchView(v, btn){
+  curView = v;
+  document.querySelectorAll('.vtab').forEach(function(b){ b.classList.remove('active'); });
+  btn.classList.add('active');
+  document.getElementById('viewCurrent').style.display = v === 'current' ? 'block' : 'none';
+  document.getElementById('viewAll').style.display     = v === 'all'     ? 'block' : 'none';
+  if(v === 'all') renderAllWeeks();
+}
+
+/* ── TOGGLE MILESTONE ── */
+function toggleMs(id, text, icon){
+  var done  = getDone();
+  var dates = getDates();
+  var idx   = done.indexOf(id);
+
+  if(idx > -1){
+    /* untick */
+    done.splice(idx, 1);
+    delete dates[id];
+    saveDone(done); saveDates(dates);
+    renderWeek(curWeekIdx);
+    renderAllWeeks();
+    updateProgress();
+    toast('Unchecked ✓');
+  } else {
+    /* tick — celebrate! */
+    done.push(id);
+    dates[id] = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'short', year:'numeric'});
+    saveDone(done); saveDates(dates);
+    renderWeek(curWeekIdx);
+    renderAllWeeks();
+    updateProgress();
+    celebrate(text, icon);
+  }
+}
+
+/* ── PROGRESS ── */
+function updateProgress(){
+  var done  = getDone();
+  var total = MILESTONES.reduce(function(a,m){ return a + m.milestones.length; }, 0);
+  var comp  = done.length;
+  var pct   = total > 0 ? Math.round(comp/total*100) : 0;
+  document.getElementById('progBar').style.width = pct + '%';
+  document.getElementById('progText').innerHTML  = '<span>' + comp + '</span> of ' + total + ' milestones completed';
+}
+
+/* ── CELEBRATION ── */
+var confParticles = [];
+var confRunning   = false;
+
+function celebrate(text, icon){
+  var messages = [
+    'Every milestone is a memory worth keeping!',
+    'Look how much they are growing!',
+    'You are doing an amazing job.',
+    'These moments go so fast — so glad you captured this one.',
+    'Write this down in their baby book too!'
+  ];
+  document.getElementById('celEmoji').textContent = icon || '🎉';
+  document.getElementById('celTitle').textContent = text;
+  document.getElementById('celText').textContent  = messages[Math.floor(Math.random()*messages.length)];
+  document.getElementById('celebPopup').classList.add('show');
+  launchConfetti();
+}
+
+function closeCelebration(){
+  document.getElementById('celebPopup').classList.remove('show');
+  confRunning = false;
+}
+
+/* ── CONFETTI ── */
+var CONF_COLS = ['#d4795a','#6b9470','#9b8fc0','#6a9bb8','#c8923a','#e8907a','#a8c8aa'];
+
+function launchConfetti(){
+  var canvas = document.getElementById('confettiCanvas');
+  canvas.width  = window.innerWidth;
+  canvas.height = window.innerHeight;
+  var ctx = canvas.getContext('2d');
+  confParticles = [];
+  for(var i=0; i<90; i++){
+    confParticles.push({
+      x: Math.random() * canvas.width,
+      y: Math.random() * canvas.height - canvas.height,
+      r: Math.random() * 7 + 3,
+      d: Math.random() * 90 + 10,
+      color: CONF_COLS[Math.floor(Math.random()*CONF_COLS.length)],
+      tilt: Math.random() * 10 - 10,
+      tiltAngle: 0,
+      tiltSpeed: Math.random() * 0.1 + 0.05
+    });
+  }
+  confRunning = true;
+  animateConfetti(ctx, canvas);
+  setTimeout(function(){ confRunning = false; }, 3200);
+}
+
+function animateConfetti(ctx, canvas){
+  if(!confRunning){ ctx.clearRect(0,0,canvas.width,canvas.height); return; }
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  confParticles.forEach(function(p){
+    p.tiltAngle += p.tiltSpeed;
+    p.y += (Math.cos(p.d) + 2.5);
+    p.x += Math.sin(p.d) * 0.6;
+    p.tilt = Math.sin(p.tiltAngle) * 12;
+    if(p.y > canvas.height){ p.y = -10; p.x = Math.random()*canvas.width; }
+    ctx.beginPath();
+    ctx.lineWidth = p.r;
+    ctx.strokeStyle = p.color;
+    ctx.moveTo(p.x + p.tilt + p.r/2, p.y);
+    ctx.lineTo(p.x + p.tilt, p.y + p.tilt + p.r/2);
+    ctx.stroke();
+  });
+  requestAnimationFrame(function(){ animateConfetti(ctx, canvas); });
+}
+
+/* ── PDF EXPORT ── */
+
+/* Colour map for week headers in PDF */
+var PHASE_COLORS = {
+  newborn:   { bg:'#fdf0eb', border:'#e8c4b4', title:'#d4795a' },
+  social:    { bg:'#eef4ef', border:'#c0d8c2', title:'#6b9470' },
+  discovery: { bg:'#f2f0f9', border:'#d0cae8', title:'#9b8fc0' },
+  active:    { bg:'#edf3f8', border:'#bcd4e4', title:'#6a9bb8' },
+  growing:   { bg:'#fdf5e6', border:'#e8d0aa', title:'#c8923a' }
+};
+
+function buildPDFReport(weeksToInclude){
+  var done   = getDone();
+  var dates  = getDates();
+  var baby   = JSON.parse(lsGet(KEY_BABY) || '{}');
+  var name   = baby.name || 'Baby';
+  var dob    = baby.dob  || '';
+  var weeks  = weeksSince(dob);
+  var total  = MILESTONES.reduce(function(a,m){ return a + m.milestones.length; }, 0);
+  var comp   = done.length;
+  var pct    = total > 0 ? Math.round(comp / total * 100) : 0;
+  var today  = new Date().toLocaleDateString('en-GB', {day:'numeric', month:'long', year:'numeric'});
+
+  var html = '';
+
+  /* header info already shown by .baby-banner — add a PDF-only title line */
+  html += '<div style="text-align:center;margin-bottom:6px;font-size:12px;color:#8a7060;">Report generated: ' + today + ' &nbsp;·&nbsp; ' + comp + ' of ' + total + ' milestones achieved (' + pct + '%)</div>';
+
+  /* weeks */
+  weeksToInclude.forEach(function(m){
+    var c = PHASE_COLORS[m.phase] || PHASE_COLORS.newborn;
+    var weekDone = m.milestones.filter(function(ms){ return done.indexOf(ms.id) > -1; }).length;
+
+    html += '<div class="pdf-week-block">';
+    html += '<div class="pdf-week-head" style="background:' + c.bg + ';border:1px solid ' + c.border + ';">';
+    html += '<h3 style="color:' + c.title + '">Week ' + m.week + ' — ' + m.title + ' ' + m.emoji + '</h3>';
+    html += '<p style="color:#8a7060">' + m.desc + ' &nbsp;|&nbsp; ' + weekDone + '/' + m.milestones.length + ' completed</p>';
+    html += '</div>';
+
+    m.milestones.forEach(function(ms){
+      var isDone = done.indexOf(ms.id) > -1;
+      var dateStr = isDone && dates[ms.id] ? dates[ms.id] : '';
+      html += '<div class="pdf-ms-row' + (isDone ? ' done' : '') + '">';
+      html += '<div class="pdf-ms-check">' + (isDone ? '✅' : '⬜') + '</div>';
+      html += '<div class="pdf-ms-icon">' + ms.icon + '</div>';
+      html += '<div>';
+      html += '<div class="pdf-ms-text">' + ms.text + '</div>';
+      html += '<div class="pdf-ms-sub">' + ms.sub + '</div>';
+      if(dateStr) html += '<div class="pdf-ms-date">✓ Achieved ' + dateStr + '</div>';
+      html += '</div></div>';
+    });
+
+    html += '</div>';
+  });
+
+  html += '<div class="pdf-footer-print">Made with love by Krystle Art Publications · krystleartpublications.com</div>';
+  return html;
+}
+
+function savePDF(){
+  /* Show all weeks in the PDF */
+  document.getElementById('pdfReport').innerHTML = buildPDFReport(MILESTONES);
+  setTimeout(function(){
+    window.print();
+  }, 200);
+}
+
+function saveCurrentWeekPDF(){
+  /* Show only the current week in the PDF */
+  var m = MILESTONES[curWeekIdx];
+  document.getElementById('pdfReport').innerHTML = buildPDFReport([m]);
+  setTimeout(function(){
+    window.print();
+  }, 200);
+}
+
+/* show PDF buttons once tracker is running */
+function showPDFButtons(){
+  document.getElementById('pdfBtnRow').style.display = 'flex';
+}
+
+function weeksSince(dob){
+  if(!dob) return 0;
+  var birth = new Date(dob);
+  var now   = new Date();
+  var diff  = Math.floor((now - birth) / (1000*60*60*24*7));
+  return Math.max(0, diff);
+}
+
+function getDone(){  try{ return JSON.parse(localStorage.getItem(KEY_DONE)||'[]'); }catch(e){ return []; } }
+function getDates(){ try{ return JSON.parse(localStorage.getItem(KEY_DATES)||'{}'); }catch(e){ return {}; } }
+function saveDone(d){ localStorage.setItem(KEY_DONE, JSON.stringify(d)); }
+function saveDates(d){ localStorage.setItem(KEY_DATES, JSON.stringify(d)); }
+function lsGet(k){ return localStorage.getItem(k)||''; }
+
+function toast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2600);
+}
+</script>
+</body>
+</html>
