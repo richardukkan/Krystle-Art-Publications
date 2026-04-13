@@ -1,0 +1,877 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Newborn Gift Idea Generator – Krystle Art Publications</title>
+<meta name="description" content="Find the perfect newborn gift in seconds. Enter the baby's age and the parents' style — get 10 thoughtful, practical gift ideas they'll actually love.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,600;1,600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #f7f2ec;
+  --surface:   #ffffff;
+  --surface2:  #ede8e0;
+  --terra:     #b86040;
+  --terra-lt:  #fdf1ec;
+  --terra-mid: #cc7a58;
+  --gold:      #c09840;
+  --gold-lt:   #fdf8ec;
+  --green:     #6a8c5a;
+  --green-lt:  #eef3ea;
+  --navy:      #3a5068;
+  --navy-lt:   #edf2f6;
+  --plum:      #7a5a80;
+  --plum-lt:   #f5f0f8;
+  --ink:       #1e1812;
+  --muted:     #7a6a58;
+  --border:    rgba(184,96,64,0.13);
+  --shadow:    0 2px 14px rgba(30,24,18,0.08);
+  --r:         16px;
+}
+
+body {
+  font-family: 'Nunito', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  padding-bottom: 60px;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 55% 40% at 8% 12%, rgba(184,96,64,0.08), transparent 60%),
+    radial-gradient(ellipse 45% 35% at 92% 85%, rgba(192,152,64,0.07), transparent 60%);
+}
+
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 640px; margin: 0 auto;
+  padding: 10px 16px 40px;
+}
+
+/* HEADER */
+header {
+  text-align: center;
+  padding: 28px 0 22px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.hdr-icon { font-size: 42px; display: block; margin-bottom: 10px; }
+.site-tag { font-size: 11px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase; color: var(--muted); margin-bottom: 8px; }
+h1 { font-family: 'Playfair Display', serif; font-size: clamp(24px, 6vw, 34px); font-weight: 600; line-height: 1.15; color: var(--ink); margin-bottom: 8px; }
+h1 em { font-style: italic; color: var(--terra); }
+.hdr-sub { font-size: 14px; color: var(--muted); line-height: 1.7; max-width: 460px; margin: 0 auto; }
+
+/* CARD */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: var(--r); box-shadow: var(--shadow); padding: 22px 20px; margin-bottom: 18px; }
+.card-title { font-size: 14px; font-weight: 800; color: var(--ink); margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+
+/* STEP LABEL */
+.step-lbl {
+  font-size: 10px; font-weight: 900; letter-spacing: 0.2em;
+  text-transform: uppercase; color: var(--terra);
+  margin-bottom: 11px; display: flex; align-items: center; gap: 10px;
+}
+.step-lbl::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* PILL GRIDS */
+.pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 6px; }
+.sel-pill {
+  padding: 10px 16px; border: 2px solid var(--border); border-radius: 999px;
+  background: var(--bg); font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  cursor: pointer; transition: all 0.18s; white-space: nowrap; user-select: none;
+}
+.sel-pill:hover { border-color: var(--terra); color: var(--terra); background: var(--terra-lt); }
+.sel-pill.active { border-color: var(--terra); color: var(--terra); background: var(--terra-lt); }
+
+/* STYLE CARDS */
+.style-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 6px; }
+@media(max-width:400px){ .style-grid { grid-template-columns: 1fr; } }
+.style-card {
+  border: 2px solid var(--border); border-radius: 14px; padding: 14px 14px 12px;
+  background: var(--bg); cursor: pointer; transition: all 0.2s; text-align: left;
+}
+.style-card:hover { border-color: var(--gold); background: var(--gold-lt); transform: translateY(-2px); }
+.style-card.active { border-color: var(--gold); background: var(--gold-lt); }
+.sc-emoji { font-size: 26px; display: block; margin-bottom: 7px; }
+.sc-name { font-size: 14px; font-weight: 800; color: var(--ink); margin-bottom: 3px; }
+.sc-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+/* GENERATE BUTTON */
+.gen-btn {
+  width: 100%; padding: 17px; background: var(--terra); color: white;
+  border: none; border-radius: 13px; font-family: 'Nunito', sans-serif;
+  font-size: 17px; font-weight: 800; cursor: pointer;
+  box-shadow: 0 4px 18px rgba(184,96,64,0.32);
+  transition: transform 0.15s, box-shadow 0.15s;
+  margin-top: 6px;
+}
+.gen-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(184,96,64,0.4); }
+.gen-btn:active { transform: translateY(0); }
+
+/* DIVIDER */
+.divider { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); display: flex; align-items: center; gap: 10px; margin: 4px 0 20px; }
+.divider::before, .divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+/* CONTEXT BANNER */
+.ctx-banner {
+  border-radius: 13px; padding: 14px 18px; margin-bottom: 18px;
+  display: flex; align-items: center; gap: 14px;
+  background: var(--terra-lt); border: 1.5px solid rgba(184,96,64,0.22);
+}
+.ctx-icon { font-size: 28px; flex-shrink: 0; }
+.ctx-text { font-size: 14px; color: var(--ink); line-height: 1.6; }
+.ctx-text strong { color: var(--terra); font-weight: 800; }
+
+/* GIFT CARDS */
+.gifts-list { display: flex; flex-direction: column; gap: 14px; margin-bottom: 18px; }
+.gift-card {
+  background: var(--surface); border: 1.5px solid var(--border);
+  border-radius: var(--r); padding: 18px 18px 16px;
+  box-shadow: var(--shadow);
+  animation: fadeUp 0.4s ease both;
+}
+.gift-card:nth-child(1){ animation-delay: 0.04s; }
+.gift-card:nth-child(2){ animation-delay: 0.09s; }
+.gift-card:nth-child(3){ animation-delay: 0.14s; }
+.gift-card:nth-child(4){ animation-delay: 0.19s; }
+.gift-card:nth-child(5){ animation-delay: 0.24s; }
+.gift-card:nth-child(6){ animation-delay: 0.29s; }
+.gift-card:nth-child(7){ animation-delay: 0.34s; }
+.gift-card:nth-child(8){ animation-delay: 0.39s; }
+.gift-card:nth-child(9){ animation-delay: 0.44s; }
+.gift-card:nth-child(10){ animation-delay: 0.49s; }
+
+.gift-top { display: flex; align-items: flex-start; gap: 13px; margin-bottom: 10px; }
+.gift-num {
+  width: 32px; height: 32px; border-radius: 50%;
+  background: var(--terra); color: white;
+  font-size: 14px; font-weight: 900;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; margin-top: 1px;
+}
+.gift-emoji { font-size: 28px; flex-shrink: 0; }
+.gift-body { flex: 1; }
+.gift-name { font-size: 16px; font-weight: 800; color: var(--ink); margin-bottom: 4px; line-height: 1.25; }
+.gift-price {
+  display: inline-flex; align-items: center; gap: 5px;
+  font-size: 12px; font-weight: 700; padding: 3px 10px;
+  border-radius: 999px; margin-bottom: 8px;
+}
+.gift-why { font-size: 14px; color: var(--ink); line-height: 1.7; margin-bottom: 8px; }
+.gift-tip {
+  font-size: 13px; color: var(--muted); line-height: 1.6;
+  background: var(--bg); border-radius: 10px; padding: 10px 12px;
+  border-left: 3px solid var(--terra);
+}
+.gift-tag-row { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+.gift-tag {
+  font-size: 11px; font-weight: 700; padding: 3px 10px;
+  border-radius: 999px; background: var(--surface2);
+  color: var(--muted); border: 1px solid var(--border);
+}
+
+/* price colours */
+.price-low   { background: var(--green-lt); color: var(--green); }
+.price-mid   { background: var(--gold-lt);  color: var(--gold);  }
+.price-high  { background: var(--plum-lt);  color: var(--plum);  }
+
+/* SHARE ROW */
+.share-row { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+.share-btn {
+  flex: 1; min-width: 110px; padding: 12px 10px;
+  border: 1.5px solid var(--border); border-radius: 12px;
+  background: var(--surface); font-family: 'Nunito', sans-serif;
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  cursor: pointer; text-align: center; transition: all 0.18s;
+  display: flex; align-items: center; justify-content: center; gap: 6px;
+}
+.share-btn:hover { border-color: var(--terra); color: var(--terra); background: var(--terra-lt); }
+.share-btn.prim { background: var(--terra); color: white; border-color: var(--terra); box-shadow: 0 4px 12px rgba(184,96,64,0.25); }
+.share-btn.prim:hover { background: var(--terra-mid); border-color: var(--terra-mid); color: white; }
+
+/* RESET */
+.reset-row { text-align: center; }
+.reset-btn {
+  font-size: 13px; font-weight: 700; color: var(--muted);
+  text-decoration: underline; cursor: pointer; background: none;
+  border: none; font-family: 'Nunito', sans-serif; padding: 8px;
+}
+.reset-btn:hover { color: var(--terra); }
+
+/* SEASONAL BADGE */
+.seasonal-note {
+  background: var(--gold-lt); border: 1px solid rgba(192,152,64,0.25);
+  border-radius: 12px; padding: 12px 16px; margin-bottom: 18px;
+  font-size: 13px; color: var(--muted); display: flex; gap: 10px; align-items: flex-start;
+}
+.seasonal-note strong { color: var(--gold); }
+
+/* LOADING STATE */
+.loading-wrap { text-align: center; padding: 32px 20px; display: none; }
+.loading-wrap.show { display: block; }
+.loading-icon { font-size: 40px; animation: spin 2s linear infinite; display: inline-block; }
+.loading-text { font-size: 15px; color: var(--muted); margin-top: 12px; font-weight: 700; }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* RESULT SECTION */
+.result-section { display: none; }
+.result-section.show { display: block; }
+
+/* TOAST */
+.toast { position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%) translateY(70px); background: var(--ink); color: white; padding: 11px 20px; border-radius: 999px; font-size: 14px; font-weight: 700; box-shadow: 0 4px 18px rgba(30,24,18,0.22); transition: transform 0.32s cubic-bezier(0.34,1.56,0.64,1); z-index: 200; white-space: nowrap; }
+.toast.show { transform: translateX(-50%) translateY(0); }
+
+/* FOOTER */
+footer { text-align: center; font-size: 13px; color: var(--muted); padding-top: 22px; border-top: 1px solid var(--border); margin-top: 6px; }
+footer a { color: var(--terra); font-weight: 700; text-decoration: none; }
+
+@keyframes fadeUp { from { opacity:0; transform:translateY(16px); } to { opacity:1; transform:translateY(0); } }
+
+@media print {
+  body::before, .gen-btn, .share-row, .reset-row, footer, .toast, .card:first-of-type { display: none !important; }
+  body { background: white; }
+  .wrap { padding: 0; }
+  .gift-card { box-shadow: none; border: 1px solid #ddd; page-break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- HEADER -->
+<header>
+  <span class="hdr-icon">🎁</span>
+  <div class="site-tag">Krystle Art Publications</div>
+  <h1>Newborn Gift <em>Idea Generator</em></h1>
+  <p class="hdr-sub">Perfect for aunties, grandparents and friends — tell us a little about the baby and we'll find 10 gifts they'll actually use and love.</p>
+</header>
+
+<!-- PICKER CARD -->
+<div class="card" id="pickerCard">
+  <div class="card-title">🎀 Find the Perfect Gift</div>
+
+  <!-- STEP 1: AGE -->
+  <div class="step-lbl">Step 1 — How old is the baby?</div>
+  <div class="pill-row" id="agePills">
+    <button class="sel-pill" onclick="setVal('age','newborn',this)">🌸 Newborn (0–4 wks)</button>
+    <button class="sel-pill" onclick="setVal('age','1-3m',this)">🌿 1–3 months</button>
+    <button class="sel-pill" onclick="setVal('age','3-6m',this)">🌼 3–6 months</button>
+    <button class="sel-pill" onclick="setVal('age','6-12m',this)">🌻 6–12 months</button>
+    <button class="sel-pill" onclick="setVal('age','not-born',this)">🥚 Not born yet</button>
+  </div>
+
+  <!-- STEP 2: STYLE -->
+  <div class="step-lbl" style="margin-top:20px;">Step 2 — What's the parents' style?</div>
+  <div class="style-grid" id="stylePills">
+    <div class="style-card" onclick="setVal('style','minimalist',this)">
+      <span class="sc-emoji">🤍</span>
+      <div class="sc-name">Minimalist</div>
+      <div class="sc-desc">Clean, simple, neutral tones — less is more</div>
+    </div>
+    <div class="style-card" onclick="setVal('style','eco',this)">
+      <span class="sc-emoji">🌿</span>
+      <div class="sc-name">Eco-friendly</div>
+      <div class="sc-desc">Natural materials, organic, sustainable</div>
+    </div>
+    <div class="style-card" onclick="setVal('style','traditional',this)">
+      <span class="sc-emoji">🎀</span>
+      <div class="sc-name">Traditional</div>
+      <div class="sc-desc">Classic, timeless, sentimental keepsakes</div>
+    </div>
+    <div class="style-card" onclick="setVal('style','playful',this)">
+      <span class="sc-emoji">🌈</span>
+      <div class="sc-name">Playful & Fun</div>
+      <div class="sc-desc">Bright, colourful, fun characters and toys</div>
+    </div>
+    <div class="style-card" onclick="setVal('style','practical',this)">
+      <span class="sc-emoji">🛠️</span>
+      <div class="sc-name">Practical</div>
+      <div class="sc-desc">Useful everyday items new parents actually need</div>
+    </div>
+    <div class="style-card" onclick="setVal('style','luxury',this)">
+      <span class="sc-emoji">✨</span>
+      <div class="sc-name">Luxury & Special</div>
+      <div class="sc-desc">Premium quality, beautiful packaging, gifted</div>
+    </div>
+  </div>
+
+  <button class="gen-btn" onclick="generateGifts()">🎁 Generate My Gift Ideas</button>
+</div>
+
+<!-- LOADING -->
+<div class="loading-wrap" id="loadingWrap">
+  <div class="loading-icon">🎁</div>
+  <div class="loading-text">Finding thoughtful gifts…</div>
+</div>
+
+<!-- RESULTS -->
+<div class="result-section" id="resultSection">
+  <div class="divider">Your Gift Ideas</div>
+
+  <!-- CONTEXT BANNER -->
+  <div class="ctx-banner" id="ctxBanner"></div>
+
+  <!-- SEASONAL NOTE -->
+  <div class="seasonal-note" id="seasonalNote"></div>
+
+  <!-- GIFT CARDS -->
+  <div class="gifts-list" id="giftsList"></div>
+
+  <!-- SHARE -->
+  <div class="share-row">
+    <button class="share-btn prim" onclick="copyGifts()">📋 Copy Gift List</button>
+    <button class="share-btn" onclick="window.print()">📄 Save as PDF</button>
+    <button class="share-btn" onclick="shareGifts()">🔗 Share</button>
+  </div>
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetTool()">← Try again with different options</button>
+  </div>
+</div>
+
+<footer>
+  <p>🎁 Made with love by <a href="https://krystleartpublications.com" target="_blank">Krystle Art Publications</a></p>
+</footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ── STATE ── */
+var selAge   = '';
+var selStyle = '';
+
+function setVal(type, val, el){
+  if(type === 'age'){
+    selAge = val;
+    document.querySelectorAll('#agePills .sel-pill').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+  } else {
+    selStyle = val;
+    document.querySelectorAll('.style-card').forEach(function(b){ b.classList.remove('active'); });
+    el.classList.add('active');
+  }
+}
+
+/* ── GIFT DATA ── */
+/* Structure: GIFTS[age][style] = array of 5 gift objects */
+/* Each gift: { name, emoji, why, tip, tags, priceTier } */
+
+var GIFTS = {
+
+  newborn: {
+    minimalist: [
+      { name:'Luxury muslin swaddle set', emoji:'🤍', why:'Soft, breathable muslin swaddles are one of the most-used newborn items. A set of 3–4 in neutral tones suits a minimalist nursery perfectly and lasts well into the first year.', tip:'Look for 100% cotton or bamboo muslin — brands like Aden+Anais or Mushie do beautiful neutral sets.', tags:['Practical','Gender-neutral','Used daily'] },
+      { name:'Simple wooden mobile', emoji:'🌿', why:'A clean, geometric wooden mobile above the cot provides gentle visual stimulation without overstimulating. It doubles as beautiful nursery decor that parents actually want to display.', tip:'Monochrome or muted tone mobiles are especially popular with minimalist-style nurseries. Check Etsy for handmade options.', tags:['Nursery decor','Stimulating','Long-lasting'] },
+      { name:'Merino wool knit blanket', emoji:'🧶', why:'A soft, light merino blanket is a beautiful, practical gift — warm but breathable, and beautiful enough to use as a photo prop or keepsake. It gets used constantly.', tip:'Natural merino regulates temperature so it works year-round. Neutral oatmeal or ivory tones keep it classic.', tags:['Keepsake quality','Natural material','Used constantly'] },
+      { name:'Personalised name print', emoji:'🖼️', why:'A simple, typographic name print for the nursery wall is a thoughtful, personal touch that costs relatively little but means a lot — especially for first-time parents decorating a new room.', tip:'Choose a clean, sans-serif font in neutral tones. Etsy sellers offer custom prints that ship quickly.', tags:['Personalised','Nursery decor','Sentimental'] },
+      { name:'White noise machine', emoji:'🔊', why:'A dedicated sound machine is one of the most genuinely useful newborn gifts — it helps babies sleep longer and parents get more rest. Far more practical than most traditional baby gifts.', tip:'The LectroFan or Yogasleep Dohm are well-reviewed. Compact and portable so it travels with the family.', tags:['Genuinely useful','Sleep aid','Long-lasting'] },
+      { name:'Neutral cotton sleepsuit set', emoji:'👕', why:'A set of beautifully made sleepsuits in oatmeal, grey or white is something new parents use every single day. A simple, well-cut sleepsuit in soft organic cotton feels like a considered, minimal gift.', tip:'Organic Zoo and Quincy Mae make stunning minimal sleepsuits. Buy 0–3 month size — most babies outgrow newborn size within weeks.', tags:['Practical','Beautiful','Used daily'] },
+      { name:'Bamboo fitted sheet set', emoji:'🛏️', why:'Silky-soft bamboo cot sheets in neutral tones are something parents never think to buy themselves but use every night. A set of three fitted sheets in stone or oatmeal is perfectly minimal.', tip:'Little Green Sheep and Perlimpinpin make beautiful certified organic bamboo cot sheets. Double check the cot size before ordering.', tags:['Practical','Soft','Nightly use'] },
+      { name:'Natural rubber dummy set', emoji:'🍒', why:'A set of natural rubber dummies in minimal, tasteful designs is one of those practical gifts parents are genuinely grateful for — especially in the settling stage.', tip:'BIBS and Hevea make beautiful natural rubber dummies in muted, neutral tones that suit a minimalist aesthetic. A set of three in different sizes is most useful.', tags:['Practical','Daily use','Natural'] },
+      { name:'Pebble leather first shoes', emoji:'👟', why:'A pair of impossibly soft pebble leather first shoes — in cream or stone — is both a keepsake and a practical gift. They look beautiful in the first photographs.', tip:'Inch Blue and Bobux make beautiful hand-stitched first shoes with soft soles. Look for wide toe boxes and velcro or elastic fastenings.', tags:['Keepsake','Beautiful','Milestone'] },
+      { name:'Organic cotton sleeping bag', emoji:'🌙', why:'A 0.5 or 1 tog organic cotton sleeping bag in a neutral tone is one of the most practical, safety-conscious gifts for a newborn — and one that gets used every single night.', tip:'Kyte Baby and Little Green Sheep make beautiful organic sleeping bags. Check the tog rating for the season — 0.5 for summer, 2.5 for winter.', tags:['Safety','Nightly use','Organic'] }
+    ],
+    eco: [
+      { name:'Organic cotton starter set', emoji:'🌿', why:'A set of organic cotton bodysuits, vests and hats in neutral tones is the gift every new parent needs and uses every single day. Organic cotton is softer on newborn skin and free from harsh chemicals.', tip:'GOTS-certified organic cotton is the gold standard. Brands like Frugi, Pact or Colored Organics do great starter sets.', tags:['Used daily','Organic','Practical'] },
+      { name:'Natural rubber teething toy', emoji:'🌱', why:'A natural rubber teether — like the classic Sophie the Giraffe — is safe, plastic-free and something babies reach for from around 3 months. Giving it as a newborn gift means it is ready and waiting.', tip:'Look for 100% natural rubber with food-grade paint. Sophie la Giraffe is the most-loved option — it has been around for 60 years for good reason.', tags:['Natural material','Plastic-free','Long-lasting'] },
+      { name:'Bamboo muslin swaddle set', emoji:'♻️', why:'Bamboo muslin is even softer and more eco-friendly than cotton. A set of 3–4 swaddles in earthy, natural tones is practical, beautiful and planet-friendly.', tip:'Bamboo has natural antibacterial properties and is temperature-regulating — ideal for newborns. Brands like Little Unicorn and Saranoni have lovely organic options.', tags:['Eco-friendly','Used daily','Soft'] },
+      { name:'Reusable nappy starter kit', emoji:'🌍', why:'A reusable nappy starter kit is a genuinely eco-conscious gift that saves parents hundreds of pounds over time and keeps thousands of nappies out of landfill. It is an unexpected but hugely welcome gift.', tip:'A gift of 4–6 nappies with a wet bag is a great way to let parents try it without the full commitment. Brands like Bambino Mio and Little Lamb are beginner-friendly.', tags:['Eco-friendly','Money-saving','Practical'] },
+      { name:'Organic baby skincare set', emoji:'🌸', why:'Newborn skin is incredibly delicate. A set of certified organic baby wash, lotion and barrier cream — free from synthetic fragrance and harsh chemicals — is a thoughtful, practical gift.', tip:'Look for COSMOS Organic or NATRUE certification. Weleda, Green People and Earth Mama all make beautiful gift sets.', tags:['Natural','Used daily','Skin-safe'] },
+      { name:'Beeswax baby balm tin', emoji:'🍯', why:'A pure beeswax and shea butter multi-purpose balm is the eco parent\'s answer to every dry patch, chapped cheek and nappy rash moment. One tin replaces half a dozen synthetic products.', tip:'Pure Paw Paw, Kokoso and Badger Baby Balm are all popular choices. A beautiful tin makes it feel like a proper gift even at a modest price.', tags:['Natural','Versatile','Used daily'] },
+      { name:'Organic wool crib mattress', emoji:'🛏️', why:'A certified organic wool crib mattress is one of the most considered, meaningful eco gifts for a new family — free from flame retardants and synthetic chemicals that many standard mattresses contain.', tip:'The Little Green Sheep and Naturalmat both make GOTS-certified organic crib mattresses. Check the crib size carefully before ordering.', tags:['Eco-friendly','Safety','Sleep'] },
+      { name:'Beeswax nursery candle set', emoji:'🕯️', why:'A set of pure beeswax or soy nursery candles in gentle scents — chamomile, lavender, frankincense — creates a calming atmosphere in the nursery and makes a beautiful, thoughtful unboxing moment.', tip:'Beeswax candles purify the air rather than releasing toxins. Look for unscented or gently scented options suitable for newborns. Neom and Cowshed make lovely options.', tags:['Atmospheric','Natural','Thoughtful'] },
+      { name:'Organic cotton swaddle blanket', emoji:'🌾', why:'A single, large, GOTS-certified organic cotton swaddle blanket in a natural weave is a beautiful, versatile gift — used as a swaddle, a nursing cover, a pram blanket and a play mat.', tip:'Aden+Anais Essentials and Burt\'s Bees Baby both make certified organic swaddle blankets in lovely muted, earthy tones.', tags:['Organic','Versatile','Beautiful'] },
+      { name:'Seed packet and plant pot set', emoji:'🌱', why:'A beautifully packaged set of wildflower seeds, a terracotta pot and organic soil — to plant when the baby arrives and watch grow alongside them — is a poetic, symbolic and eco-conscious gift.', tip:'Sarah Raven and Seedball both make beautiful wildflower seed gift sets. A personalised pot with the baby\'s name and birth date adds an extra sentimental touch.', tags:['Eco-friendly','Symbolic','Unique'] }
+    ],
+    traditional: [
+      { name:'Silver keepsake money box', emoji:'🥈', why:'A classic silver-plated money box engraved with the baby\'s name and birth date is a beautiful, timeless keepsake that parents genuinely treasure. The kind of gift that gets kept for life.', tip:'Many jewellers and department stores offer engraving. Wedgwood and Wentworth Fine Silver both make traditional options. Order early for personalisation.', tags:['Keepsake','Personalised','Timeless'] },
+      { name:'Hand and foot print kit', emoji:'👣', why:'A hand and foot print casting or impression kit is a deeply sentimental gift that captures a moment in time. It takes about five minutes to use and gives parents something they will display for decades.', tip:'Pearl Moments and Precious Little Ones make lovely kits with clear instructions. Choose a frame-ready option for a complete gift.', tags:['Sentimental','Keepsake','Personalised'] },
+      { name:'Classic teddy bear', emoji:'🧸', why:'A beautifully made, soft classic teddy bear — the kind that becomes a beloved first companion — is one of the most traditional and loved baby gifts. It will likely be in photos for years.', tip:'Steiff, Merrythought and Charlie Bears make heirloom-quality bears worth gifting. Avoid very small button eyes on bears for newborns.', tags:['Classic','Keepsake','Sentimental'] },
+      { name:'Illustrated baby record book', emoji:'📖', why:'A beautiful, illustrated baby record book gives parents a place to capture all the firsts — first smile, first word, first steps. A classic gift that becomes a treasured family document.', tip:'Rifle Paper Co., Pearhead and Small Moments all make lovely record books. Choose one with space for photos as well as handwritten entries.', tags:['Sentimental','Long-lasting','Personalised'] },
+      { name:'Personalised christening set', emoji:'✝️', why:'A personalised christening gift — a silver cup, spoon or bangle engraved with name and date — is a classic keepsake gift with deep sentimental value, whether the family is religious or not.', tip:'Many high street jewellers and Etsy sellers offer engraved christening gifts. Sterling silver is more durable than silver-plated for daily handling.', tags:['Keepsake','Traditional','Personalised'] },
+      { name:'Engraved silver photo frame', emoji:'🖼️', why:'A silver-plated photo frame engraved with the baby\'s name and birth date is a traditional gift that parents fill on day one and display for decades. Simple, beautiful and always appreciated.', tip:'Carrs Silver and Wedgwood both make lovely engraved frames. Choose a size that fits a standard 6x4 photograph for ease of use.', tags:['Keepsake','Traditional','Displayed daily'] },
+      { name:'Classic nursery rhyme book', emoji:'📚', why:'A beautifully illustrated, hardback edition of a classic nursery rhyme collection is a timeless gift — the kind of book that gets read every evening and passed to the next generation.', tip:'Oxford University Press and Walker Books publish gorgeous illustrated editions. A first-edition or special hardback adds a sense of occasion.', tags:['Classic','Read often','Sentimental'] },
+      { name:'Personalised name cushion', emoji:'🛏️', why:'A personalised name cushion for the nursery — beautifully stitched with the baby\'s name — is a traditional, sentimental nursery gift that parents love displaying from day one.', tip:'Etsy has hundreds of personalised name cushion makers. Look for high-quality fabric and clean, legible font choices. Allow 2–3 weeks for custom orders.', tags:['Personalised','Nursery','Keepsake'] },
+      { name:'Birth announcement keepsake card set', emoji:'💌', why:'A set of beautifully printed, personalised birth announcement cards for the family to send is a traditional, considered gift — something new parents rarely organise themselves but are grateful for.', tip:'Papier, Minted and Etsy sellers all create beautiful birth announcement card sets. Include postage stamps in the gift to make it even more thoughtful.', tags:['Traditional','Thoughtful','Personalised'] },
+      { name:'Music box with lullaby', emoji:'🎵', why:'A classic, hand-wound music box playing a lullaby — Brahms, Twinkle Twinkle or a favourite song — is a beautiful, sentimental keepsake that babies genuinely respond to.', tip:'Reuge and Kikkerland make beautiful music boxes. An engraved personalised option adds to the sentimental value significantly.', tags:['Keepsake','Sentimental','Musical'] }
+    ],
+    playful: [
+      { name:'Black and white sensory book', emoji:'📚', why:'Newborns can only see high-contrast patterns clearly in the first few weeks. A black and white board book or sensory card set is genuinely developmental — and more useful than colourful toys at this stage.', tip:'Look for "high contrast baby books" — DK, Pat-a-cake and Usborne all publish beautiful ones. A great tummy-time companion.', tags:['Developmental','Age-appropriate','Stimulating'] },
+      { name:'Soft animal rattle set', emoji:'🦁', why:'A set of soft, animal-shaped rattles in cheerful colours is a classic first toy — safe for newborns, provides gentle auditory and visual stimulation, and is always adorable in photos.', tip:'Look for rattles that are light enough for tiny hands to hold and have no small parts. Manhattan Toy and Skip Hop make lovely soft rattles.', tags:['Fun','Safe','Age-appropriate'] },
+      { name:'Colourful play gym', emoji:'🌈', why:'A padded play mat with an arching toy bar is used from day one through to six months. Babies spend a huge amount of time on it, and parents appreciate having a safe, stimulating play space ready to go.', tip:'Look for gyms with removable, washable mat covers. Lovevery, Baby Einstein and Fisher-Price all make popular options at different price points.', tags:['Used constantly','Developmental','Long-lasting'] },
+      { name:'Character bath set', emoji:'🛁', why:'A fun, character bath set — bath toys, baby wash and towel — turns nightly bath time into something enjoyable from the start. A gift that is used every single evening.', tip:'Rubber ducks, thermometer ducks and gentle baby wash sets make practical, playful gift bundles. Avoid sets with strong synthetic fragrances.', tags:['Used daily','Fun','Practical'] },
+      { name:'Bright board book collection', emoji:'📖', why:'A set of 4–5 bright, illustrated board books is one of the best long-term gifts. Reading to babies from birth builds language skills — and these books will be reached for for years.', tip:'A good starter set: "Goodnight Moon", "The Very Hungry Caterpillar", "Dear Zoo" and "Owl Babies." All are classics for good reason.', tags:['Educational','Long-lasting','Sentimental'] },
+      { name:'Soft character comforter', emoji:'🐰', why:'A soft, character-themed comforter — a small blanket with an attached plush animal head — becomes a baby\'s first real comfort object and soothing companion. Cheerful, fun and genuinely loved.', tip:'Jellycat makes the most beloved comforters — the Bashful Bunny Soother is iconic. Buy two if you can — having a spare is invaluable when one needs washing.', tags:['Fun','Comforting','Used daily'] },
+      { name:'Baby musical toy', emoji:'🎹', why:'A colourful musical toy that plays simple melodies, animal sounds or nursery rhymes gives babies the thrill of cause and effect — press a button, something happens! Endlessly entertaining.', tip:'VTech and LeapFrog make bright, cheerful musical toys suitable from newborn. Look for an auto-shutoff feature — parents will thank you for this.', tags:['Fun','Musical','Developmental'] },
+      { name:'Matching family baby grow set', emoji:'👶', why:'A matching family set — adult T-shirts and a tiny baby grow with coordinating designs — is a fun, adorable and highly shareable gift that makes for irresistible first photos.', tip:'Next, ASOS and Etsy sellers all do matching family print sets. "New to the team", "Little sibling", "Mini me" slogans are popular and universally loved.', tags:['Fun','Photo-ready','Unique'] },
+      { name:'Tummy time activity mat', emoji:'🎯', why:'A padded, activity-covered tummy time mat makes the often-resisted tummy time genuinely engaging — with mirrors, crinkly fabrics and textures to explore. Babies tolerate it much better when there is something to look at.', tip:'Infantino and Skip Hop make excellent tummy time mats. Look for one with a foldable mirror — babies are captivated by their own reflection.', tags:['Developmental','Fun','Age-appropriate'] },
+      { name:'Personalised story book', emoji:'🌟', why:'A personalised picture book starring the baby as the main character is a magical, unique gift that parents read with genuine delight. Their name woven into every page of the story.', tip:'Lost My Name, Wonderbly and Penwizard all create beautiful personalised books. A board book format holds up to enthusiastic handling and lasts for years.', tags:['Personalised','Fun','Read often'] }
+    ],
+    practical: [
+      { name:'Nappy bag with changing mat', emoji:'👜', why:'A well-designed, gender-neutral nappy bag is something new parents use every single time they leave the house. A quality bag with an attached changing mat is genuinely one of the most useful gifts you can give.', tip:'Skip Hop and Storksak make bags that look good and function brilliantly. Waterproof lining and multiple pockets are worth paying for.', tags:['Used daily','Practical','Long-lasting'] },
+      { name:'Digital ear thermometer', emoji:'🌡️', why:'A fast, accurate ear thermometer is something every parent needs the moment a baby has their first temperature. Giving one removes the anxiety of not having one when it matters.', tip:'Braun ThermoScan and Tommee Tippee make reliable options for newborns. Make sure it is suitable from birth.', tags:['Genuinely useful','Safety','Used often'] },
+      { name:'Baby carrier / sling', emoji:'👶', why:'A good carrier or stretchy wrap is a life-changing gift for new parents. It keeps baby calm and close while freeing up both hands. Most parents who have one say they use it every day for months.', tip:'A stretchy wrap like Moby or Close Caboo suits newborns best. Check the brand\'s age and weight guidance. Ergobaby and Boba also make popular structured carriers.', tags:['Life-changing','Used daily','Practical'] },
+      { name:'Sleepyhead / lounger', emoji:'😴', why:'A baby lounger provides a safe, comfortable spot for supervised resting and observation during the day — perfect for parents who need a moment during feeds or when moving around the home.', tip:'The Sleepyhead Deluxe and Snuggle Me are popular options. Note: always for supervised daytime rest only — never for overnight sleep.', tags:['Practical','Daily use','Comfortable'] },
+      { name:'Hospital bag essentials basket', emoji:'🏥', why:'For a baby not yet born, a practical hospital bag basket — travel-sized toiletries, lip balm, snacks, a phone charger cable and nipple cream — is a deeply thoughtful and actually useful gift.', tip:'Lansinoh nipple cream, Lucozade Sport, high-protein snacks, a long charging cable and Elemis travel wipes are all genuinely appreciated. A beautiful basket pulls it together.', tags:['Thoughtful','Practical','Pre-birth'] },
+      { name:'Muslin squares bundle (x12)', emoji:'🤍', why:'You literally cannot have too many muslin squares in the first year. A bundle of 12 large organic cotton muslins is one of the most thoughtful, genuinely-used gifts a parent can receive.', tip:'Aden+Anais Essentials and Bamboo Bubby both make multi-packs of generous-sized muslins. The large size (70x70cm) is more versatile.', tags:['Used constantly','Practical','Unglamorous but perfect'] },
+      { name:'FridaBaby essential kit', emoji:'👃', why:'The FridaBaby range — nasal aspirator, nail kit, gum soother and gas relief drops — is one of the most practically beloved collections of newborn essentials. An unexpected but always appreciated gift.', tip:'The FridaBaby Complete Medicine Cabinet Kit is an excellent, well-packaged option. Alternatively, pick up the NoseFrida on its own — parents who have one swear by it.', tags:['Practical','Health','Used constantly'] },
+      { name:'Swaddle and sleep sack bundle', emoji:'🌙', why:'A bundle of stretchy swaddle wraps plus a 1-tog sleeping bag covers every sleep scenario for a newborn in one gift — and sleep is the thing new parents think about most.', tip:'Love to Dream and Ergobaby make excellent swaddle transitions. Pair with a Kyte Baby sleeping bag in the right tog for the season. A genuinely considered gift set.', tags:['Sleep','Practical','Bundle'] },
+      { name:'Baby first aid kit', emoji:'🩹', why:'A comprehensive baby first aid kit — thermometer, aspirator, nail scissors, saline spray, infant pain relief and a reference card — is the gift parents desperately need and often forget to prepare.', tip:'Build your own from a pharmacy into a labelled tin or box. Include a Calpol syringe, FridaBaby NoseFrida, infant paracetamol and baby-safe antiseptic wipes.', tags:['Safety','Practical','Needed'] },
+      { name:'Non-bio laundry bundle', emoji:'🧺', why:'A bundle of fragrance-free, non-biological laundry liquid, fabric conditioner and stain remover is something exhausted parents need but never buy for themselves — and they go through it fast.', tip:'Surcare, Fairy Non-Bio and Ecover all make baby-safe laundry products. A month\'s supply in a beautiful basket with a handwritten note makes it genuinely feel like a gift.', tags:['Practical','Used daily','Unglamorous but perfect'] }
+    ],
+    luxury: [
+      { name:'Cashmere baby blanket', emoji:'✨', why:'A pure cashmere baby blanket is one of the most luxurious newborn gifts imaginable — impossibly soft, warm and light, and so beautiful that it becomes an heirloom. It is the kind of gift people remember.', tip:'Johnstons of Elgin and N.Peal make beautiful cashmere baby blankets. Pure cashmere (not cashmere blend) is softer and more durable. Look for a certificate of authenticity.', tags:['Luxury','Heirloom quality','Beautiful'] },
+      { name:'Premium baby hamper', emoji:'🎁', why:'A beautifully curated luxury hamper — organic cotton clothing, natural skincare, a keepsake toy and a bottle of something celebratory for the parents — is a showstopper of a gift that covers everything.', tip:'The White Company, Selfridges and Not On The High Street all curate brilliant luxury baby hampers. Or build your own in a beautiful wicker basket tied with ribbon.', tags:['Showstopper','Multiple gifts','Thoughtful'] },
+      { name:'Professional newborn photoshoot', emoji:'📸', why:'A gift voucher for a professional newborn photoshoot is an incredibly thoughtful and memorable gift — one that gives the family photographs they will treasure for a lifetime. An experience, not just an object.', tip:'Book with a local photographer who specialises in newborns — they know how to capture those tiny details safely. A session of 2 hours with prints included is the standard offering.', tags:['Unforgettable','Experience gift','Keepsake'] },
+      { name:'Monogrammed linen gift set', emoji:'🤍', why:'A premium linen baby gift set — swaddle, blanket and personalised comforter in monogrammed initials — is understated, beautiful and makes a lasting impression. The kind of thing passed down to siblings.', tip:'The White Company and Pottery Barn Kids offer monogramming. Order at least 2–3 weeks ahead for personalisation. White, ivory or sage linen is timeless.', tags:['Luxury','Personalised','Heirloom'] },
+      { name:'Night nurse or doula session', emoji:'🌙', why:'Gifting one night\'s support from a professional night nurse or postnatal doula is genuinely one of the most thoughtful and needed gifts a new family can receive. A full night of unbroken sleep can transform everything.', tip:'Contact a local doula agency or Night Nannies to purchase a gift voucher for a night\'s support. It is a significant gift that is talked about for years.', tags:['Life-changing','Thoughtful','Practical'] },
+      { name:'Silver-plated keepsake set', emoji:'🥄', why:'A complete silver-plated keepsake set — cup, spoon, plate, money box and photo frame — presented in a velvet-lined box is a stunning, traditional luxury gift with genuine heirloom quality.', tip:'Carrs Silver and Royal Crown Derby make beautiful boxed keepsake sets. Engraving all pieces with the baby\'s name and birth date transforms it from a gift into a legacy.', tags:['Luxury','Heirloom','Traditional'] },
+      { name:'Luxury pram accessories bundle', emoji:'🛻', why:'A premium pram bundle — footmuff, parasol, rain cover and pram liner — in the parents\' pram brand makes every outing more comfortable and stylish. Expensive individually but transformative as a set.', tip:'BabyStyle, Egg and iCandy accessories are premium quality. Check the pram brand compatibility before ordering. A gift receipt makes it easy to exchange if needed.', tags:['Practical','Luxury','Used daily'] },
+      { name:'Bespoke baby illustration', emoji:'🎨', why:'A commissioned, hand-painted portrait of the newborn — based on a photograph — is an extraordinary, one-of-a-kind luxury gift. An original artwork that becomes a centrepiece of the nursery forever.', tip:'Search for portrait illustrators on Etsy or Instagram. Watercolour or gouache styles tend to suit nursery spaces beautifully. Commission as soon as the baby arrives for a first-photo portrait.', tags:['Unique','Luxury','Art'] },
+      { name:'Four-hand postnatal massage', emoji:'💆', why:'A voucher for a luxury postnatal massage — ideally a four-hand treatment at a premium spa — is an exquisitely thoughtful gift for a new mother whose body has been through something extraordinary.', tip:'Many luxury spas offer postnatal massage packages. A voucher that includes champagne and lunch, or a full spa day, elevates it into something truly memorable.', tags:['Mum-focused','Luxury','Wellness'] },
+      { name:'Annual baby subscription box', emoji:'📦', why:'A 12-month subscription to a premium developmental toy and book box service delivers a new, age-appropriate parcel every month — a gift that arrives every month and grows with the baby.', tip:'Lovevery Play Kits are the gold standard — developmentally designed by child psychologists. A 12-month subscription is a significant but extraordinary gift. Also consider Bookbug or Literati for book-focused options.', tags:['Luxury','Monthly joy','Developmental'] }
+    ]
+  },
+
+  '1-3m': {
+    minimalist: [
+      { name:'Montessori-style play gym', emoji:'🌿', why:'At 1–3 months babies are starting to track movement and reach out. A minimal wooden play gym with simple hanging elements provides the right level of stimulation without overwhelm.', tip:'Lovevery and Monti Kids make beautiful, minimal play gyms specifically designed around child development stages. Worth the investment.', tags:['Developmental','Minimal','Long-lasting'] },
+      { name:'Neutral knit romper set', emoji:'🤍', why:'By 1–3 months babies are in slightly larger sizes and parents appreciate a fresh set of well-made basics. A neutral knit romper set in oatmeal or grey is simple, beautiful and used daily.', tip:'Organic Zoo, Quincy Mae and Tocoto Vintage make beautiful minimal baby knitwear. Buy one size up — babies grow fast.', tags:['Practical','Beautiful','Used daily'] },
+      { name:'Simple wooden rattle', emoji:'🪵', why:'A smooth, naturally finished wooden rattle is the perfect first grasping toy. Simple, safe and beautiful — it suits a minimalist aesthetic and provides genuine sensory development.', tip:'Grimm\'s and Selecta make beautiful wooden rattles. Look for untreated or food-safe wax finish for mouthing safety.', tags:['Natural','Developmental','Beautiful'] },
+      { name:'Padded linen floor cushion', emoji:'☁️', why:'A large, padded floor cushion doubles as a comfortable tummy time surface and a soft play space as baby grows. A neutral linen cover makes it beautiful enough for living rooms.', tip:'Lorena Canals and Wigiwama make padded cushions that are beautifully made and washable — essential with a baby.', tags:['Practical','Long-lasting','Nursery'] },
+      { name:'Personalised milestone cards', emoji:'📸', why:'A set of beautifully designed monthly milestone cards gives parents a simple way to document each month with a photo. Simple, affordable and something they use every month for the first year.', tip:'Look for minimal, typographic designs on thick card stock. Etsy has many personalised options. A great pairing with a small gift.', tags:['Affordable','Sentimental','Monthly use'] },
+      { name:'White noise machine', emoji:'🔊', why:'A dedicated sound machine is one of the most genuinely useful gifts — it helps babies sleep longer and parents get more rest. At 1–3 months when sleep patterns are still erratic, this is gold.', tip:'The LectroFan or Yogasleep Dohm are well-reviewed. Compact and portable so it travels with the family wherever they go.', tags:['Genuinely useful','Sleep aid','Long-lasting'] },
+      { name:'Bamboo cot sheet set', emoji:'🛏️', why:'A set of three bamboo fitted sheets in stone or oatmeal is silky-soft against baby skin and simple enough to suit any minimal nursery. A practical gift used every single night.', tip:'Little Green Sheep and Perlimpinpin make certified organic bamboo sheets. Double check the cot size before ordering.', tags:['Practical','Soft','Nightly use'] },
+      { name:'Natural rubber dummy set', emoji:'🍒', why:'A set of natural rubber dummies in tasteful, minimal designs is one of those practical gifts parents are genuinely grateful for — especially during the settling phase at 1–3 months.', tip:'BIBS and Hevea make beautiful natural rubber dummies in muted, neutral tones. A set of three in different sizes is most useful.', tags:['Practical','Daily use','Natural'] },
+      { name:'Neutral baby sunhat set', emoji:'☀️', why:'A set of three cotton sun hats in neutral tones covers every outing from 1 month onwards. Simple, beautiful and something parents reach for every sunny day.', tip:'Bedhead Hats and Patagonia Baby make well-fitting UPF 50+ cotton sun hats in lovely neutral tones. Buy more than one size — babies grow fast.', tags:['Seasonal','Practical','Used outside'] },
+      { name:'Merino baby cardigan', emoji:'🧶', why:'A fine merino cardigan in natural or grey is the perfect layering piece for the unpredictable 1–3 month temperature window — beautiful, breathable and impossible to overdress.', tip:'Piccalilly and Pure Baby make beautiful merino cardigans. A button-front style is easiest to put on a wriggly baby.', tags:['Beautiful','Natural','Versatile'] }
+    ],
+    eco: [
+      { name:'Organic cotton sleeping bag', emoji:'🌱', why:'A tog-rated sleeping bag replaces loose blankets and helps babies sleep more safely and consistently. By 1–3 months most babies are ready for one, and an organic cotton version is soft and chemical-free.', tip:'Kyte Baby, HALO and Woolino make excellent organic sleeping bags. Check the tog rating for the season — 0.5 for summer, 2.5 for winter.', tags:['Safety','Practical','Used nightly'] },
+      { name:'Wooden stacking rings', emoji:'🌳', why:'Classic wooden stacking rings provide colour recognition, hand-eye coordination and shape awareness — and at 1–3 months, babies are beginning to reach and explore. A toy that grows with them.', tip:'Look for rings made from sustainably sourced beech wood with natural, non-toxic paints. PlanToys and Grimm\'s make beautiful versions.', tags:['Developmental','Eco-friendly','Long-lasting'] },
+      { name:'Bamboo wetbag set', emoji:'♻️', why:'A set of reusable, bamboo-lined wetbags for dirty nappies, muslins and change bags is a practical, eco-conscious gift that parents who are trying to reduce waste genuinely appreciate.', tip:'Bambino Mio and Close Parent make excellent wetbags in fun prints. A set of 3 in different sizes is most useful.', tags:['Eco-friendly','Practical','Daily use'] },
+      { name:'Natural beeswax baby balm', emoji:'🍯', why:'A pure beeswax and shea butter baby balm is perfect for the chapped cheeks, dry patches and cradle cap that many babies experience around this age. Natural, effective and beautifully packaged.', tip:'Pure Paw Paw, Weleda Calendula and Kokoso coconut oil balm are all popular choices. A beautiful jar makes it feel like a proper gift.', tags:['Natural','Practical','Skin-safe'] },
+      { name:'Organic muslin squares bundle', emoji:'🌿', why:'You literally cannot have too many muslin squares in the first year. A bundle of 10 organic cotton muslins is one of the most thoughtful, genuinely used gifts a parent can receive.', tip:'Aden+Anais Essentials and Bamboo Bubby both make multi-packs of organic muslins. The large size (70x70cm) is more versatile.', tags:['Used constantly','Organic','Practical'] },
+      { name:'Natural rubber teether', emoji:'🌱', why:'Around 2–3 months babies begin mouthing everything. A natural rubber teether — chemical-free and safe to chew — is a practical, eco-conscious gift that gets used every single day.', tip:'Sophie la Giraffe, Oli&Carol and Hevea all make beautiful natural rubber teethers. Check for 100% natural rubber and non-toxic paints.', tags:['Natural','Practical','Used daily'] },
+      { name:'Reusable breast pads', emoji:'♻️', why:'A set of organic cotton reusable breast pads is an eco-conscious and genuinely useful gift for breastfeeding mothers at this stage — soft, washable and far better for the environment than disposables.', tip:'Bamboobies and Kindred Bravely make soft, absorbent reusable breast pads. A set of 12 with a mesh laundry bag is ideal.', tags:['Eco-friendly','Mum-focused','Practical'] },
+      { name:'Organic body butter gift set', emoji:'🌸', why:'A beautifully packaged organic body butter and bath oil set for the mother is a thoughtful, eco-conscious gift that prioritises her recovery and wellbeing at this demanding stage.', tip:'Neal\'s Yard, Weleda and Green People all make gorgeous certified organic body sets. Focus on the mother — it is an often overlooked but deeply appreciated choice.', tags:['Mum-focused','Natural','Thoughtful'] },
+      { name:'Eco-friendly play mat', emoji:'🌍', why:'A non-toxic, foldable play mat in natural tones — free from PVC and synthetic dyes — gives baby a safe surface for tummy time and exploration without chemical off-gassing.', tip:'Monbebe, Toki Mats and Little Wiwa all make beautiful non-toxic play mats. Look for OEKO-TEX certified materials.', tags:['Eco-friendly','Developmental','Safe'] },
+      { name:'Beeswax candle and diffuser set', emoji:'🕯️', why:'A set of beeswax or soy candles with a natural essential oil diffuser creates a calming, natural atmosphere — a welcome moment of peace for exhausted parents during evening wind-down.', tip:'Only use oils confirmed safe near newborns and diffuse in a ventilated room. Neom and Tisserand make baby-safe essential oil sets. Lovely paired with a beeswax candle.', tags:['Natural','Mum-focused','Calming'] }
+    ],
+    traditional: [
+      { name:'Personalised christening frame', emoji:'🖼️', why:'An engraved photo frame with the baby\'s name, birth date and weight is a timeless, sentimental keepsake — perfect for a christening or to mark the early months. It will stay on the wall for years.', tip:'Treat your taste: silver plate and crystal frames are available from most department stores. Etsy sellers offer lovely personalised options at more accessible prices.', tags:['Keepsake','Personalised','Sentimental'] },
+      { name:'Classic board book collection', emoji:'📚', why:'A set of the classic picture books — Paddington, Peter Rabbit, Winnie the Pooh — gives a baby a literary legacy from the earliest weeks. Parents love reading these aloud and the books last decades.', tip:'Gift a beautiful illustrated edition rather than a basic paperback. Penguin Classics and Walker Books publish gorgeous hardback versions.', tags:['Classic','Sentimental','Long-lasting'] },
+      { name:'Embroidered baby comforter', emoji:'🧸', why:'A soft, embroidered comforter — a small square of fabric with an attached toy head — becomes a baby\'s first real comfort object. It is soothing, safe and often treasured long into childhood.', tip:'Jellycat\'s Bashful Bunny Soother and Steiff comforters are beautifully made and popular. Buy two if you can — having a spare is invaluable.', tags:['Sentimental','Comforting','Used daily'] },
+      { name:'Baby\'s first year frame', emoji:'🌸', why:'A "baby\'s first year" photo display frame — with 12 monthly slots — gives parents a beautiful way to document the first year in pictures. A thoughtful gift that becomes a piece of wall art.', tip:'Pearhead and Tiny Ideas make lovely versions. Choose one with a clean, simple frame that suits most home décors.', tags:['Sentimental','Long-lasting','Decorative'] },
+      { name:'Engraved silverware set', emoji:'🥄', why:'A silver-plated spoon, fork and dish set engraved with the baby\'s name is a classic baby gift that parents keep and display. Though not used yet, it is a meaningful keepsake to unwrap.', tip:'Carrs Silver, The Gift Experience and Etsy all offer beautiful engraved silverware. Sterling silver is a more durable choice than silver plate.', tags:['Keepsake','Traditional','Personalised'] },
+      { name:'Music box keepsake', emoji:'🎵', why:'A classic, hand-wound music box playing a lullaby is a sentimental keepsake that babies genuinely respond to from the earliest weeks. The kind of gift that gets wound up every evening for years.', tip:'Reuge and Kikkerland make beautiful music boxes. An engraved personalised option adds enormously to the sentimental value.', tags:['Keepsake','Sentimental','Musical'] },
+      { name:'Personalised nursery wall letters', emoji:'🔤', why:'Wooden letters spelling the baby\'s name — painted and mounted on the nursery wall — are a classic, personal and enduring decoration that parents are delighted to receive.', tip:'Etsy sellers make beautiful hand-painted wooden letters. Choose a font that matches the nursery style. A set with hooks can double as a coat rack as the child grows.', tags:['Personalised','Nursery','Keepsake'] },
+      { name:'Classic illustrated storybook set', emoji:'📚', why:'A beautifully illustrated set of traditional story books — Peter Rabbit, Paddington, Winnie the Pooh — is a gift that gets read every night and passed to the next generation.', tip:'Penguin Classics and Walker Books publish gorgeous hardback illustrated editions. A boxed set of five makes a beautiful, weighty gift.', tags:['Classic','Sentimental','Long-lasting'] },
+      { name:'Silver christening bangle', emoji:'💍', why:'A sterling silver christening bangle — sized for a baby and engraved with their name — is a beautiful, traditional keepsake to store and cherish, not necessarily worn immediately.', tip:'Links of London and many independent jewellers make beautiful baby bangles. A small velvet jewellery box makes the gifting moment even more special.', tags:['Keepsake','Traditional','Jewellery'] },
+      { name:'Hand and footprint kit', emoji:'👣', why:'A hand and foot print casting kit captures a moment in time — it takes about five minutes to use and gives parents something they will display for decades.', tip:'Pearl Moments and Precious Little Ones make lovely kits with clear instructions. Choose a frame-ready option for a complete gift.', tags:['Sentimental','Keepsake','Personalised'] }
+    ],
+    playful: [
+      { name:'Crinkle sensory toys set', emoji:'🎨', why:'At 1–3 months babies are fascinated by sound and texture. A set of crinkle sensory toys — soft, colourful, making gentle sounds — provides exactly the right kind of stimulation for this stage.', tip:'Manhattan Toy, Infantino and Skip Hop all make great sensory toy sets. Look for ones that are machine washable.', tags:['Developmental','Fun','Age-perfect'] },
+      { name:'Baby play mat with arch', emoji:'🌈', why:'A bright, padded play mat with a toy arch is the centrepiece of baby\'s early play life. Used from newborn through to crawling, it is one of the most valuable baby items a family can have.', tip:'Lovevery, Tiny Love and Skip Hop all make excellent gyms at different price points. Look for one with detachable toys and a machine-washable mat.', tags:['Used constantly','Developmental','Long-lasting'] },
+      { name:'Sensory ball set', emoji:'🔮', why:'A set of soft sensory balls in different textures and colours encourages reaching, grasping and visual tracking — all key skills developing at 1–3 months. They are also irresistibly fun.', tip:'Fat Brain Toys and Manhattan Toy make great sensory ball sets. Look for varied textures and a good range of sizes.', tags:['Developmental','Fun','Easy to gift'] },
+      { name:'Musical mobile with remote', emoji:'🎵', why:'A cot mobile with gentle music and slow rotation captures babies\' attention beautifully at this age. Modern versions with a remote or timer are genuinely useful — parents don\'t have to wind them manually.', tip:'Tiny Love, Fisher-Price and Infantino make popular musical mobiles. Look for one with a long battery life and an auto-shutoff timer.', tags:['Fun','Practical','Sleep aid'] },
+      { name:'Character clothing gift set', emoji:'👕', why:'A themed clothing gift set — a little sleepsuit, hat and bib set in a fun character print — is one of the most reliably loved baby gifts. It requires no thought from the recipient and is always adorable.', tip:'Next, H&M Baby and John Lewis all do lovely character sets. Buy age 3–6 months rather than newborn — babies grow out of newborn size almost immediately.', tags:['Fun','Practical','Used daily'] },
+      { name:'Soft fabric tunnel', emoji:'🌈', why:'A colourful fabric tunnel is endlessly entertaining — babies at 1–3 months love being put through it and peeked at from either end. Simple, fun and surprisingly engaging.', tip:'Infantino and Tiny Love make bright, collapsible fabric tunnels. Look for one with a peek-a-boo window and machine washable fabric.', tags:['Fun','Active','Giggles guaranteed'] },
+      { name:'Sensory flash card set', emoji:'🎴', why:'A set of high-contrast sensory flash cards — featuring faces, patterns and bold shapes — provides exactly the visual stimulation newborns need. Simple, light, easy to use at any time.', tip:'DK\'s High Contrast Baby Cards and Wee Gallery Art Cards are both beautiful. A set of 20+ cards in a ribbon-tied pack makes a lovely gift.', tags:['Developmental','Educational','Affordable'] },
+      { name:'Baby gym with mirror', emoji:'🪞', why:'A baby gym with an attached mirror is especially captivating at 1–3 months — babies are fascinated by reflections and will spend extended time on their tummy when there is a face to look at.', tip:'Infantino and Bright Starts make baby gyms with built-in mirrors at accessible price points. Tummy time tolerance improves dramatically when there is a mirror involved.', tags:['Developmental','Fun','Long-lasting'] },
+      { name:'Personalised story book', emoji:'🌟', why:'A personalised picture book where the baby is the star of the story is a magical, unique gift that parents read with genuine delight — and return to again and again as the child grows.', tip:'Lost My Name and Wonderbly both create beautiful personalised books. A board book format holds up to enthusiastic handling for years.', tags:['Personalised','Fun','Read often'] },
+      { name:'Baby photo book voucher', emoji:'📸', why:'A voucher for a premium photo book service — to fill with the first three months of photographs — is a modern, thoughtful gift that becomes a treasured keepsake the whole family looks through for years.', tip:'Artifact Uprising and Chatbooks both make beautiful premium photo books. A voucher gives parents the flexibility to create it in their own time.', tags:['Thoughtful','Keepsake','Modern'] }
+    ],
+    practical: [
+      { name:'Portable baby bouncer', emoji:'🪑', why:'A compact baby bouncer is something parents use every single day — in the kitchen while cooking, in the bathroom while showering. It gives baby a safe, gentle motion and parents a free pair of hands.', tip:'BabyBjörn, Chicco and Fisher-Price all make excellent bouncers. The BabyBjörn Bouncer Balance is especially popular for its ergonomic design and longevity.', tags:['Used daily','Life-changing','Practical'] },
+      { name:'Baby monitor with video', emoji:'📹', why:'A video monitor gives parents the confidence to rest while knowing they can check on baby at any moment. By 1–3 months, when some babies begin sleeping in their own room, this is invaluable.', tip:'Motorola, VTech and Nanit are well-reviewed. Look for one with a temperature display, two-way audio and at least a 4-hour battery life for the parent unit.', tags:['Safety','Peace of mind','Used nightly'] },
+      { name:'Muslins and burp cloth bundle', emoji:'🤍', why:'A large bundle of high-quality muslins and burp cloths is one of those gifts that parents cannot have too many of. It is used constantly and always gratefully received.', tip:'A bundle of 10 large muslins plus 6 burp cloths is the ideal number. OXO Tot and Aden+Anais make durable, generous-sized options.', tags:['Practical','Used daily','Unglamorous but perfect'] },
+      { name:'Nasal aspirator', emoji:'👃', why:'A baby nasal aspirator sounds unglamorous but it is genuinely one of the most appreciated practical gifts — clearing a blocked nose is something parents need to do constantly and most don\'t have a good tool for it.', tip:'The FridaBaby NoseFrida is by far the most popular and effective option. Parents who have one swear by it. Pair with a little FridaBaby gift set for a thoughtful bundle.', tags:['Practical','Health','Used constantly'] },
+      { name:'Baby food storage set', emoji:'🥣', why:'Though not yet needed, a set of glass or BPA-free weaning pots, ice cube trays and a small blender attachment is a very practical gift to give at 1–3 months — parents will be grateful when weaning begins.', tip:'BEABA and Nuk make great complete weaning starter sets. Glass containers are more durable and safer long-term than plastic.', tags:['Practical','Future-ready','Thoughtful'] },
+      { name:'Muslin squares large bundle', emoji:'🤍', why:'A bulk bundle of 12–15 large muslin squares is one of those gifts that can never be too much. Nappy changes, sick-ups, improvised sun shades — muslins are used for everything.', tip:'Aden+Anais Essentials and OXO Tot make generous, durable muslins. The 70x70cm size is the most versatile. Organic cotton adds a lovely touch.', tags:['Used constantly','Practical','Unglamorous but loved'] },
+      { name:'Electric breast pump', emoji:'🍼', why:'A good quality electric breast pump is one of the most significant practical gifts a new breastfeeding mother can receive — it gives her flexibility, independence and the ability to share feeds.', tip:'Elvie and Medela make excellent single and double electric pumps. Check NHS availability first — some areas provide them free. A gift towards a premium option is always welcome.', tags:['Practical','Mum-focused','Life-changing'] },
+      { name:'Baby nail care kit', emoji:'✂️', why:'Baby nails grow at an alarming rate and cutting them terrifies most new parents. A dedicated baby nail care kit — file, scissors, clippers and a LED light — is a surprisingly appreciated practical gift.', tip:'FridaBaby NailFrida and Safety 1st make excellent baby nail kits. The NailFrida spy glass with LED is particularly popular for its ease of use in the dark.', tags:['Practical','Safety','Used often'] },
+      { name:'Travel system rain cover', emoji:'☔', why:'A universal rain cover for the pram is one of those things that gets needed urgently and immediately — and many parents don\'t have one. A practical gift that earns immediate gratitude.', tip:'Dooky and Reer make universal-fit rain covers compatible with most prams. Transparent front panel is essential so baby can see out and parent can see in.', tags:['Practical','Used outside','Needed'] },
+      { name:'Portable changing mat', emoji:'🛏️', why:'A padded foldable portable changing mat is used every single time parents go out. Practical hygienic and far better than a public surface.', tip:'Skip Hop and Bababing make excellent padded portable changing mats. Wipe-clean material is essential. A version with a built-in pocket for a nappy is most convenient.', tags:['Practical','Used daily','Needed'] }
+    ],
+    luxury: [
+      { name:'DockATot or Snuggle Me', emoji:'✨', why:'A premium baby lounger provides a cosy, safe space for supervised daytime rest and play. The DockATot is iconic — expensive but beloved, and something most parents would never buy themselves.', tip:'The DockATot Deluxe+ suits 0–8 months. It comes with covers that can be purchased separately for easy washing. Note: supervised daytime use only.', tags:['Premium','Practical','Coveted'] },
+      { name:'Baby spa experience voucher', emoji:'🛁', why:'Baby spa and swimming experiences — warm water floatation with a trained instructor — are wildly popular among parents of young babies and genuinely soothing and beneficial for development.', tip:'Water Babies and many independent baby spas offer gift vouchers. A block of 5 or 10 sessions is a wonderful gift. Most programmes start from around 8 weeks.', tags:['Experience','Luxurious','Memorable'] },
+      { name:'Luxury bath time gift set', emoji:'🌸', why:'A curated luxury bath set — natural baby bath oil, plush hooded towel, gentle wash and a beautiful wooden bath thermometer — turns an evening routine into a spa experience for both baby and parent.', tip:'Bamford, Weleda and The White Company all create premium baby bath collections. A wicker basket or hatbox presentation adds to the gifting moment.', tags:['Luxury','Beautiful','Used daily'] },
+      { name:'Personalised cloud lamp', emoji:'🌙', why:'A personalised cloud-shaped LED lamp, engraved with the baby\'s name and birth details, creates a beautiful nightlight for the nursery and a keepsake piece that stays for years.', tip:'Etsy sellers create beautiful personalised cloud lamps with warm LED lighting. Look for adjustable brightness and a USB power option. Allow 2–3 weeks for personalisation.', tags:['Personalised','Beautiful','Keepsake'] },
+      { name:'Premium pram accessories set', emoji:'🛻', why:'A luxury pram set — weather-resistant footmuff, parasol, pram liner and snack tray — is a brilliant gift for parents with a new pram. These accessories are expensive individually but make a real difference.', tip:'BabyStyle, Egg and iCandy accessories are premium quality and worth investing in. Check the pram brand compatibility before purchasing.', tags:['Practical','Premium','Used daily'] },
+      { name:'Cashmere baby cardigan and hat set', emoji:'✨', why:'A pure cashmere baby cardigan and matching hat is one of the most luxurious, beautiful baby gifts imaginable — impossibly soft and warm, it photographs beautifully and becomes a treasured keepsake.', tip:'Johnstons of Elgin and Rachel Riley make beautiful cashmere baby sets. Pure cashmere (not cashmere blend) is softer and significantly more durable.', tags:['Luxury','Heirloom','Beautiful'] },
+      { name:'Baby spa and swimming experience', emoji:'🛁', why:'A baby spa or swimming experience — warm water floatation with a trained instructor — is wildly popular among parents of young babies. Soothing, developmental and deeply enjoyable for both parent and baby.', tip:'Water Babies and independent baby spas offer gift vouchers. A block of 5 or 10 sessions is a wonderful gift. Most programmes start from around 6–8 weeks.', tags:['Experience','Luxurious','Memorable'] },
+      { name:'Premium leather keepsake box', emoji:'💛', why:'A hand-stitched leather keepsake box — large enough for a first curl of hair, hospital bands, first shoes and early photographs — gives parents a beautiful home for their most precious memories.', tip:'Aspinal of London and Ettinger both make stunning leather boxes that feel properly heirloom. Personalise with the baby\'s initials and birth year for an enduring gift.', tags:['Luxury','Keepsake','Heirloom'] },
+      { name:'Bespoke nursery wall mural service', emoji:'🎨', why:'A voucher for a professional nursery wall mural — a painted forest, skyline or storybook scene — is a showstopping luxury gift that transforms the nursery into something truly magical.', tip:'Search for local mural artists or use Etsy to find illustrators who offer nursery mural services. A voucher allows parents to choose their own design and timing.', tags:['Luxury','Unique','Nursery'] },
+      { name:'Premium keepsake memory box', emoji:'💛', why:'A beautiful personalised keepsake memory box — large enough for a lock of hair, hospital bands, first shoes and photos — gives parents somewhere beautiful to store the moments that matter most.', tip:'The White Company and Not On The High Street offer beautiful personalised memory boxes. A linen-covered box with engraved lid is a classic choice.', tags:['Luxury','Keepsake','Personalised'] }
+    ]
+  },
+
+  '3-6m': {
+    minimalist: [
+      { name:'Wooden shape sorter', emoji:'🪵', why:'A simple, natural wooden shape sorter is a classic developmental toy that starts to be used from around 4 months and builds skills for years. Minimal design, maximum use.', tip:'PlanToys and Grimm\'s make beautiful, sustainably sourced shape sorters. Look for smooth finishes and non-toxic paint.', tags:['Developmental','Minimal','Long-lasting'] },
+      { name:'Neutral cotton sunhat set', emoji:'☀️', why:'By 3–6 months babies are out and about more — and a set of high-quality, well-fitting cotton sun hats in neutral tones is both practical and beautiful. Something parents will reach for every sunny day.', tip:'Bedhead Hats, Patagonia Baby and Polarn O. Pyret make excellent sun-protective hats. UPF 50+ rated is worth looking for.', tags:['Practical','Seasonal','Beautiful'] },
+      { name:'Padded activity basket', emoji:'🧺', why:'A natural wicker basket filled with simple sensory objects — a wooden ring, a crinkle cloth, a soft ball — is a Montessori-inspired heuristic play gift that parents with a minimalist approach love.', tip:'You can assemble this yourself — the basket itself is part of the gift. Add 8–10 items of different textures, sounds and weights. A card explaining heuristic play adds context.', tags:['Montessori','Minimal','Thoughtful'] },
+      { name:'Linen sunsuit set', emoji:'🌞', why:'A matching linen sunsuit — shorts and a short-sleeved top in a neutral tone — is the chicest warm-weather baby outfit imaginable. Simple, breathable and beautiful in photos.', tip:'Caramel Baby, Búho and Tocoto Vintage make stunning minimal linen baby sets. Buy 6–9 month size for longevity.', tags:['Beautiful','Practical','Seasonal'] },
+      { name:'Simple stacking cups', emoji:'🏆', why:'A set of plain, natural stacking cups provides endless sensory and developmental play — building, nesting, pouring — and grows with the baby through the first two years.', tip:'Green Toys makes simple, colourful recycled plastic stacking cups. For a more minimal look, PlanToys does natural wooden stacking rings.', tags:['Developmental','Long-lasting','Simple'] },
+      { name:'Linen sleeping bag', emoji:'🌙', why:'A breathable linen sleeping bag in a neutral tone is beautiful, temperature-regulating and safe — a considered gift for warmer months that suits a minimalist nursery perfectly.', tip:'Kyte Baby and The Little Green Sheep both make linen sleeping bags in lovely muted tones. A 0.5 tog is ideal for spring and summer.', tags:['Practical','Beautiful','Nightly use'] },
+      { name:'Minimal wooden push toy', emoji:'🪵', why:'A clean, natural wooden push toy is a beautiful gift that grows with a 3–6 month baby into the pulling and walking stages. Simple design with maximum developmental value.', tip:'Hape and Janod both make beautiful wooden push toys in clean, natural finishes. A wheeled duck on a string is a timeless classic.', tags:['Minimal','Developmental','Long-lasting'] },
+      { name:'Personalised canvas tote bag', emoji:'🛍️', why:'A personalised canvas tote with the baby\'s name makes a beautiful, practical change bag — neutral, minimal and far more stylish than most dedicated baby bags.', tip:'Etsy sellers make beautiful personalised canvas totes. A large size (40x45cm) fits everything needed for a day out. Natural canvas or stone linen are the most versatile.', tags:['Practical','Personalised','Used daily'] },
+      { name:'Natural wooden teether set', emoji:'🌿', why:'A set of smooth, naturally finished wooden teethers in different shapes is exactly what a 3–6 month baby needs — safe to mouth, beautiful to look at, and plastic-free.', tip:'Grimm\'s and Selecta make beautiful wooden teethers with food-safe finishes. Look for untreated beech or maple wood with no paint or coating.', tags:['Natural','Practical','Used constantly'] },
+      { name:'Neutral organic cotton sunsuit', emoji:'🌞', why:'A matching organic linen or cotton sunsuit — shorts and short-sleeved top in a soft neutral — is the most minimal, beautiful warm-weather outfit imaginable. Simple, practical and stunning in photos.', tip:'Quincy Mae and Tocoto Vintage make stunning minimal sunsuits. Buy 6–9 month size for longevity. Pair with a muslin swaddle for a complete minimal gift.', tags:['Beautiful','Organic','Seasonal'] }
+    ],
+    eco: [
+      { name:'Organic vegetable teething ring', emoji:'🌽', why:'Around 4–6 months teething begins and babies need safe, chewable objects constantly. A food-grade silicone or natural rubber teething ring shaped like a vegetable is fun, safe and plastic-free.', tip:'Mushie, Oli&Carol and Bibs all make beautiful, non-toxic silicone teethers. Natural rubber options from Vulli are also popular.', tags:['Eco-friendly','Used constantly','Safe'] },
+      { name:'Bamboo weaning starter set', emoji:'🌱', why:'By 6 months most babies begin weaning — and a bamboo weaning set (bowl, plate, spoon and fork) is a timely, thoughtful, eco-conscious gift they\'ll use every single day for years.', tip:'Bamboo Home and Green Sprouts make lovely bamboo weaning sets. Look for sets that are melamine-free and dishwasher safe.', tags:['Eco-friendly','Practical','Timely'] },
+      { name:'Natural wool felt playmat', emoji:'🌿', why:'A round, natural wool felt playmat provides a beautiful, insulating surface for floor play — free from synthetic materials and naturally hypoallergenic. A centrepiece of sustainable play spaces.', tip:'Lorena Canals and Little Folks make stunning, washable wool playmats. A round mat in a natural tone suits any room.', tags:['Natural','Beautiful','Practical'] },
+      { name:'Organic cotton sun protection set', emoji:'☀️', why:'A set of UPF 50+ organic cotton sun protection clothing — rashguard, hat and shorts — is a genuinely useful, eco-conscious gift for summer babies heading into the warmer months.', tip:'Patagonia Baby, Frugi and Polarn O. Pyret all make certified organic sun-protection sets. Brightly coloured makes it easy to spot in a busy outdoor space.', tags:['Eco-friendly','Seasonal','Safety'] },
+      { name:'Beeswax crayon set', emoji:'🎨', why:'Though not usable at 3–6 months, a set of natural beeswax crayons is a forward-thinking, beautiful gift that parents will appreciate enormously once baby can sit and begin to mark-make from around 12 months.', tip:'Stockmar and Filana make beautiful certified beeswax crayons in vibrant colours. They are also edible-grade safe. Package with a simple sketch pad.', tags:['Eco-friendly','Future-ready','Thoughtful'] },
+      { name:'Organic cotton play clothing set', emoji:'🌱', why:'A matching play outfit in GOTS-certified organic cotton — a top and trousers in a soft earthy tone — is a beautiful, practical gift that gets worn constantly at this active stage.', tip:'Frugi, Pigeon Organics and Colored Organics make stunning organic play sets. Buy 6–9 months to give longevity. Bright colours and fun prints are fine from 3 months onwards.', tags:['Organic','Practical','Used daily'] },
+      { name:'Natural wool dryer balls', emoji:'♻️', why:'A set of natural wool dryer balls with a bottle of Eucalyptus essential oil reduces drying time, softens laundry naturally and replaces synthetic dryer sheets entirely. A clever, eco gift.', tip:'Woolzies and Smart Sheep make excellent wool dryer balls. A set of 6 is the recommended number for a full load. Include a card explaining how to use them.', tags:['Eco-friendly','Practical','Thoughtful'] },
+      { name:'Recycled fabric play blocks', emoji:'🟩', why:'A set of soft building blocks made from recycled fabric is a sensory, safe, creative gift that encourages stacking from 3 months onwards and grows with the child through the first two years.', tip:'Green Toys and Sabo Concept make beautiful eco-friendly soft blocks. Machine washable is essential — these will be chewed, thrown and drooled on extensively.', tags:['Eco-friendly','Developmental','Fun'] },
+      { name:'Organic baby sunscreen kit', emoji:'☀️', why:'A mineral, reef-safe organic sunscreen and UV protective hat set is a genuinely thoughtful eco gift as spring and summer arrive — protecting baby\'s sensitive skin without synthetic chemicals.', tip:'Badger Baby Sunscreen and Kokoso Baby SPF50 both use mineral zinc oxide — safer for baby skin and eco-friendly. Pair with a UPF50+ sun hat for a complete gift.', tags:['Eco-friendly','Seasonal','Safety'] },
+      { name:'Natural rubber bath toy set', emoji:'🌿', why:'A set of natural rubber bath toys — boats, ducks and sea creatures — turns bath time into eco-friendly fun without any plastic. Safe to chew and beautifully made.', tip:'Green Toys bath sets are made from 100% recycled plastic (BPA-free). Hevea natural rubber bath toys are the most eco-pure option. Both are dishwasher safe.', tags:['Eco-friendly','Fun','Used daily'] }
+    ],
+    traditional: [
+      { name:'Music box keepsake', emoji:'🎵', why:'A classic, hand-wound music box — playing a lullaby like Brahms\' Lullaby or Twinkle Twinkle — is a sentimental keepsake that babies genuinely respond to and that lasts a lifetime.', tip:'Reuge and Kikkerland make beautiful music boxes. An engraved personalised option adds to the sentimental value significantly.', tags:['Keepsake','Traditional','Sentimental'] },
+      { name:'Classic nursery rhyme book set', emoji:'📚', why:'A beautifully illustrated set of nursery rhyme and traditional story books — the kind with proper illustrations and timeless text — is a gift that gets read every night and kept for decades.', tip:'Walker Books\' Classic collection and Oxford University Press publish gorgeous illustrated editions. A hardback set of 5 makes a beautiful, weighty gift.', tags:['Classic','Sentimental','Long-lasting'] },
+      { name:'Personalised name cushion', emoji:'🛏️', why:'A personalised name cushion for the nursery — in beautiful fabric with hand-stitched lettering — is a traditional, sentimental nursery gift that parents love displaying.', tip:'Etsy has hundreds of personalised name cushion makers. Look for high-quality fabric and clean, legible font choices. Allow 2–3 weeks for custom orders.', tags:['Personalised','Nursery','Keepsake'] },
+      { name:'Traditional toy box', emoji:'📦', why:'A painted, personalised wooden toy box is both a practical storage solution and a beautiful piece of nursery furniture that grows with the child for years.', tip:'Wooden toy boxes from Tidy Books, Early Learning Centre and Etsy makers can be personalised with name and birth date. A classic that lasts generations.', tags:['Practical','Keepsake','Furniture'] },
+      { name:'Silver bangle with birthstone', emoji:'💎', why:'A sterling silver baby bangle set with the baby\'s birthstone is a beautiful, traditional piece of jewellery to keep — not necessarily to wear immediately, but to save and cherish.', tip:'Tiffany & Co., Links of London and independent jewellers make beautiful baby bangles. A small velvet jewellery box makes the gifting moment even more special.', tags:['Keepsake','Jewellery','Traditional'] },
+      { name:'Personalised christening mug', emoji:'🥛', why:'A silver-plated or bone china mug engraved with the baby\'s name and christening date is a classic, traditional keepsake gift — beautiful on a shelf and treasured for life.', tip:'Royal Worcester and Wedgwood make beautiful personalised christening mugs. A bone china mug with a floral design is a timeless choice.', tags:['Keepsake','Traditional','Personalised'] },
+      { name:'Traditional wicker Moses basket', emoji:'🧺', why:'A beautiful wicker Moses basket with matching hood and stand — in natural or pastel — is a traditional, romantic gift for the first sleep stage that doubles as a beautiful nursery display.', tip:'The Little Green Sheep and John Lewis both make lovely wicker Moses baskets with fitted organic mattresses. Check current safe sleep guidelines for use.', tags:['Traditional','Nursery','Beautiful'] },
+      { name:'Heritage teddy bear', emoji:'🧸', why:'A beautifully made heritage teddy bear — jointed, mohair or plush — is a classic gift at any age but especially lovely at 3–6 months when babies are beginning to reach for and hold objects.', tip:'Steiff and Merrythought have been making heirloom bears for over a century. A classic Steiff bear with the iconic button-in-ear is as traditional as baby gifts get.', tags:['Classic','Heirloom','Sentimental'] },
+      { name:'Illustrated fairy tale book set', emoji:'📖', why:'A beautifully illustrated set of classic fairy tales — in hardback with full-page illustrations — is a gift that begins a lifelong love of stories and sits beautifully on a nursery bookshelf.', tip:'Usborne and Ladybird Classics both publish stunning illustrated fairy tale collections. A boxed set of five or six stories makes a beautiful, weighty gift.', tags:['Classic','Long-lasting','Sentimental'] },
+      { name:'Engraved silver keepsake spoon', emoji:'🥄', why:'A sterling silver baby spoon engraved with the baby\'s name and birth date is a classic, timeless keepsake gift — the kind that sits in a display cabinet or gets passed down through the family.', tip:'Carrs Silver and Tiffany & Co. both make beautiful baby spoons. Many high street jewellers offer engraving within a few days. Keep the font simple and legible.', tags:['Keepsake','Traditional','Personalised'] }
+    ],
+    playful: [
+      { name:'Stacking ring toy set', emoji:'🌈', why:'At 3–6 months babies are beginning to grasp and transfer objects. A bright, cheerful stacking ring set provides endless entertainment while developing hand-eye coordination.', tip:'Fisher-Price Rock-a-Stack is a classic. For something more elevated, Fat Brain Toys and PlanToys make colourful, beautifully designed versions.', tags:['Developmental','Fun','Classic'] },
+      { name:'Baby music toy set', emoji:'🎹', why:'A simple baby keyboard or musical instrument set encourages babies to make connections between actions and sounds — one of the earliest forms of cause-and-effect understanding.', tip:'Hape, Melissa & Doug and Baby Einstein all make well-reviewed baby music toys. Look for bright, sturdy and easy to activate options.', tags:['Musical','Developmental','Fun'] },
+      { name:'Sophie la Giraffe gift set', emoji:'🦒', why:'Sophie la Giraffe is one of the most iconic baby toys in the world — and a gift set including Sophie plus a bath toy or sensory ball makes a brilliant, always-appreciated gift at this age.', tip:'Vulli sells official Sophie gift sets. The rubber is completely natural and food-safe. An iconic, timeless choice that every parent seems to end up with.', tags:['Classic','Fun','Safe'] },
+      { name:'Doorway baby bouncer', emoji:'🎉', why:'A doorway bouncer — hung from any door frame — gives babies at the sitting-capable stage a hilarious, bouncy experience they absolutely love. Pure fun and great for leg muscles.', tip:'Mamas & Papas and Chicco make popular doorway bouncers. Check the age and weight guidance — usually suitable from when baby can support their own head.', tags:['Fun','Active','Exciting'] },
+      { name:'Bright teether rattle set', emoji:'🌟', why:'A set of colourful teether rattles in different shapes and textures gives babies at the grasping stage exactly what they need — something to hold, chew, shake and explore.', tip:'Nuby, Munchkin and Infantino all make excellent teether rattle sets. Look for ones that are BPA-free and dishwasher safe.', tags:['Fun','Practical','Age-perfect'] },
+      { name:'Activity cube', emoji:'🎲', why:'A colourful activity cube — with buttons, dials, mirrors, textures and sounds on every face — gives 3–6 month babies a single toy that provides dozens of different interactions and surprises.', tip:'VTech and Fisher-Price make popular activity cubes at this age. Look for one with an auto-shutoff feature and multiple volume levels.', tags:['Fun','Developmental','Long-lasting'] },
+      { name:'Baby karaoke / music set', emoji:'🎤', why:'A cheerful, colourful baby music set — xylophone, maracas, a small drum — introduces babies at this stage to cause-and-effect through sound. One of the noisiest and most loved gifts.', tip:'Hape and Melissa & Doug make beautiful, durable baby percussion sets. A set that comes in a storage bag is easier for parents to manage.', tags:['Musical','Fun','Creative'] },
+      { name:'Jumperoo or activity saucer', emoji:'🎡', why:'A baby jumperoo or activity saucer is pure, bouncy, giggly fun from around 4–5 months when babies can support their heads. It gives parents a genuinely hands-free moment while baby is totally absorbed.', tip:'Fisher-Price Jumperoo and Baby Einstein Activity Saucer are the most popular options. Look for one with adjustable height settings.', tags:['Fun','Active','Life-changing'] },
+      { name:'Themed gift hamper', emoji:'🎁', why:'A themed gift hamper — all dinosaurs, all woodland animals, or all ocean creatures — with a soft toy, a board book, a rattle and a bib in matching prints is an adorable, well-presented gift.', tip:'Not On The High Street and Etsy sellers curate beautiful themed baby hampers. Or assemble your own in a gift box lined with tissue paper — it looks every bit as lovely.', tags:['Fun','Themed','Thoughtful'] },
+      { name:'Sensory crinkle toy set', emoji:'🌟', why:'A set of soft, crinkly sensory toys in bright animal shapes is exactly what a 3–6 month baby loves — the crinkle sound is irresistible and the textures provide essential tactile stimulation.', tip:'Infantino and Manhattan Toy make excellent sensory crinkle sets. Look for ones with multiple textures per toy and machine-washable materials.', tags:['Fun','Developmental','Age-perfect'] }
+    ],
+    practical: [
+      { name:'Weaning highchair', emoji:'🪑', why:'By 5–6 months parents are preparing to wean — and a good highchair is the single most important piece of equipment they need. Giving one as a gift is genuinely significant and deeply appreciated.', tip:'IKEA Antilop (affordable and brilliant), Stokke Tripp Trapp (premium and grows with child) and BabyBjörn High Chair are all well-loved options at different price points.', tags:['Practical','Major gift','Weaning'] },
+      { name:'Baby food processor', emoji:'🍎', why:'A dedicated baby food processor or blender attachment makes the transition to weaning enormously easier. Most parents find themselves hand-blending food with inadequate equipment — this solves that.', tip:'BEABA Babycook, NutriBullet Baby and Philips Avent all make compact, easy-to-clean baby food processors. A great gift for families approaching 6 months.', tags:['Practical','Weaning','Useful'] },
+      { name:'Travel changing bag set', emoji:'👜', why:'A compact, travel-changing bag with built-in mat, stroller clips and multiple compartments makes every day out simpler. By this age families are much more active and this becomes essential.', tip:'Skip Hop Forma, Storksak and Babymel all make beautiful, functional travel bags. Look for stroller clip compatibility and a wipe-clean interior.', tags:['Practical','Daily use','Travel'] },
+      { name:'Baby food storage system', emoji:'🥕', why:'A complete weaning storage system — silicone freezer trays, airtight containers, a stackable travel pot set and a food pouch maker — is a brilliant, practical gift just before weaning begins.', tip:'WeeSprout, BEABA and Mumi & Bubi all make excellent complete weaning storage systems. Look for dishwasher and freezer safe materials.', tags:['Practical','Weaning prep','Thoughtful'] },
+      { name:'Stroller sunshade and accessories', emoji:'☀️', why:'A universal stroller sunshade, rain cover and footmuff set is something parents need every time they go outside — and most arrive at this stage without a complete accessory set.', tip:'BabyStyle, Dooky and Reer all make universal fitting accessories. A breathable mesh sunshade plus a waterproof rain cover covers all weather conditions.', tags:['Practical','Safety','Daily use'] },
+      { name:'FridaBaby weaning kit', emoji:'🥄', why:'The FridaBaby weaning kit — a self-feeding spoon set, a clip-on bib and a suction bowl — is a clever, practical gift that makes the terrifying moment of first foods significantly easier.', tip:'The FridaBaby range is well-loved for its thoughtful, functional design. The NumNum self-feeding spoon is particularly brilliant for 4–6 month babies.', tags:['Practical','Weaning','Thoughtful'] },
+      { name:'Baby bath seat', emoji:'🛁', why:'A supportive baby bath seat — suitable from around 4 months when babies can sit with support — transforms bath time from a two-person operation into something manageable solo.', tip:'Angelcare Bath Support and Summer Infant Comfy Bath Sponge are popular options. Always supervise in water regardless of the support used.', tags:['Practical','Safety','Daily use'] },
+      { name:'Portable blackout blind', emoji:'🌑', why:'A portable blackout blind that attaches to any window with suction cups is one of the most practically useful gifts for families with a baby approaching the light-sensitivity stage.', tip:'Gro Anywhere Blind and Bloxsun both make excellent portable blackout blinds. The roll-and-stick mechanism means they work in any room, hotel or car.', tags:['Practical','Sleep aid','Travel-ready'] },
+      { name:'Baby monitor clip-on', emoji:'📡', why:'A clip-on breathing monitor that attaches to the nappy and alerts parents if movement stops is one of the most peace-giving gifts for anxious new parents in the early months.', tip:'Snuza Hero and Angelcare Smart Clip are the most popular movement monitors. Worth checking with the parents whether they already have one before purchasing.', tags:['Safety','Peace of mind','Practical'] },
+      { name:'Baby play mat with arch', emoji:'🌈', why:'A padded, washable play mat with a detachable toy arch is the centrepiece of baby\'s early play life — used daily from 3 months through to crawling. A genuinely lasting, practical gift.', tip:'Lovevery, Tiny Love and Skip Hop all make excellent gym combos. Look for a machine-washable mat cover and removable hanging toys. A staple that gets used for months.', tags:['Practical','Developmental','Used constantly'] }
+    ],
+    luxury: [
+      { name:'Stokke Tripp Trapp highchair', emoji:'✨', why:'The Stokke Tripp Trapp is the Rolls Royce of highchairs — it grows from birth to adulthood with additional inserts, is beautifully designed and lasts for decades. The ultimate practical luxury gift.', tip:'Choose a classic colour that suits most kitchens — natural, white or grey. The newborn insert, baby set and tray are useful additional accessories. A gift people genuinely rave about.', tags:['Luxury','Practical','Lasts decades'] },
+      { name:'Ergobaby 360 carrier set', emoji:'👶', why:'A premium ergonomic baby carrier allows parents to wear their baby safely and comfortably in four positions as they grow. One of the most treasured baby items for active families.', tip:'The Ergobaby Omni 360 or Adapt are the most popular models. Comes in beautiful colourways. Ergonomically tested and safe from birth. A gift that families use for years.', tags:['Premium','Practical','Loved'] },
+      { name:'Luxury wooden toy library', emoji:'🎁', why:'A curated collection of premium wooden developmental toys — stackers, sorters, threading toys, sensory blocks — presented in a beautiful wooden crate is a showpiece gift that grows with the baby.', tip:'Grimm\'s, HABA and PlanToys all make exceptional wooden toys. A selection of 6–8 toys at different developmental levels makes a beautiful library. Lovevery also does curated play kits by age.', tags:['Premium','Developmental','Beautiful'] },
+      { name:'Baby massage course voucher', emoji:'🌸', why:'A gift voucher for a professional baby massage course gives a new parent tools to soothe, bond with and calm their baby through touch — proven to improve sleep, digestion and bonding.', tip:'The International Association of Infant Massage accredits instructors worldwide. A 4-session course is typical. Many children\'s centres also offer free or low-cost versions.', tags:['Experience','Wellness','Bonding'] },
+      { name:'Luxury keepsake memory box', emoji:'💛', why:'A beautiful, personalised keepsake memory box — large enough for a lock of hair, hospital bands, first shoes, cards and photos — gives parents somewhere to store the moments that matter most.', tip:'The White Company, Not On The High Street and Etsy all offer beautiful personalised memory boxes. A linen-covered box with engraved lid is a classic choice.', tags:['Keepsake','Personalised','Beautiful'] },
+      { name:'Four-hand spa day voucher', emoji:'💆', why:'A luxury four-hand spa treatment for the mother — a rare, indulgent experience that most parents would never book for themselves — is an extraordinarily thoughtful and remembered gift.', tip:'Many luxury spas and hotels offer four-hand massage as part of their menu. A full spa day voucher with lunch included creates a genuinely unforgettable gift.', tags:['Mum-focused','Luxury','Wellness'] },
+      { name:'Premium wooden toy crate', emoji:'🎁', why:'A beautiful wooden toy crate filled with premium Grimm\'s or HABA developmental toys — stackers, sorters, threading beads — is a showpiece gift that grows with the baby through the first two years.', tip:'A selection of 6–8 premium wooden toys at different developmental levels makes a beautiful library. Lovevery also does curated play kits by age that are exceptional.', tags:['Premium','Developmental','Beautiful'] },
+      { name:'Personalised first wardrobe edit', emoji:'✨', why:'A curated selection of 6 perfectly chosen clothing pieces from a premium baby brand — all in coordinating tones, in the right size — is a luxury gift that removes the endless decision-making for parents.', tip:'Caramel Baby and Childhood make beautiful, curated baby clothing. A gift card with a note explaining the intention works beautifully — parents can choose their own pieces online.', tags:['Luxury','Thoughtful','Clothing'] },
+      { name:'Baby keepsake film', emoji:'🎬', why:'A commission for a professional family filmmaker to capture the first months in a short, beautiful short film — a 3–5 minute cinematic memory — is one of the most emotional and lasting luxury gifts imaginable.', tip:'Search for documentary family filmmakers in your area. A 1-hour shoot with edited film costs typically £300–500 and produces something the family watches every year.', tags:['Luxury','Unforgettable','Keepsake'] },
+      { name:'Personalised sterling name necklace', emoji:'✨', why:'A fine sterling silver necklace bearing the baby\'s name — gifted to the mother — is a beautiful, wearable keepsake that marks the arrival of a new child in a deeply personal and lasting way.', tip:'Monica Vinader and Etsy jewellers both make beautiful name necklaces. A delicate chain with a small nameplate in lowercase is the most wearable everyday style. Allow 1 week for engraving.', tags:['Luxury','Mum-focused','Keepsake'] }
+    ]
+  },
+
+  '6-12m': {
+    minimalist: [
+      { name:'Wooden push-along walker', emoji:'🚶', why:'A clean, minimal wooden push-along walker is the perfect gift for babies approaching their first steps — building confidence, balance and strength. Beautiful enough to display in any home.', tip:'Hape, PlanToys and Janod all make gorgeous wooden push walkers. Look for a wide base for stability and adjustable resistance on the wheels.', tags:['Developmental','Minimal','Long-lasting'] },
+      { name:'Montessori shape puzzle', emoji:'🔷', why:'A simple wooden shape puzzle — circles, squares, triangles — is a classic Montessori toy that develops problem-solving, hand-eye coordination and shape recognition from around 8 months.', tip:'Melissa & Doug and Hape make beautiful wooden puzzles. Look for chunky, easy-grip pieces and a sturdy board that sits flat on a surface.', tags:['Developmental','Montessori','Long-lasting'] },
+      { name:'Linen toddler backpack', emoji:'🎒', why:'A small, personalised linen or canvas backpack — in a neutral tone with the child\'s name — is something parents use constantly from this age: trips out, swim bags, nursery bags.', tip:'Etsy sellers make beautiful personalised linen backpacks. Look for a comfortable chest clip and a main compartment large enough for a change of clothes.', tags:['Practical','Personalised','Long-lasting'] },
+      { name:'Simple wooden peg dolls set', emoji:'🪆', why:'A set of simple wooden peg dolls is a beautiful, open-ended toy that encourages imaginative play from around 9–10 months. They can be anything the child makes them — characters, a family, animals.', tip:'Sarah and Bendrix and various Etsy makers create beautiful unfinished or lightly finished peg dolls. A set of 8–10 in a muslin bag makes a lovely gift.', tags:['Imaginative','Minimal','Beautiful'] },
+      { name:'Natural cotton clothing bundle', emoji:'🤍', why:'A carefully curated capsule clothing bundle — 3–4 neutral pieces that mix and match — in 12–18 month size is a practical, beautiful gift that eliminates the need to make decisions in a busy morning.', tip:'Organic Zoo, Caramel Baby and Tocoto Vintage make stunning minimal baby clothing. Buying ahead in the next size up adds to the thoughtfulness.', tags:['Practical','Beautiful','Useful'] },
+      { name:'Minimalist wooden bookshelf', emoji:'📚', why:'A small, wall-mounted wooden bookshelf designed to display books facing outward at the baby&#39;s eye level is a beautiful, functional piece of nursery furniture that encourages early reading.', tip:'Flisat from IKEA and PB Kids Bookshelf are popular options. A natural wood finish suits any minimal room. Mount securely at the right height for a sitting baby.', tags:['Minimal','Nursery','Long-lasting'] },
+      { name:'Neutral linen sun outfit set', emoji:'🌞', why:'A matching linen sunsuit in stone, oatmeal or sage is chicly minimal and beautifully practical for the crawling and cruising stage. Used constantly in warmer months.', tip:'Buho, Tocoto Vintage and Caramel Baby make stunning minimal linen baby sets. Buy 12-18 month size for longevity in the warmth.', tags:['Beautiful','Practical','Seasonal'] },
+      { name:'Personalised wooden name puzzle', emoji:'🔤', why:'A wooden puzzle with the baby name — each letter a separate piece — is a beautiful, personal and developmental gift that sits on the shelf as decor and on the floor as a toy.', tip:'Etsy sellers make beautiful painted name puzzles. Natural wood with simple painted letters is the most versatile and timeless choice.', tags:['Personalised','Developmental','Beautiful'] },
+      { name:'Simple sensory basket', emoji:'🧺', why:'A wicker basket filled with natural objects of different textures, weights and sounds — a wooden ring, a small mirror, a silicone teether — is a Montessori heuristic play gift that babies love at 6 months.', tip:'Assemble the basket yourself. Include 10-12 objects of varied sensory interest. Add a card explaining heuristic play for context. The basket itself is part of the gift.', tags:['Montessori','Minimal','Thoughtful'] },
+      { name:'Wooden stacking rainbow', emoji:'🌈', why:'A clean, arc-shaped wooden stacking rainbow in muted natural tones is one of the most beautiful open-ended toys for this age — and striking enough to display on a shelf when not in use.', tip:'Grimm large rainbow is iconic. The 12-piece version in natural or pastel tones is especially beautiful. Worth the investment for the quality of play it inspires.', tags:['Minimal','Beautiful','Long-lasting'] }
+    ],
+    eco: [
+      { name:'Natural beeswax play dough set', emoji:'🟤', why:'A set of natural, beeswax and essential oil play dough is a sensory, creative gift that is genuinely safe for babies who will inevitably taste it. Beautifully packaged and completely non-toxic.', tip:'Ailefo and Eco Kids make gorgeous natural play dough sets. They smell wonderful and the colours are vibrant without synthetic dyes.', tags:['Eco-friendly','Sensory','Creative'] },
+      { name:'Organic cotton first shoes', emoji:'👟', why:'A pair of beautifully made, soft-soled organic cotton first shoes is the perfect gift for a baby approaching their first steps — flexible enough to allow natural foot movement, natural materials throughout.', tip:'Bobux, Inch Blue and Pisamonas all make beautiful soft-soled first shoes. Look for wide toe boxes and flexible soles. Check the sizing chart carefully.', tags:['Eco-friendly','Milestone','Practical'] },
+      { name:'Bamboo feeding set', emoji:'🌿', why:'A complete bamboo weaning and feeding set — plate, bowl, cup and cutlery — is a daily-use, eco-conscious gift that parents will reach for at every meal time for years.', tip:'Avanchy and Bamboozle make beautiful bamboo feeding sets. Look for melamine-free certification and microwave-safe materials.', tags:['Eco-friendly','Practical','Daily use'] },
+      { name:'Recycled fabric soft blocks', emoji:'🟩', why:'A set of soft building blocks made from recycled fabric is a sensory, safe, creative gift that encourages stacking, throwing and early construction play from around 6 months onwards.', tip:'Green Toys and Sabo Concept make beautiful eco-friendly soft blocks. Machine washable is essential — these will be chewed, thrown and drooled on extensively.', tags:['Eco-friendly','Developmental','Fun'] },
+      { name:'Wildflower seed kit for baby', emoji:'🌸', why:'A wildflower planting kit — with seeds, a child-sized watering can and a personalised pot — is a beautiful, meaningful gift that grows along with the baby. A metaphor as much as a gift.', tip:'Sarah Raven and The Wildflower Seed Company sell beautiful sets. A terracotta pot with the baby\'s name hand-painted on it makes it feel properly personal.', tags:['Eco-friendly','Symbolic','Beautiful'] },
+      { name:'Organic cotton toddler outfit', emoji:'🌱', why:'A beautiful organic cotton outfit for 9-12 months — top, trousers and cardigan in coordinating earthy tones — is a practical, eco-conscious gift used every day at this very active stage.', tip:'Piccalilly, Pigeon Organics and Mori all make gorgeous certified organic clothing sets. Buy 12-18 month size to allow plenty of wearing time.', tags:['Organic','Practical','Used daily'] },
+      { name:'Bamboo weaning set', emoji:'♻️', why:'A complete bamboo weaning set — suction bowl, plate, spoon, fork and sippy cup — is a daily-use eco-conscious gift that parents reach for at every meal time for years.', tip:'Avanchy and Bamboozle make beautiful bamboo sets. Look for melamine-free certification and microwave-safe materials.', tags:['Eco-friendly','Practical','Daily use'] },
+      { name:'Natural rubber bath toys', emoji:'🐠', why:'Solid natural rubber bath toys that cannot trap water inside are safe, eco-friendly and infinitely preferable to the hollow plastic ones that fill with black mould.', tip:'Hevea and Oli and Carol make solid natural rubber bath toys. A set of 4-5 sea creatures or animals makes a beautiful, practical gift.', tags:['Eco-friendly','Safe','Used daily'] },
+      { name:'Eco-friendly play blocks', emoji:'🟩', why:'A set of soft building blocks made from recycled fabric is a sensory, safe, creative gift that encourages stacking from 6 months and grows with the child through the first two years.', tip:'Green Toys and Sabo Concept make beautiful eco-friendly soft blocks. Machine washable is essential — these will be chewed, thrown and drooled on extensively.', tags:['Eco-friendly','Developmental','Fun'] },
+      { name:'Organic sunscreen and hat kit', emoji:'☀️', why:'A mineral, reef-safe organic sunscreen and UV protective hat set is a thoughtful eco gift as the crawling stage brings babies into sunny gardens and outdoor spaces more frequently.', tip:'Badger Baby Sunscreen and Kokoso Baby SPF50 use mineral zinc oxide — safer for baby skin and eco-friendly. Pair with a UPF50 sun hat for a complete gift.', tags:['Eco-friendly','Seasonal','Safety'] }
+
+    ],
+    traditional: [
+      { name:'First birthday commemorative plate', emoji:'🎂', why:'A ceramic plate painted with the baby\'s name and first birthday date, displayed on the wall or kept as a keepsake, is a beautiful, traditional gift that marks the first year milestone.', tip:'Royal Doulton and Denby make classic commemorative ware. Etsy also has many wonderful handmade pottery options. Allow time for personalisation.', tags:['Keepsake','Traditional','Milestone'] },
+      { name:'Christening bangle set', emoji:'💍', why:'A gold or silver christening bangle set — a fine bangle for now and a slightly larger one for when they are older — is a traditional, sentimental gift that marks this significant milestone.', tip:'Many jewellers offer paired bangle sets specifically for christenings. Engraving the name and date on both adds to the sentimental value. Sterling silver or 9ct gold are good choices.', tags:['Traditional','Sentimental','Keepsake'] },
+      { name:'Classic illustrated storybooks', emoji:'📚', why:'A beautifully illustrated collection of timeless children\'s stories — Wind in the Willows, Beatrix Potter, The Velveteen Rabbit — is a gift that begins a lifelong relationship with books.', tip:'Choose genuine illustrated hardback editions rather than abridged versions. A boxed set makes a beautiful, weighty gift. Walker Books and Penguin Classics publish lovely editions.', tags:['Classic','Sentimental','Long-lasting'] },
+      { name:'Handprint and footprint art kit', emoji:'👐', why:'A professional-quality handprint art kit — with non-toxic paint, canvas frame and detailed instructions — captures this fleeting size in a piece of art that parents display on the wall.', tip:'Pearhead and Not On The High Street sell complete kits. A large canvas (30x40cm) gives room for both hands and feet plus the date and name. Allow a second attempt — the first is always a disaster.', tags:['Keepsake','Sentimental','Art'] },
+      { name:'Personalised story book', emoji:'🌟', why:'A personalised children\'s picture book — where the baby\'s name is the main character — is a magical gift that bridges the traditional and the personal. It gets read again and again.', tip:'Lost My Name, Wonderbly and Penwizard all create beautiful personalised books. A standard board book format holds up to enthusiastic handling.', tags:['Personalised','Sentimental','Read often'] },
+      { name:'Silver money box and savings start', emoji:'🥈', why:'A silver money box engraved with the name paired with a small savings contribution is a meaningful financial and sentimental gift — one they benefit from in years to come.', tip:'Carrs Silver makes beautiful engraved money boxes. Many banks allow opening a children savings account by post. A combination of both makes a genuinely lasting gift.', tags:['Traditional','Financial','Keepsake'] },
+      { name:'Embroidered name blanket', emoji:'🧶', why:'A thick, beautifully embroidered personalised blanket — name stitched in the corner in a classic font — is used as a play mat, pram blanket and eventually a bedroom throw for years.', tip:'Etsy sellers and The White Company both offer monogrammed blankets. Choose a heavyweight knit or fleece for a quality feel.', tags:['Personalised','Traditional','Long-lasting'] },
+      { name:'Classic wooden toy box', emoji:'📦', why:'A painted, personalised wooden toy box is both a practical storage solution and a beautiful piece of nursery furniture that genuinely lasts generations.', tip:'Tidy Books and various Etsy makers can personalise toy boxes with the name and birth date. A classic timeless gift.', tags:['Practical','Keepsake','Furniture'] },
+      { name:'Heritage illustrated book set', emoji:'📚', why:'A beautifully curated box set of 10 classic children books — the most beloved titles from Julia Donaldson, Eric Carle and Beatrix Potter — is a gift that lasts a decade and builds a true first library.', tip:'Walker Books and Penguin Kids both publish beautiful box sets. A mixed collection of board books and picture books works best for 6-12 months.', tags:['Classic','Long-lasting','Sentimental'] },
+      { name:'Personalised name wall letters', emoji:'🔤', why:'Wooden letters spelling the name — painted and mounted on the nursery wall — are personal, enduring and a gift parents are delighted to receive at any stage.', tip:'Etsy sellers make beautiful hand-painted wooden letters. Choose a font that matches the nursery style. A set with hooks can double as a coat rack as the child grows.', tags:['Personalised','Nursery','Keepsake'] }
+
+    ],
+    playful: [
+      { name:'Interactive learning table', emoji:'🎮', why:'A bright, interactive learning table — with buttons, sounds, lights and activities — is one of the most engaging toys for babies from 6 months, providing entertainment and early learning in one.', tip:'VTech and LeapFrog make popular learning tables. Look for ones with multiple play modes and an adjustable height leg option for when they start standing.', tags:['Educational','Fun','Long-lasting'] },
+      { name:'Ball pit with balls', emoji:'🎱', why:'A pop-up ball pit is pure, unadulterated fun from around 6 months — babies are fascinated by the balls, love throwing them and the enclosed space gives a satisfying, safe sensory experience.', tip:'Tiny Land and Infantino make good quality, washable ball pits. A set of 100–200 balls in bright colours is ideal. Mesh balls drain water easily after splashy play.', tags:['Fun','Sensory','Physical'] },
+      { name:'Push and pull toys set', emoji:'🚂', why:'A set of push-along and pull-along toys — cars, trains, animals — is classic play for this age. Babies love the independence of choosing where things go and the satisfying tactile feedback.', tip:'PlanToys, Janod and Hape all make beautiful wooden push/pull toys. A wheeled duck on a string remains one of the most-loved traditional toys at this age.', tags:['Classic','Fun','Developmental'] },
+      { name:'Baby drum kit', emoji:'🥁', why:'A small drum kit with mallets, a xylophone and a tambourine gives babies the ability to make a genuinely satisfying noise — which is exactly what they are trying to do at this age. Musical and brilliant.', tip:'Hape, Melissa & Doug and Janod make colourful, durable baby percussion sets. A set that mounts to a table or has a stable base is more practical than freestanding drums.', tags:['Musical','Fun','Creative'] },
+      { name:'First birthday balloon kit', emoji:'🎈', why:'A beautiful first birthday party kit — number balloons, a "One" banner, cake decorations and a keepsake box — turns the big milestone into a proper celebration with minimal effort from parents.', tip:'Not On The High Street and Party Delights both have beautiful first birthday sets. Choose a colour palette that suits the photos — gold and white is always elegant.', tags:['Celebratory','Milestone','Fun'] },
+      { name:'Ball pit with balls', emoji:'🎱', why:'A pop-up ball pit is pure fun from around 6 months — babies are fascinated by the balls, love throwing them and the enclosed space gives a satisfying safe sensory experience.', tip:'Tiny Land and Infantino make good quality washable ball pits. A set of 100-200 balls in bright colours is ideal. Mesh balls drain water easily after splashy play.', tags:['Fun','Sensory','Physical'] },
+      { name:'Soft climbing set', emoji:'🧗', why:'A soft foam climbing and sliding set — a gentle ramp, a step and a slide — is a brilliant active gift for babies pulling to stand and beginning to explore movement independently.', tip:'Lovevery and Monbebe make beautiful minimal foam play sets. Look for OEKO-TEX certified foam covers free from flame retardants.', tags:['Active','Developmental','Long-lasting'] },
+      { name:'Water play table', emoji:'💧', why:'A water play table provides genuinely magical sensory play from 6 months and hours of absorbed entertainment outdoors in warmer months. Simple, brilliant and used constantly.', tip:'Step2 and Little Tikes make well-built water play tables. Look for one with a drain plug and a lid for when not in use.', tags:['Fun','Sensory','Outdoor'] },
+      { name:'Bubble machine', emoji:'🫧', why:'A bubble machine produces one of the most reliably delightful reactions from any baby — pure uninhibited joy. Simple, affordable and utterly magical at this age.', tip:'Chasing Fireflies and JOYIN make excellent battery-powered bubble machines. A bottle of gentle non-toxic bubble solution and spare refills round out the gift perfectly.', tags:['Fun','Magical','Outdoor'] },
+      { name:'Baby drum and music set', emoji:'🥁', why:'A small drum, xylophone and tambourine set gives babies the ability to make a genuinely satisfying noise — which is exactly what they are trying to do at every opportunity.', tip:'Hape and Melissa and Doug make colourful durable baby percussion sets. A set that mounts to a table or has a stable base is more practical than freestanding drums.', tags:['Musical','Fun','Creative'] }
+
+    ],
+    practical: [
+      { name:'Toddler cup and feeding set', emoji:'🥤', why:'A complete feeding set for the transition to solid foods — 360 sippy cup, suction bowl, silicone bib and weaning spoons — is used three times a day and incredibly practical.', tip:'Munchkin 360 cups are legendary for mess-free drinking. Ezpz silicone mats and bowls are popular for their brilliant suction base. A full set of both makes an excellent gift.', tags:['Practical','Daily use','Weaning'] },
+      { name:'Safety and baby-proofing kit', emoji:'🔒', why:'A comprehensive baby-proofing kit — socket covers, cabinet locks, corner guards, stair gate — is a brilliantly practical gift for families with a newly mobile baby. Genuinely needed and often overlooked.', tip:'BabyDan and Safety 1st both make comprehensive safety kits. A gift card for a safety store, accompanied by a handwritten note explaining the gesture, works especially well.', tags:['Safety','Practical','Needed'] },
+      { name:'Toddler car seat (Stage 1)', emoji:'🚗', why:'For families approaching 9–12 months, upgrading from the infant car seat to an extended rear-facing toddler seat is a significant but necessary expense. A contribution or full gift is enormously appreciated.', tip:'Maxi-Cosi, Cybex and Britax Römer are the most trusted brands. The extended rear-facing position is significantly safer and all three offer options that hold to 25kg. A major, meaningful gift.', tags:['Safety','Major gift','Practical'] },
+      { name:'Outdoor play set', emoji:'🌿', why:'A small outdoor play set for the garden — a sandbox, water play tray or a simple see-saw — makes outdoor time from around 9 months endlessly entertaining and genuinely developmental.', tip:'Step2 and Little Tikes make well-built outdoor play equipment for this age. A sand and water play table is especially versatile and used for years.', tags:['Outdoor','Practical','Long-lasting'] },
+      { name:'Baby carrier backpack', emoji:'🎒', why:'A structured hiking-style baby carrier backpack allows families to go on proper walks and adventures with a baby on board — enormously expanding what families can do together at this age.', tip:'Deuter, Osprey and LittleLife all make brilliant baby backpack carriers. Look for a sun canopy, a stand-alone base and a padded waist belt for the carrier. A family game-changer.', tags:['Adventure','Practical','Family'] },
+      { name:'Portable travel cot', emoji:'🏕️', why:'A compact lightweight travel cot lets families visit grandparents and stay overnight without the anxiety of where baby will sleep. Parents who have one are grateful every single trip.', tip:'Lotus Travel Cot and BabyBjorn Travel Crib are the most popular options. The BabyBjorn packs into a bag in about 3 seconds.', tags:['Practical','Travel','Long-lasting'] },
+      { name:'Wooden shape sorter set', emoji:'🔷', why:'A quality wooden shape sorter gives babies at 6-12 months the perfect cognitive challenge — working out which shape goes where develops spatial reasoning and problem-solving beautifully.', tip:'Melissa and Doug and Hape make beautiful wooden shape sorters with chunky easy-grip pieces. Look for a well-weighted box that stays stable on the floor.', tags:['Developmental','Practical','Long-lasting'] },
+      { name:'Digital photo frame', emoji:'🖼️', why:'A digital photo frame pre-loaded with family photos that cycles through images automatically is a beautiful modern gift that brings grandparents into the nursery every day.', tip:'Skylight Frame and Nixplay both make excellent digital frames with app-controlled updates. Set it up with photos before gifting so it works from the moment it is unwrapped.', tags:['Thoughtful','Modern','Sentimental'] },
+      { name:'Baby food subscription box', emoji:'📦', why:'A 3-month subscription to a premium organic baby food delivery service is a brilliant practical gift — healthy convenient beautifully packaged meals delivered to the door every week.', tip:'Little Spoon, Pip Organic and Piccolo all offer subscription meal boxes for 6 month plus babies. A 3-month subscription gives parents a full weaning head-start.', tags:['Practical','Weaning','Convenient'] },
+      { name:'Portable blackout blind', emoji:'🌑', why:'A portable blackout blind that attaches to any window with suction cups is one of the most practically useful gifts for families with a baby approaching light-sensitivity in the morning.', tip:'Gro Anywhere Blind and Bloxsun make excellent portable blackout blinds. The roll-and-stick mechanism works in any room, hotel or car.', tags:['Practical','Sleep aid','Travel-ready'] }
+
+    ],
+    luxury: [
+      { name:'Wooden play kitchen', emoji:'🍳', why:'A beautifully crafted wooden play kitchen is one of the most iconic and loved children\'s toys — it grows from 9 months through to several years and provides endless imaginative play.', tip:'KidKraft, IKEA Duktig (budget-friendly) and Step2 (mid-range) make popular options. A wooden kitchen in natural tones suits most home aesthetics and looks genuinely beautiful.', tags:['Premium','Long-lasting','Imaginative'] },
+      { name:'Professional family photo session', emoji:'📸', why:'A gift voucher for a professional family photo session at the one-year mark is an emotional, unforgettable gift — the photos from this session become some of the most-displayed and treasured the family will ever have.', tip:'Look for a photographer with a documentary or lifestyle approach rather than heavily posed studio shots — these capture real moments that last. Book 3–4 weeks ahead.', tags:['Experience','Unforgettable','Keepsake'] },
+      { name:'Premium wooden ride-on', emoji:'🚲', why:'A beautiful wooden balance bike or ride-on toy — crafted from sustainably sourced wood with smooth-rolling wheels — is a premium gift that becomes a centrepiece of outdoor play for years.', tip:'Janod, Radio Flyer and Wishbone all make exceptional ride-on toys. The Wishbone balance bike grows from a ride-on at 12 months to a balance bike at 18 months — exceptional value.', tags:['Premium','Active','Long-lasting'] },
+      { name:'Personalised silver money tin set', emoji:'✨', why:'A sterling silver money tin, savings account contribution and personalised birth record card — presented in a beautiful box — is a meaningful financial gift that combines sentiment with practicality.', tip:'Many banks allow you to open a children\'s savings account by post as a gift. Pair with an engraved silver tin for coins. An unusual, grown-up gift that is genuinely appreciated.', tags:['Meaningful','Financial','Personalised'] },
+      { name:'Annual nursery rhyme subscription box', emoji:'📦', why:'A 12-month subscription to a premium baby book or toy box service sends a new curated parcel every month — a gift that keeps arriving, keeps the family excited and grows with the child.', tip:'Lovevery Play Kit, Bookbug and Little Passports all offer beautiful subscription boxes calibrated to developmental age. A 6 or 12-month subscription is a wonderful ongoing gift.', tags:['Premium','Monthly joy','Developmental'] },
+      { name:'First birthday cake commission', emoji:'🎂', why:'A voucher for a bespoke artisan first birthday cake — designed around the name, colours and theme — is a showstopping luxury gift that makes the most photographed moment of the year perfect.', tip:'Contact a local cake artist via Instagram or Etsy. A bespoke smash cake and a 6-inch display cake is the ideal combination. Book 3-4 weeks in advance.', tags:['Luxury','Milestone','Memorable'] },
+      { name:'Premium baby photo book', emoji:'📸', why:'A handmade leather-bound photo book pre-filled with printed photos from the first year is a deeply emotional and lasting gift that parents reach for again and again.', tip:'Artifact Uprising and Chatbooks both make beautiful premium photo books. A leather cover with the name and year embossed elevates it significantly.', tags:['Luxury','Keepsake','Emotional'] },
+      { name:'Weekend family cottage stay', emoji:'🏡', why:'A gift voucher for a weekend family stay — a beautiful cottage or hotel that welcomes babies — gives the whole family a first adventure together. The kind of gift that becomes a treasured memory.', tip:'Feather Down, Hoseasons and The Pig Hotels all welcome young families. A voucher for a long weekend gives parents full flexibility to choose their own timing.', tags:['Luxury','Experience','Family'] },
+      { name:'First year portrait commission', emoji:'🎨', why:'A commissioned illustrated portrait of the baby at age one painted from a photograph is an extraordinary keepsake that becomes a centrepiece of the home for decades.', tip:'Search for portrait illustrators on Etsy or Instagram. Watercolour, gouache or digital illustration all work beautifully. Commission from a first birthday photo for a perfect result.', tags:['Luxury','Art','Keepsake'] },
+      { name:'12-month development toy subscription', emoji:'📬', why:'A 12-month subscription to a premium developmental toy box service sends a new age-appropriate parcel every month — a gift that keeps arriving and grows with the child.', tip:'Lovevery Play Kits are the gold standard — designed by child psychologists. A 12-month subscription is a significant but extraordinary gift that parents genuinely rave about.', tags:['Premium','Monthly joy','Developmental'] }
+
+    ]
+  },
+
+  'not-born': {
+    minimalist: [
+      { name:'Gender-neutral layette bundle', emoji:'🌿', why:'A carefully curated, gender-neutral layette — 3 bodysuits, 2 sleepsuits, a hat and scratch mitts in soft neutral tones — is the most practical gift imaginable before a baby arrives.', tip:'Buy a mixture of newborn and 0–3 month sizes. Brands like H&M Conscious, Minialist and Quincy Mae do beautiful, neutral options. Organic cotton adds a lovely touch.', tags:['Practical','Gender-neutral','Thoughtful'] },
+      { name:'Minimal nursery print set', emoji:'🖼️', why:'A set of 3 matching typographic nursery prints — botanical, poetic or simply the child\'s initial — is a beautiful way to help parents create a calm, beautiful nursery before arrival.', tip:'Etsy has hundreds of print sellers who can personalise with name and birth details to be added later. A set of A4 prints in matching neutral frames makes an instant wall display.', tags:['Nursery','Personalised','Beautiful'] },
+      { name:'Organic cotton hospital bag outfit', emoji:'🏥', why:'A specially considered first outfit — soft organic cotton sleepsuit, hat and swaddle — for the hospital bag is a lovely, personal touch. Parents often forget to pack something beautiful for the first photos.', tip:'Aim for 0–3 month size rather than newborn — many babies arrive too big for newborn clothing. White or cream with minimal detail photographs beautifully.', tags:['Practical','Sentimental','Thoughtful'] },
+      { name:'Pebble baby monitor', emoji:'📡', why:'A Pebble by Zazu or similar non-screen breathing monitor gives parents peace of mind from the very first night home. One of the most appreciated pre-arrival gifts for anxious first-timers.', tip:'Zazu, Angelcare and Snuza all make movement-sensing monitors. Check compatibility with the parents\' preferred sleeping arrangement.', tags:['Safety','Peace of mind','Practical'] },
+      { name:'Simple wooden toy starter set', emoji:'🪵', why:'A small collection of first wooden toys — a rattle, a teether and a small soft animal — presented in a beautiful box is a thoughtful pre-arrival gift that is ready and waiting when baby comes home.', tip:'PlanToys, Grimm\'s and Hape all make beautiful starter sets. Packaging them in a natural wooden box or muslin bag adds to the gift presentation.', tags:['Thoughtful','Ready to use','Beautiful'] },
+      { name:'White noise machine', emoji:'🔊', why:'A white noise machine is one of the most genuinely useful newborn gifts. Giving one before birth means it is set up and ready for the very first night home.', tip:'The LectroFan and Yogasleep Dohm are well-reviewed. Compact and portable so it travels with the family wherever they go.', tags:['Genuinely useful','Sleep aid','Long-lasting'] },
+      { name:'Organic cotton hospital outfit', emoji:'🏥', why:'A soft organic cotton sleepsuit, hat and swaddle for the hospital bag is a lovely personal touch — parents often forget to pack something beautiful for the first photographs.', tip:'Aim for 0-3 month size rather than newborn — many babies arrive too big for newborn clothing. White or cream with minimal detail photographs beautifully.', tags:['Practical','Sentimental','Thoughtful'] },
+      { name:'Bamboo cot sheet set', emoji:'🛏️', why:'A set of three bamboo fitted sheets in neutral tones is silky-soft against baby skin and simple enough to suit any minimal nursery. A practical gift used every single night from day one.', tip:'Little Green Sheep and Perlimpinpin make certified organic bamboo sheets. Double check the cot size before ordering.', tags:['Practical','Soft','Nightly use'] },
+      { name:'Neutral nursery print set', emoji:'🖼️', why:'A set of three matching typographic nursery prints in botanical or poetic neutral tones helps parents create a calm beautiful nursery before arrival.', tip:'Etsy has hundreds of print sellers who can personalise with name and birth details to be added later. A set of A4 prints in matching neutral frames makes an instant wall display.', tags:['Nursery','Personalised','Beautiful'] },
+      { name:'Merino wool baby blanket', emoji:'🧶', why:'A soft, light merino blanket in natural or ivory is beautiful, breathable and warm — used constantly from the very first night home and beautiful enough to keep as a keepsake.', tip:'Natural merino regulates temperature so it works year-round. Piccalilly and Pure Baby both make beautiful merino blankets.', tags:['Keepsake quality','Natural material','Used constantly'] }
+
+    ],
+    eco: [
+      { name:'Organic hospital birth kit', emoji:'🌿', why:'A curated organic birth kit — organic baby wash, natural nipple cream, organic cotton muslins and a lavender room spray for the birth suite — is a deeply thoughtful pre-arrival gift.', tip:'Weleda Pregnancy and Birth Kit is a well-known option. Or assemble your own: Earth Mama nipple balm, Organic Baby Wash and a bundle of organic muslins. A beautiful bag pulls it together.', tags:['Eco-friendly','Thoughtful','Birth'] },
+      { name:'Natural nursery diffuser set', emoji:'🌸', why:'A natural essential oil diffuser with a selection of gentle, safe oils — lavender, chamomile, frankincense — creates a calming nursery atmosphere and is a genuinely useful pre-arrival gift.', tip:'Only use oils confirmed safe for newborns and diffuse in a ventilated room. doTERRA, Neal\'s Yard and Tisserand all make baby-safe essential oil collections.', tags:['Natural','Nursery','Calming'] },
+      { name:'Reusable breast pad set', emoji:'♻️', why:'A set of reusable organic cotton breast pads is a practical, eco-conscious and genuinely needed gift for new breastfeeding mothers — and one that people rarely think to gift.', tip:'Bamboobies, Kindred Bravely and Nursing Pillow all make soft, absorbent reusable breast pads. A set of 12–16 with a mesh laundry bag is the ideal gift set.', tags:['Eco-friendly','Practical','Mum-focused'] },
+      { name:'Organic bump-to-baby skincare set', emoji:'🌱', why:'A beautiful organic skincare set for both mum and baby — pregnancy oil, perineum balm, baby lotion and baby wash — bridges the pregnancy and newborn stage beautifully.', tip:'Earth Mama and Weleda both make excellent bump-to-baby gift sets. An organic pregnancy belly oil is especially luxurious and appreciated in the final trimester.', tags:['Natural','Mum and baby','Thoughtful'] },
+      { name:'Eco nursery starter kit', emoji:'🌍', why:'A curated eco nursery starter kit — reusable wipes, bamboo muslins, a natural rubber dummy and organic nappy cream — gives parents everything they need to start sustainably.', tip:'Assemble in a beautiful basket lined with organic muslin. Include a card explaining the eco ethos behind the choices — it makes the gift feel even more considered.', tags:['Eco-friendly','Practical','Thoughtful'] },
+      { name:'Reusable breast pads', emoji:'♻️', why:'A set of organic cotton reusable breast pads is an eco-conscious and genuinely useful gift for breastfeeding mothers — soft, washable and far better for the environment than disposables.', tip:'Bamboobies and Kindred Bravely make soft absorbent reusable breast pads. A set of 12 with a mesh laundry bag is ideal.', tags:['Eco-friendly','Mum-focused','Practical'] },
+      { name:'Organic muslin bundle', emoji:'🌿', why:'A bulk bundle of organic cotton muslins in earthy natural tones is one of those gifts that can never be too much — used for everything from swaddling to sun shading.', tip:'Aden and Anais Essentials and Bamboo Bubby both make multi-packs of generous-sized organic muslins. The 70x70cm size is the most versatile.', tags:['Used constantly','Organic','Practical'] },
+      { name:'Natural beeswax nursery candles', emoji:'🕯️', why:'A set of pure beeswax nursery candles purify the air rather than releasing toxins — a thoughtful eco gift for creating a calming atmosphere in the nursery and home.', tip:'Look for unscented or gently scented options suitable for use around newborns. Neom and Wild Willa make beautiful beeswax options.', tags:['Natural','Atmospheric','Thoughtful'] },
+      { name:'Eco bump-to-baby skincare set', emoji:'🌱', why:'A beautiful organic skincare set for both mum and baby — pregnancy oil, perineum balm, baby lotion and baby wash — bridges the pregnancy and newborn stage beautifully.', tip:'Earth Mama and Weleda both make excellent bump-to-baby gift sets. An organic pregnancy belly oil is especially luxurious and appreciated in the final trimester.', tags:['Natural','Mum and baby','Thoughtful'] },
+      { name:'Wildflower seed welcome kit', emoji:'🌸', why:'A beautifully packaged set of wildflower seeds with a terracotta pot — to plant when the baby arrives and watch grow alongside them — is a poetic symbolic and eco-conscious gift.', tip:'Sarah Raven and Seedball both make beautiful wildflower seed gift sets. A personalised pot with the name and birth date adds an extra sentimental touch.', tags:['Eco-friendly','Symbolic','Unique'] }
+
+    ],
+    traditional: [
+      { name:'Personalised birth announcement frame', emoji:'🌸', why:'A silver-framed birth announcement keepsake — with space for name, date, time, weight and a photo — is a traditional, beautiful gift that parents fill in and display within hours of coming home.', tip:'Wedgwood, Pearhead and Etsy sellers make beautiful options. Choose a frame size that suits a standard 6x4 photo for ease of use.', tags:['Keepsake','Traditional','Sentimental'] },
+      { name:'Classic naming day ceremony book', emoji:'📖', why:'A beautifully bound naming day or christening ceremony book — with space for family signatures, wishes and photos — is a meaningful, traditional keepsake for families planning a celebration.', tip:'Aspinal of London and Harrods stock beautiful ceremony books. Etsy also has custom-printed versions with the family name and ceremony date on the cover.', tags:['Traditional','Sentimental','Ceremony'] },
+      { name:'Sterling silver identity bracelet', emoji:'💎', why:'A simple sterling silver identity bracelet engraved with the baby\'s name is a classic, beautiful keepsake to be added to the hospital bag and worn in the first photographs.', tip:'Many high-street jewellers offer same-day or next-day engraving. A safety clasp is essential. Keep the design simple — a plain oval tag with name and date is timeless.', tags:['Keepsake','Traditional','Personalised'] },
+      { name:'Illustrated family tree print', emoji:'🌳', why:'A personalised illustrated family tree print — with space for the baby\'s name to be added — is a meaningful, beautiful gift that celebrates the arrival of a new generation in the family.', tip:'Etsy has many talented illustrators who create beautiful custom family tree prints. A watercolour style in muted, earthy tones looks beautiful in any nursery.', tags:['Personalised','Sentimental','Nursery'] },
+      { name:'First home library gift set', emoji:'📚', why:'A beautiful set of 10 classic children\'s books — presented in a fabric-lined box — is a gift that gives the child an entire first library before they are even born.', tip:'A curated set of the most beloved picture books: Guess How Much I Love You, The Hungry Caterpillar, Dear Zoo, We\'re Going on a Bear Hunt, Owl Babies and 5 more. A gift that gets read for years.', tags:['Classic','Sentimental','Long-lasting'] },
+      { name:'Silver keepsake money box', emoji:'🥈', why:'A classic silver-plated money box engraved with the name and birth date is a timeless keepsake that parents genuinely treasure — the kind of gift that gets kept for life.', tip:'Wedgwood and Wentworth Fine Silver both make traditional options. Many department stores offer engraving. Order early for personalisation.', tags:['Keepsake','Personalised','Timeless'] },
+      { name:'Classic teddy bear', emoji:'🧸', why:'A beautifully made classic teddy bear — the kind that becomes a beloved first companion — is one of the most traditional and loved baby gifts. It will likely be in photographs for years.', tip:'Steiff, Merrythought and Charlie Bears make heirloom-quality bears worth gifting. A classic Steiff bear with the button-in-ear is as traditional as baby gifts get.', tags:['Classic','Keepsake','Sentimental'] },
+      { name:'Illustrated baby record book', emoji:'📖', why:'A beautiful illustrated baby record book gives parents a place to capture all the firsts — first smile, first word, first steps. A classic gift that becomes a treasured family document.', tip:'Rifle Paper Co., Pearhead and Small Moments all make lovely record books. Choose one with space for photos as well as handwritten entries.', tags:['Sentimental','Long-lasting','Personalised'] },
+      { name:'Personalised blanket with name', emoji:'🧶', why:'A thick personalised blanket with the name embroidered in the corner is a traditional, sentimental gift that gets used from the very first night home through the first years.', tip:'The White Company and Etsy sellers offer beautiful monogrammed blankets. A heavyweight cotton or fleece feels more luxurious than a thin blanket.', tags:['Traditional','Personalised','Long-lasting'] },
+      { name:'Heritage nursery rhyme book', emoji:'📚', why:'A beautifully illustrated hardback collection of nursery rhymes is a timeless gift — the kind of book that gets read every evening and passed to the next generation.', tip:'Oxford University Press and Walker Books publish gorgeous illustrated editions. A first-edition hardback adds a sense of real occasion.', tags:['Classic','Read often','Sentimental'] }
+
+    ],
+    playful: [
+      { name:'Baby character bundle', emoji:'🦊', why:'A bundle of soft toys, a rattle and a board book all featuring the same beloved character — a fox, rabbit or bear — gives the baby a consistent character companion from the very start.', tip:'Jellycat, Eric Carle and Guess How Much I Love You merchandise all offer beautiful matching toy and book sets. Choose the parents\' favourite character if you know it.', tags:['Fun','Sentimental','Character'] },
+      { name:'Bright nursery mobile', emoji:'🌈', why:'A colourful, handmade nursery mobile — felt animals, stars and moons in bright tones — is both a cheerful nursery decoration and a developmental visual stimulation tool from day one.', tip:'Etsy has wonderful handmade mobile makers who create bespoke options. Felt animal mobiles in primary colours are especially popular for playful nurseries.', tags:['Nursery','Stimulating','Beautiful'] },
+      { name:'Pre-loaded gift voucher for toy store', emoji:'🎁', why:'A pre-loaded gift card for a quality toy store — Smyths, The Toy Shop or a specialist wooden toy shop — gives parents the freedom to choose exactly the right toy at the right time.', tip:'Load the card with £30–50. Include a handwritten note suggesting they use it for the first "big" toy around 3–4 months when the baby can start interacting more.', tags:['Flexible','Thoughtful','Practical'] },
+      { name:'Sensory starter kit', emoji:'🌟', why:'A curated sensory starter kit — black and white cards, a soft crinkle toy, a rattle and a sensory ball — provides everything a baby needs for stimulation and development in the earliest weeks.', tip:'Assemble your own kit in a gift box, or look for pre-made sensory starter kits from suppliers like Tesco Baby or Amazon. Black and white contrast cards are especially valuable in weeks 1–4.', tags:['Developmental','Ready to use','Thoughtful'] },
+      { name:'Matching family pyjama set', emoji:'👨‍👩‍👧', why:'A matching family pyjama set — adult sizes plus a tiny baby version — for the homecoming night is an adorable, memorable and increasingly popular gift. Perfect for the first family photos at home.', tip:'Next, Boden and Etsy sellers all do matching family pyjama sets. Order the baby size in 0–3 months for a safe fit from the first night home.', tags:['Fun','Memorable','Photos'] },
+      { name:'Soft animal rattle gift set', emoji:'🦁', why:'A set of soft animal-shaped rattles in cheerful colours is a classic first toy set — safe from birth, provides gentle auditory stimulation and is always adorable in photos.', tip:'Manhattan Toy and Skip Hop make lovely soft rattles. Look for ones light enough for tiny hands with no small detachable parts.', tags:['Fun','Safe','Age-appropriate'] },
+      { name:'Tummy time activity mat', emoji:'🎯', why:'A padded activity-covered tummy time mat with mirrors, crinkly fabrics and textures makes the often-resisted tummy time genuinely engaging from the very first weeks.', tip:'Infantino and Skip Hop make excellent tummy time mats. Look for one with a foldable mirror — babies are captivated by their own reflection.', tags:['Developmental','Fun','Age-appropriate'] },
+      { name:'Black and white sensory cards', emoji:'🎴', why:'A set of high-contrast sensory flash cards featuring faces, patterns and bold shapes provides exactly the visual stimulation newborns need in the first weeks before full colour vision develops.', tip:'DK High Contrast Baby Cards and Wee Gallery Art Cards are both beautiful. A set of 20 cards in a ribbon-tied pack makes a lovely gift.', tags:['Developmental','Educational','Affordable'] },
+      { name:'Colourful cloth book', emoji:'📚', why:'A soft cloth book with crinkly pages, textures and peek-a-boo flaps is perfect from birth — safe to chew, easy to hold and endlessly interesting for curious new babies.', tip:'Lamaze and Manhattan Toy both make beautiful cloth books. Wipe-clean fabric is most practical at this stage.', tags:['Fun','Safe','Read often'] },
+      { name:'Personalised lullaby book', emoji:'🎵', why:'A personalised lullaby book with the baby name woven into a gentle lullaby poem is a magical, unique gift that parents read aloud every night from the very first days home.', tip:'Lost My Name and Wonderbly both create personalised lullaby books. A board book format holds up to enthusiastic handling. Order well in advance for personalisation.', tags:['Personalised','Sentimental','Read nightly'] }
+
+    ],
+    practical: [
+      { name:'Hospital bag complete kit', emoji:'🏥', why:'A comprehensive hospital bag kit — all the things parents forget to pack — is a brilliantly practical pre-arrival gift. Include a phone charger, lip balm, snacks, nipple cream, a face mist and a water bottle.', tip:'Box it beautifully in a wicker basket or canvas bag. Add a handwritten list of what each item is for. A personal touch — like their favourite snack — makes it feel special rather than generic.', tags:['Practical','Thoughtful','Needed'] },
+      { name:'Freezer meal delivery voucher', emoji:'🍲', why:'A voucher for a ready-meal or freezer meal delivery service — enough for 10–14 dinners — is one of the most practically useful gifts imaginable. New parents cannot cook. This solves that.', tip:'Gousto, Hello Fresh and prepared meal services like Cook all offer gift vouchers. Alternatively, organise a meal rota among friends: far more appreciated than another sleepsuit.', tags:['Practical','Incredibly useful','Mum-focused'] },
+      { name:'Baby first aid kit', emoji:'🩹', why:'A comprehensive baby first aid kit — thermometer, nasal aspirator, infant pain relief, nail scissors, a saline spray and a reference card — is the gift parents desperately need and often don\'t have.', tip:'The FridaBaby Complete Medicine Cabinet Kit is an excellent, well-packaged option. Alternatively, build your own from a pharmacy and package in a labelled box.', tags:['Safety','Practical','Needed'] },
+      { name:'Postnatal support voucher', emoji:'💛', why:'A voucher for a postnatal massage, an osteopathy session for both mum and baby, or a lactation consultant appointment is an extraordinarily thoughtful gift that prioritises the mother\'s recovery.', tip:'Contact a local postnatal massage therapist or lactation consultant for gift vouchers. Include a card explaining that this gift is for her — not the baby. That distinction matters enormously.', tags:['Mum-focused','Wellness','Thoughtful'] },
+      { name:'Cleaning and laundry bundle', emoji:'🧺', why:'Sounds mundane — but a bundle of non-bio laundry liquid, fragrance-free surface cleaner, a steam mop pad set and a dishwasher tablet box is exactly what exhausted new parents need and never buy for themselves.', tip:'Wrap in a beautiful basket with a note: "For the first chaotic weeks." Surcare, Fairy Non-Bio and Ecover all make baby-safe products. Add a Lakeland microfibre cloth set and it becomes a proper gift.', tags:['Practical','Unglamorous but perfect','Needed'] },
+      { name:'Baby carrier sling', emoji:'👶', why:'A stretchy wrap or baby carrier is a life-changing gift for new parents — it keeps baby calm and close while freeing up both hands. Giving it before birth means it is ready and waiting for the first day home.', tip:'Close Caboo and Moby Wrap suit newborns best. Check the brand age and weight guidance. Ergobaby also makes popular structured carriers suitable from birth.', tags:['Life-changing','Used daily','Practical'] },
+      { name:'Electric breast pump', emoji:'🍼', why:'A good quality electric breast pump is one of the most significant practical gifts a new breastfeeding mother can receive — giving flexibility, independence and the ability to share feeds.', tip:'Elvie and Medela make excellent single and double electric pumps. Check NHS availability first — some areas provide them free of charge.', tags:['Practical','Mum-focused','Life-changing'] },
+      { name:'Digital ear thermometer', emoji:'🌡️', why:'A fast accurate ear thermometer is something every parent needs the moment a baby has their first temperature. Giving one removes the anxiety of not having one when it matters most.', tip:'Braun ThermoScan and Tommee Tippee make reliable options for newborns. Make sure it is suitable from birth.', tags:['Genuinely useful','Safety','Used often'] },
+      { name:'Muslin squares large bundle', emoji:'🤍', why:'A bulk bundle of 12-15 large organic muslin squares is one of those gifts that can never be too many. Nappy changes, sick-ups, nursing covers — muslins are used for literally everything.', tip:'Aden and Anais Essentials and OXO Tot make generous durable muslins. The 70x70cm size is the most versatile. Organic cotton adds a lovely touch.', tags:['Used constantly','Practical','Always needed'] },
+      { name:'Meal delivery service voucher', emoji:'🍲', why:'A voucher for a ready-meal or freezer meal delivery service — enough for 10-14 dinners — is one of the most practically useful gifts imaginable. New parents cannot cook. This solves that problem.', tip:'Gousto, HelloFresh and the Cook ready-meal service all offer gift vouchers. Alternatively organise a meal rota among friends — far more appreciated than another sleepsuit.', tags:['Practical','Incredibly useful','Mum-focused'] }
+
+    ],
+    luxury: [
+      { name:'Pre-paid babysitting package', emoji:'🌙', why:'A gift of 10 hours of pre-paid babysitting — from a trusted, vetted source — is an extraordinary gift that gives parents their first nights out, first proper sleep and first adult evenings in months.', tip:'Platforms like Sittercity, Bubble (UK) and Care.com allow gift packages. Or arrange through a trusted family member. Include a card that says "Use these however you need them." That phrase matters.', tags:['Life-changing','Thoughtful','Practical'] },
+      { name:'Premium pram and accessories', emoji:'🛻', why:'Contributing to or fully gifting a premium pram — or adding the most-wanted accessories to an existing one — is a significant, deeply appreciated gift from a close family member.', tip:'Check what the parents have already chosen. A gift card toward a Bugaboo, iCandy or Silver Cross is often more welcome than buying the wrong thing. Accessories like footmuffs and rain covers are always needed.', tags:['Major gift','Premium','Practical'] },
+      { name:'Luxury maternity hamper', emoji:'✨', why:'A beautifully assembled luxury pre-birth hamper for the mother — cashmere socks, a silk eye mask, a pregnancy massage candle, organic tea, beautiful biscuits and a book — is the ultimate "thinking of you" gift.', tip:'The White Company, Fortnum & Mason and Not On The High Street all curate beautiful pregnancy hampers. A message that focuses on the mother rather than the baby can be unexpectedly moving.', tags:['Mum-focused','Luxury','Beautiful'] },
+      { name:'Video memory book subscription', emoji:'📱', why:'A 12-month subscription to a video memory book service — where parents log short video clips each week and the service compiles them into a beautiful keepsake film — is a modern, meaningful luxury gift.', tip:'Tinybeans, 1 Second Everyday and Chatbooks all offer premium subscriptions. A 12-month gift subscription is unusual, personal and produces something the family will watch for the rest of their lives.', tags:['Modern','Keepsake','Memorable'] },
+      { name:'5-star hotel babymoon voucher', emoji:'🏨', why:'A gift voucher for a luxury hotel weekend for the parents-to-be — taken before the baby arrives — is the ultimate pre-birth gift: a last, glorious, uninterrupted holiday before everything changes.', tip:'Many luxury hotels offer babymoon packages with spa treatments included. A one-night stay with dinner, spa access and a late checkout makes a genuinely unforgettable gift.', tags:['Unforgettable','Luxury','Experience'] },
+      { name:'Cashmere baby set', emoji:'✨', why:'A pure cashmere baby blanket and cardigan set is one of the most luxurious newborn gifts imaginable — impossibly soft, warm and beautiful enough to become a genuine heirloom.', tip:'Johnstons of Elgin and N.Peal make beautiful cashmere baby sets. Pure cashmere not blended is softer and significantly more durable.', tags:['Luxury','Heirloom','Beautiful'] },
+      { name:'Premium baby hamper', emoji:'🎁', why:'A beautifully curated luxury hamper — organic cotton clothing, natural skincare, a keepsake toy and something celebratory for the parents — is a showstopper gift that covers everything in one beautiful box.', tip:'The White Company, Selfridges and Not On The High Street all curate brilliant luxury baby hampers. Or build your own in a wicker basket tied with ribbon.', tags:['Showstopper','Multiple gifts','Thoughtful'] },
+      { name:'Newborn photoshoot voucher', emoji:'📸', why:'A gift voucher for a professional newborn photoshoot is an incredibly thoughtful and memorable gift — photographs they will treasure for a lifetime. An experience not just an object.', tip:'Book with a local photographer who specialises in newborns — they know how to capture those tiny details safely. A 2-hour session with prints included is the standard offering.', tags:['Unforgettable','Experience gift','Keepsake'] },
+      { name:'Night nurse session', emoji:'🌙', why:'Gifting one night support from a professional night nurse is genuinely one of the most thoughtful and needed gifts a new family can receive. A full night of unbroken sleep can transform everything.', tip:'Contact a local doula agency or Night Nannies to purchase a gift voucher for one night support. It is a significant gift that is talked about for years afterwards.', tags:['Life-changing','Thoughtful','Practical'] },
+      { name:'Luxury maternity spa day', emoji:'💆', why:'A gift voucher for a luxury prenatal spa day — before the baby arrives — is an exquisitely thoughtful gift for a mother in the final weeks of pregnancy. A moment of pure calm before everything changes.', tip:'Many luxury spas offer specialist prenatal treatments. A full spa day with lunch included creates a genuinely memorable gift. Book well in advance as these slots fill quickly.', tags:['Mum-focused','Luxury','Wellness'] }
+
+    ]
+  }
+};
+
+/* ── GENERATE ── */
+function generateGifts(){
+  if(!selAge){ toast('Please choose the baby\'s age'); return; }
+  if(!selStyle){ toast('Please choose the parents\' style'); return; }
+
+  /* Show loading */
+  document.getElementById('pickerCard').style.display = 'none';
+  var lw = document.getElementById('loadingWrap');
+  lw.style.display = 'block';
+
+  setTimeout(function(){
+    lw.style.display = 'none';
+    buildResults();
+  }, 900);
+}
+
+function buildResults(){
+  var ageKey   = selAge;
+  var styleKey = selStyle;
+
+  /* Fallback */
+  var giftSet = (GIFTS[ageKey] && GIFTS[ageKey][styleKey]) ? GIFTS[ageKey][styleKey] : GIFTS['newborn']['practical'];
+
+  /* Context banner */
+  var AGE_LABELS = { newborn:'Newborn (0–4 weeks)', '1-3m':'1–3 months', '3-6m':'3–6 months', '6-12m':'6–12 months', 'not-born':'Not born yet' };
+  var STYLE_LABELS = { minimalist:'Minimalist', eco:'Eco-friendly', traditional:'Traditional', playful:'Playful & Fun', practical:'Practical', luxury:'Luxury' };
+  var STYLE_EMOJIS = { minimalist:'🤍', eco:'🌿', traditional:'🎀', playful:'🌈', practical:'🛠️', luxury:'✨' };
+
+  var ctx = document.getElementById('ctxBanner');
+  ctx.innerHTML = '<div class="ctx-icon">🎁</div><div class="ctx-text">Showing <strong>10 gift ideas</strong> for a <strong>' + AGE_LABELS[ageKey] + '</strong> baby · <strong>' + STYLE_EMOJIS[styleKey] + ' ' + STYLE_LABELS[styleKey] + '</strong> style</div>';
+
+  /* Seasonal note */
+  var month = new Date().getMonth();
+  var seasonal = '';
+  if(month >= 10 || month <= 1) seasonal = '🎄 <strong>Christmas tip:</strong> If this is a Christmas gift, consider sizing up on clothing — babies grow fast and a 3–6 month outfit in December will fit perfectly in the new year.';
+  else if(month >= 2 && month <= 4) seasonal = '🌸 <strong>Spring arrival?</strong> Lightweight muslins and a sunhat are especially practical for babies arriving in spring — pack them in the hospital bag.';
+  else if(month >= 5 && month <= 8) seasonal = '☀️ <strong>Summer baby?</strong> Prioritise sun protection, lightweight breathable fabrics and a quality parasol for the pram.';
+  else seasonal = '🍂 <strong>Autumn arrival?</strong> A warm sleep bag, a snuggly knit blanket and a pram footmuff will be among the most used gifts for an autumn or winter baby.';
+  document.getElementById('seasonalNote').innerHTML = seasonal;
+
+  /* Gift cards — no price badge */
+  var giftHtml = '';
+  giftSet.forEach(function(g, i){
+    giftHtml += '<div class="gift-card">';
+    giftHtml += '<div class="gift-top">';
+    giftHtml += '<div class="gift-num">' + (i+1) + '</div>';
+    giftHtml += '<div class="gift-emoji">' + g.emoji + '</div>';
+    giftHtml += '<div class="gift-body">';
+    giftHtml += '<div class="gift-name">' + g.name + '</div>';
+    giftHtml += '</div></div>';
+    giftHtml += '<div class="gift-why">' + g.why + '</div>';
+    giftHtml += '<div class="gift-tip">💡 <strong>Buying tip:</strong> ' + g.tip + '</div>';
+    giftHtml += '<div class="gift-tag-row">';
+    g.tags.forEach(function(tag){ giftHtml += '<span class="gift-tag">' + tag + '</span>'; });
+    giftHtml += '</div></div>';
+  });
+  document.getElementById('giftsList').innerHTML = giftHtml;
+
+  /* Show results */
+  var rs = document.getElementById('resultSection');
+  rs.className = 'result-section show';
+  setTimeout(function(){ rs.scrollIntoView({ behavior:'smooth', block:'start' }); }, 80);
+}
+
+/* ── COPY ── */
+function copyGifts(){
+  var items = document.querySelectorAll('.gift-card');
+  if(!items.length){ toast('Generate ideas first'); return; }
+  var lines = ['🎁 Newborn Gift Ideas — Krystle Art Publications', ''];
+  var ctx = document.getElementById('ctxBanner').textContent;
+  lines.push(ctx.trim()); lines.push('');
+  items.forEach(function(el, i){
+    var name = el.querySelector('.gift-name') ? el.querySelector('.gift-name').textContent : '';
+    var why  = el.querySelector('.gift-why')  ? el.querySelector('.gift-why').textContent  : '';
+    var tip  = el.querySelector('.gift-tip')  ? el.querySelector('.gift-tip').textContent  : '';
+    lines.push((i+1) + '. ' + name);
+    lines.push(why);
+    lines.push(tip);
+    lines.push('');
+  });
+  lines.push('krystleartpublications.com');
+  var text = lines.join('\n');
+  var ta = document.createElement('textarea');
+  ta.value = text; ta.readOnly = true; ta.style.cssText = 'position:fixed;left:-9999px;';
+  document.body.appendChild(ta); ta.focus(); ta.select(); ta.setSelectionRange(0,99999);
+  try{ document.execCommand('copy'); }catch(e){}
+  document.body.removeChild(ta);
+  if(navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(text).catch(function(){});
+  toast('Gift list copied! 📋');
+}
+
+/* ── SHARE ── */
+function shareGifts(){
+  var text = 'Found these newborn gift ideas on Krystle Art Publications — really thoughtful ones for new parents! 🎁 krystleartpublications.com';
+  if(navigator.share){
+    navigator.share({ title:'Newborn Gift Ideas', text: text, url: 'https://krystleartpublications.com' }).catch(function(){});
+  } else {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.readOnly = true; ta.style.cssText = 'position:fixed;left:-9999px;';
+    document.body.appendChild(ta); ta.focus(); ta.select();
+    try{ document.execCommand('copy'); }catch(e){}
+    document.body.removeChild(ta);
+    toast('Link copied — share it! 🔗');
+  }
+}
+
+/* ── RESET ── */
+function resetTool(){
+  selAge = ''; selStyle = '';
+  document.querySelectorAll('.sel-pill,.style-card').forEach(function(b){ b.classList.remove('active'); });
+  document.getElementById('pickerCard').style.display = 'block';
+  document.getElementById('resultSection').className = 'result-section';
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+/* ── TOAST ── */
+function toast(msg){
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(function(){ t.classList.remove('show'); }, 2800);
+}
+</script>
+</body>
+</html>
